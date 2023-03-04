@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Models.OpenId
+namespace Common.Models.OpenId
 {
     public class ExternalLoginConfirmationViewModel
     {

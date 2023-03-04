@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +22,26 @@ builder.Services.AddAuthentication(options =>
            .AddJwtBearer(options =>
            {
                options.Authority = "https://accounts.google.com";
-               options.Audience = "<your-client-id>";
+               options.Audience = "710035087649-jes0lm5uk9m05cn8lfj71ihv6c6a4d4g.apps.googleusercontent.com";
            })
            .AddGoogle(options =>
            {
-               options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
-               options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+               options.ClientId = "710035087649-jes0lm5uk9m05cn8lfj71ihv6c6a4d4g.apps.googleusercontent.com";
+               options.ClientSecret = "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";
                options.SignInScheme = JwtBearerDefaults.AuthenticationScheme;
            });
+
+builder.Services.AddDbContextFactory<IdentityApplicationContext>(options =>
+{
+    options.EnableSensitiveDataLogging(true);
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AcsPostgres"));
+});
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<IdentityApplicationContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
 var app = builder.Build();
 
