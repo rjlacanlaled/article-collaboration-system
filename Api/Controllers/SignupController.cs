@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Common.Models.Identity;
 using Data;
+using Asp.Versioning;
 
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion(1.0)]
+    [Route("api/v{versionNumber}[controller]")]
     public class SignupController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
