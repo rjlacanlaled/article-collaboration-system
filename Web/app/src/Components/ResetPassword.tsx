@@ -1,5 +1,6 @@
 import React from 'react'
 import ForgotIcon from "../Assets/Images/forgot-password.svg"
+import { Link } from "react-router-dom"
 
 function ResetPassword() {
   return (
@@ -10,9 +11,12 @@ function ResetPassword() {
         <div className="mb-4 mt-6">
             <input className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" type="text" placeholder="Email address"/>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 mb-7 rounded-sm">
+        <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 mb-4 rounded-sm">
             Continue
         </button>
+        <div className="w-80 text-center mb-2">
+          <Link to="/" className='text-blue-500 text-xs leading-normal tracking-wide'>Back to Home</Link>
+        </div>
     </div>
   )
 }
