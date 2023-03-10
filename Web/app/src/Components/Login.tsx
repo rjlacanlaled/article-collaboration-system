@@ -15,9 +15,11 @@ function Login() {
             <div className="mb-4">
                 <input className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" type="password" placeholder="Password"/>
             </div>
+            <Link to="/dashboard">
             <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 rounded-sm">
                 Continue
             </button>
+            </Link>
             <h2 className="text-xs mt-4 text-gray-800">Don't Have an account?<Link to="/signup" className='ml-1 text-blue-500'>Sign Up</Link></h2>
             <div className="mt-5 grid grid-cols-3 items-center text-gray-400"> 
                 <hr className="border-gray-400 w-24"/>
