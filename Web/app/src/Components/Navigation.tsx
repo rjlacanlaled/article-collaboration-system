@@ -4,6 +4,7 @@ import NavLogo from '../Assets/Images/searchwork-logo.svg'
 import UserIcon from '../Assets/Images/user-icon.svg'
 import SettingIcon from "../Assets/Images/setting-logo.svg"
 import HomeIcon from "../Assets/Images/home-logo.svg"
+import TaskIcon from "../Assets/Images/task-icon.svg"
 
 function Navigation() {
   return (
@@ -30,7 +31,13 @@ function Navigation() {
               <li>
                 <a href="/">Setting</a>
               </li>   
-            </div>  
+            </div>
+            <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
+              <img src={TaskIcon} alt="user-icon" className=" w-5 mr-3"/>
+              <li>
+                <a href="/">Task</a>
+              </li>   
+            </div>    
         </ul>
     </>
   )

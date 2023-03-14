@@ -7,7 +7,7 @@ import { ReactComponent as LinkedinIcon} from "../Assets/Images/linkedin-logo.sv
 function Login() {
   return (
     <>
-        <div className="bg-white p-8 w-96  rounded-lg shadow-lg flex justify-center items-center flex-col">
+        <div className="bg-white p-8 w-96 rounded-lg shadow-lg flex justify-center items-center flex-col">
             <h2 className="mb-6 font-bold text-3xl text-gray-800">Welcome Back</h2>
             <div className="mb-4">
                 <input className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" type="text" placeholder="Email address"/>

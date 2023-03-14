@@ -5,6 +5,8 @@ import SignupPage from './Pages/SignupPage';
 import SignupSuccessPage from './Pages/SignupSuccessPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import DashboardPage from './Pages/DashboardPage';
+import ProjectBoard from './Components/ProjectBoard';
+import BoardPage from './Components/BoardPage';
 import './App.css';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/success" element={<SignupSuccessPage/>} />
         <Route path="/reset-password" element={<ResetPasswordPage/>} />
         <Route path="/dashboard" element={<DashboardPage/>} />
+        <Route path="/board" element={<ProjectBoard/>} />
+        <Route path="/boardpage" element={<BoardPage/>} />
       </Routes>
     </div>
   );
