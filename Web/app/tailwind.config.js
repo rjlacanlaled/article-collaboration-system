@@ -11,10 +11,21 @@ module.exports = {
       xl: '1440px',
     },
     fontFamily: {
-      'sans': ['Open Sans', 'Helvetica', 'Arial', 'sans-serif'],
+      // 'sans': ['Open Sans', 'Helvetica', 'Arial', 'sans-serif'],
       'sans': ["ColfaxAI", "-apple-system", "BlinkMacSystemFont", "Helvetica", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      width: {
+        '1500': '1500px',
+        '900': '900px',
+        '800': '800px',
+       },
+      height: {
+        '700': '700px',
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
 }
