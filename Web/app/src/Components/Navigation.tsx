@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import NavLogo from '../Assets/Images/searchwork-logo.svg'
 import UserIcon from '../Assets/Images/user-icon.svg'
 import SettingIcon from "../Assets/Images/setting-logo.svg"
@@ -17,27 +17,27 @@ function Navigation() {
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <img src={HomeIcon} alt="user-icon" className="w-5 mr-3"/>
               <li>
-                <a href="/">Dashboard</a>
+                <Link to="/user"><a href="/">Dashboard</a></Link>
               </li>   
             </div> 
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
             <img src={UserIcon} alt="user-icon" className=" w-5 mr-3"/>
               <li>
-                <a href="/">User</a>
+                <Link to="/user"><a href="/">User</a></Link>
               </li>
             </div>
+            <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
+              <img src={TaskIcon} alt="user-icon" className=" w-5 mr-3"/>
+              <li>
+                <Link to="/taskboard"><a href="/">Task</a></Link>
+              </li>   
+            </div>  
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <img src={SettingIcon} alt="user-icon" className=" w-5 mr-3"/>
               <li>
                 <a href="/">Setting</a>
               </li>   
-            </div>
-            <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
-              <img src={TaskIcon} alt="user-icon" className=" w-5 mr-3"/>
-              <li>
-                <a href="/">Task</a>
-              </li>   
-            </div>    
+            </div>  
         </ul>
     </>
   )
