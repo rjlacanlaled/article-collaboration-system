@@ -3,10 +3,11 @@ import { Link } from "react-router-dom"
 import { ReactComponent as GoogleIcon} from "../Assets/Images/google-logo.svg"
 import { ReactComponent as FacebookIcon} from "../Assets/Images/facebook-logo.svg"
 import { ReactComponent as LinkedinIcon} from "../Assets/Images/linkedin-logo.svg"
+import AuthPage from '../Pages/AuthPage'
 
 function Login() {
   return (
-    <>
+    <AuthPage>
         <div className="bg-white p-8 w-96 rounded-lg shadow-lg flex justify-center items-center flex-col">
             <h2 className="mb-6 font-bold text-3xl text-gray-800">Welcome Back</h2>
             <div className="mb-4">
@@ -33,7 +34,7 @@ function Login() {
                 <Link to="/reset-password" className='text-blue-500 text-xs leading-normal tracking-wide'>Forgot Password?</Link>
             </div>
         </div>
-    </>
+    </AuthPage>
   )
 }
 
