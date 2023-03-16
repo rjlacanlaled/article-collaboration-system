@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import Data from '../Data/Data';
-import { Avatar } from '@mui/material';
+import { AvatarGroup, Avatar } from '@mui/material';
 import AddIcon from '../Assets/Images/plus-icon.svg'
 import BoardPage from './BoardPage';
+import DashboardPage from '../Pages/DashboardPage';
 
 function ProjectBoard() {
-
+ 
   const [currentId, setCurrentId] = useState(Data.length)
 
   return (
-    <>
+    <DashboardPage>
       <div className='h-content w-full flex justify-start flex-row items-center overflow-x-scroll scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth bg-white p-6 h-content drop-shadow rounded-md m-4'>
           {/* SECOND CONTAINER */}
         <div className='w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative'>
@@ -24,11 +25,11 @@ function ProjectBoard() {
                   <p className='text-xs mb-1 mx-1'>{Datas.description}</p>
                 </div>
                 <div className='p-2 absolute top-0 right-0'>
-                  <Avatar
-                    alt="Assigned User"
-                    src={Datas.image}
-                    sx={{ width: 25, height: 25 }}
-                  />
+                  <AvatarGroup>
+                    <Avatar alt="Remy Sharp" src={Datas.image} sx={{ width: 20, height: 20  }} />
+                    <Avatar alt="Remy Sharp" src={Datas.image} sx={{ width: 20, height: 20  }} />
+                    <Avatar alt="Remy Sharp" src={Datas.image} sx={{ width: 20, height: 20  }} />
+                  </AvatarGroup>
                 </div>
               </div>
             ))}
@@ -41,7 +42,7 @@ function ProjectBoard() {
         </div>
         <BoardPage/>   
       </div>
-    </>
+    </DashboardPage>
   )
 }
 
