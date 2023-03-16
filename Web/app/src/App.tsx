@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import LoginPage from './Pages/LoginPage';
-import SignupPage from './Pages/SignupPage';
-import SignupSuccessPage from './Pages/SignupSuccessPage';
-import ResetPasswordPage from './Pages/ResetPasswordPage';
+import Login from './Components/Login';
+import Signup from './Components/Signup';
+import SignupSuccess from './Components/SignupSuccess';
+import ResetPassword from './Components/ResetPassword';
 import DashboardPage from './Pages/DashboardPage';
 import ProjectBoard from './Components/ProjectBoard';
 import DashboardContent from './Components/DashboardContent';
@@ -13,10 +13,10 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<LoginPage/>} />
-        <Route path="/signup" element={<SignupPage/>} />
-        <Route path="/success" element={<SignupSuccessPage/>} />
-        <Route path="/reset-password" element={<ResetPasswordPage/>} />
+        <Route path="/" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path="/success" element={<SignupSuccess/>} />
+        <Route path="/reset-password" element={<ResetPassword/>} />
         <Route path="/dashboard" element={<DashboardPage children={undefined}/>} />
         <Route path="/taskboard" element={<ProjectBoard/>} />
         <Route path="/user" element={<DashboardContent/>} />

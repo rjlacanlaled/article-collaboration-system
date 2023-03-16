@@ -4,10 +4,11 @@ import { ReactComponent as SignupIcon } from "../Assets/Images/signup-icon.svg"
 import { ReactComponent as GoogleIcon } from "../Assets/Images/google-logo.svg"
 import { ReactComponent as FacebookIcon } from "../Assets/Images/facebook-logo.svg"
 import { ReactComponent as LinkedinIcon } from "../Assets/Images/linkedin-logo.svg"
+import AuthPage from '../Pages/AuthPage'
 
 function Signup() {
   return (
-    <>
+    <AuthPage>
         <div className="bg-white p-8 w-96  rounded-lg shadow-lg flex justify-center items-center flex-col">
             <SignupIcon className="w-32 h-full mb-4"/>
             <h2 className="mb-6 font-bold text-3xl text-gray-800">Create your account</h2>
@@ -27,7 +28,7 @@ function Signup() {
             <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-3 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><FacebookIcon className="w-6 h-full mr-3"/>Continue With Facebook</button>
             <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-3 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><LinkedinIcon className="w-6 h-full mr-3"/>Continue With LinkedIn</button>
         </div>
-    </>
+    </AuthPage>
   )
 }
 

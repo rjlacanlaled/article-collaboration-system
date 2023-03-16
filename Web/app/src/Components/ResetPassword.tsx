@@ -1,10 +1,12 @@
 import React from 'react'
 import ForgotIcon from "../Assets/Images/forgot-password.svg"
 import { Link } from "react-router-dom"
+import AuthPage from '../Pages/AuthPage'
 
 function ResetPassword() {
   return (
-    <div className="bg-white p-8 w-96  rounded-lg shadow-lg flex justify-center items-center flex-col">
+  <AuthPage> 
+      <div className="bg-white p-8 w-96  rounded-lg shadow-lg flex justify-center items-center flex-col">
         <img src={ForgotIcon} alt="Forgot-Icon" className="w-32 h-full my-11" />
         <h2 className="mb-6 font-bold text-3xl text-gray-800">Reset your password</h2>
         <p className="text-sm text-center w-11/12">Passwords are like underwear: you don’t let people see it, you should change it very often, and you shouldn’t share it with strangers.</p>
@@ -17,7 +19,8 @@ function ResetPassword() {
         <div className="w-80 text-center mb-2">
           <Link to="/" className='text-blue-500 text-xs leading-normal tracking-wide'>Back to Home</Link>
         </div>
-    </div>
+      </div>
+    </AuthPage>  
   )
 }
 
