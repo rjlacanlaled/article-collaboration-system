@@ -2,7 +2,7 @@ import React from 'react'
 import AddIcon from '../Assets/Images/plus-icon.svg'
 import PageData from '../Data/PageData'
 
-function BoardPage() {
+function Board() {
   return (
     <>
         {PageData.map((PageData => (
@@ -19,4 +19,4 @@ function BoardPage() {
   )
 }
 
-export default BoardPage
+export default Board
