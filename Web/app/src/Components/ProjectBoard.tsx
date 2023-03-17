@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Data from '../Data/Data';
 import { AvatarGroup, Avatar } from '@mui/material';
 import AddIcon from '../Assets/Images/plus-icon.svg'
-import BoardPage from './BoardPage';
+import Board from './Board';
 import DashboardPage from '../Pages/DashboardPage';
 
 function ProjectBoard() {
@@ -40,7 +40,7 @@ function ProjectBoard() {
             <h4 className='text-stone-600 font-semibold text-xs cursor-pointer'>Add Item</h4>
           </div>
         </div>
-        <BoardPage/>   
+        <Board/>   
       </div>
     </DashboardPage>
   )
