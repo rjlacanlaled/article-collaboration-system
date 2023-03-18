@@ -8,6 +8,7 @@ import DashboardPage from './Pages/DashboardPage';
 import ProjectBoard from './Components/ProjectBoard';
 import DashboardContent from './Components/DashboardContent';
 import Task from './Components/Task';
+import Notification from './Components/Notification/Notification';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/board" element={<ProjectBoard/>} />
         <Route path="/task" element={<Task/>} />
         <Route path="/user" element={<DashboardContent/>} />
+        <Route path="/notif" element={<Notification/>} />
       </Routes>
     </div>
   );
