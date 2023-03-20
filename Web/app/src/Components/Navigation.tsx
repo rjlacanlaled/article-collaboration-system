@@ -17,7 +17,7 @@ function Navigation() {
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <img src={HomeIcon} alt="user-icon" className="w-5 mr-3"/>
               <li>
-                <Link to="/user"><a href="/">Dashboard</a></Link>
+                <Link to="/pending"><a href="/">Dashboard</a></Link>
               </li>   
             </div> 
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">

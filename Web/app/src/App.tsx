@@ -9,6 +9,7 @@ import ProjectBoard from './Components/ProjectBoard';
 import DashboardContent from './Components/DashboardContent';
 import Task from './Components/Task';
 import Notification from './Components/Notification/Notification';
+import AdminDashboard from './Components/AdminDashboard';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/board" element={<ProjectBoard/>} />
         <Route path="/task" element={<Task/>} />
         <Route path="/user" element={<DashboardContent/>} />
+        <Route path="/pending" element={<AdminDashboard/>} />
         <Route path="/notif" element={<Notification/>} />
       </Routes>
     </div>
