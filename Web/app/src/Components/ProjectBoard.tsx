@@ -15,7 +15,7 @@ function ProjectBoard() {
           {/* SECOND CONTAINER */}
         <div className='w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative'>
           {/* START */}
-          <h4 className='text-stone-600 font-semibold p-2'>Todo<label className='bg-gray-300 text-sm rounded-full p-1 ml-1'>{currentId}</label></h4>
+          <h4 className='text-stone-600 font-semibold p-2'>Todo<label className='bg-gray-300 text-sm rounded-full px-2 ml-1'>{currentId}</label></h4>
           <h4 className='text-xs mx-1.5 p-2 text-stone-600'>This item hasn't been started</h4>
           <div className='mb-8 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth'>
             {Data.map((Datas) => (
