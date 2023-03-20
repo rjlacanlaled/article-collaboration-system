@@ -43,6 +43,12 @@ const Data = [
         image: 'https://randomuser.me/api/portraits/men/9.jpg',
         description: 'The Rise of E-commerce: Trends and Strategies for Online Retailers'
     },
+    {
+        id: 8,
+        name: 'task 8',
+        image: 'https://randomuser.me/api/portraits/men/9.jpg',
+        description: 'The Rise of E-commerce: Trends and Strategies for Online Retailers'
+    },
 ]
 
 export default Data
