@@ -3,6 +3,7 @@ import Data from '../Data/Data';
 import { AvatarGroup, Avatar } from '@mui/material';
 import AddIcon from '../Assets/Images/plus-icon.svg'
 import Board from './Board';
+import AddProject from '../modals/AddTask'
 import DashboardPage from '../Pages/DashboardPage';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -81,7 +82,7 @@ function ProjectBoard() {
                       return (
                         <div {...provided.droppableProps} ref={provided.innerRef} className='w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative'>
                           <h4 className='text-stone-600 font-semibold p-2'>{column.name}</h4>
-                          <div className='mb-8 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth'>
+                          <div className='mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth'>
                           {column.items.map((item, index) => {
                             return (
                               <Draggable key={item.id} draggableId={String(item.id)} index={index}>
@@ -109,9 +110,8 @@ function ProjectBoard() {
                           })}
                           </div>
                           {provided.placeholder}  
-                          <div className='bg-gray-200 flex justify-start items-center flex-row absolute bottom-0 left-0 p-2 w-full'>
-                            <img src={AddIcon} alt="add-item" className='w-4 cursor-pointer'/>
-                            <h4 className='text-stone-600 font-semibold text-xs cursor-pointer'>Add Item</h4>
+                          <div className='flex justify-start items-center bg-gray-200 absolute bottom-0 left-0 p-2 w-full'>
+                            <AddProject/>
                           </div>
                         </div>
                       );

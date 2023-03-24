@@ -3,6 +3,8 @@ import { Chip } from '@mui/material'
 import MemberLogo from '../Assets/Images/member-logo.svg'
 import UserData from '../Data/UserData'
 import DashboardPage from '../Pages/DashboardPage'
+import DeleteButton from '../modals/DeleteUser'
+import UpdateUser from '../modals/UpdateUser'
 
 function DashboardContent() {
 
@@ -49,13 +51,11 @@ function DashboardContent() {
                         <td className="border px-4 py-3">{UserDatas.email}</td>
                         <td className="border px-4 py-3">{UserDatas.role}</td>
                         <td className="border px-4 py-3"><Chip label="Approved" color="success"/></td>
-                        <td className="border px-4 py-3 items-center space-x-3">
-                            <button className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 mr-2">
-                                Update
-                            </button>
-                            <button className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600">
-                                Delete
-                            </button>
+                        <td className="border px-4 py-3 items-center">
+                            <div className='flex justify-center'>
+                                <UpdateUser />
+                                <DeleteButton />
+                            </div>
                         </td>
                     </tr>
                 ))}     
