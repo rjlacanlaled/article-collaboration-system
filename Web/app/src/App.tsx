@@ -8,10 +8,10 @@ import DashboardPage from './Pages/DashboardPage';
 import ProjectBoard from './Components/ProjectBoard';
 import DashboardContent from './Components/DashboardContent';
 import Task from './Components/Task';
-import Notification from './Components/Notification/Notification';
 import AdminDashboard from './Components/AdminDashboard';
 import Modal from '../src/modals/DeleteUser'
 import UserAvatar from './Components/UserAvatar';
+import SuccessNotification from './Components/Notification/SuccessNotification'
 import './App.css';
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
         <Route path="/task" element={<Task/>} />
         <Route path="/user" element={<DashboardContent/>} />
         <Route path="/pending" element={<AdminDashboard/>} />
-        <Route path="/notif" element={<Notification/>} />
+        <Route path="/notif" element={<SuccessNotification/>} />
         <Route path="/modal" element={<Modal/>} />
         <Route path="/avatar" element={<UserAvatar/>} />
       </Routes>
