@@ -2,6 +2,8 @@ import React from 'react'
 import DashboardPage from '../Pages/DashboardPage'
 import AddIcon from '../Assets/Images/add-task.svg'
 import TaskData from '../Data/TaskData'
+import DeleteTask from '../modals/DeleteTask'
+import UpdateTask from '../modals/UpdateTask'
 
 function Task() {
   return (
@@ -62,7 +64,8 @@ function Task() {
                               {TaskDatas.title}
                             </th>
                             <td className="px-6 py-4">
-                                <p className='bg-orange-500 text-white py-1 px-2 rounded-md'>{TaskDatas.status}</p>                          </td>
+                                <p className='bg-orange-500 rounded-lg p-1 w-content text-center'>{TaskDatas.status}</p>
+                            </td>
                             <td className="px-6 py-4">
                                 {TaskDatas.client}
                             </td>
@@ -76,13 +79,9 @@ function Task() {
                                 {TaskDatas.words}
                             </td>
                             <td className="flex items-center px-6 py-4 space-x-3">
-                              <button className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 mr-2">
-                                  Update
-                              </button>
-                              <button className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600">
-                                  Delete
-                              </button>
-                            </td>
+                              <UpdateTask />
+                              <DeleteTask/>
+                            </td>   
                         </tr>
                       ))}
                   </tbody>

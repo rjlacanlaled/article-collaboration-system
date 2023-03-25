@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import DashboardPage from '../Pages/DashboardPage'
 import UserData from '../Data/UserData'
-import MemberLogo from '../Assets/Images/member-logo.svg'
+import ApproveUser from '../modals/ApproveUser'
+import RejectUser from '../modals/RejectUser'
 
 function AdminDashboard() {
 
@@ -48,12 +49,8 @@ function AdminDashboard() {
                         <td className="border px-4 py-3">{UserDatas.role}</td>
                         <td className="border px-4 py-3">Sunday, March 19, 2023</td>
                         <td className="border px-4 py-3 items-center space-x-3">
-                            <button className="bg-green-600 text-white py-1 px-3 rounded-md hover:bg-green-700 mr-2">
-                                Approve
-                            </button>
-                            <button className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600">
-                                Reject
-                            </button>
+                            <ApproveUser/>
+                            <RejectUser/>
                         </td>
                     </tr>
                 ))}     

@@ -1,44 +1,33 @@
 import React, { useState } from 'react';
 import NotificationData from '../Data/NotificationData';
-import Badge from '@mui/material/Badge';
-import MailIcon from '@mui/icons-material/Mail';
+import { Badge, IconButton, Menu, MenuItem } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 function NotificationDropdown() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const [notifications, setNotifications] = useState(NotificationData);
-  
-  function handleDropdownClick() {
-    setIsDropdownOpen(!isDropdownOpen);
-  }
-  
-  function handleNotificationClick(notificationId: number) {
-    setNotifications(notifications.filter(notification => notification.id !== notificationId));
-  }
-  
+  const handleOpenMenu = (event:any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
   return (
     <>  
-        <Badge badgeContent={5} color="primary" className='mr-5 cursor-pointer relative'>
-          <MailIcon color="action" onClick={handleDropdownClick} />
-        </Badge>
-
-        <div className={`${isDropdownOpen ? 'block' : 'hidden'} absolute right-0 top-20 mr-4 w-80 bg-white rounded-lg shadow-lg z-10`}>
-            <div className="p-4 border-b border-gray-300">
-              <h3 className="text-lg font-medium">Notifications</h3>
-            </div>
-            <ul>
-            {notifications.map(notification => (
-                <li key={notification.id} className="p-4 hover:bg-gray-100 cursor-pointer" onClick={() => handleNotificationClick(notification.id)}>
-                <p className="text-gray-700">{notification.message}</p>
-                </li>
-            ))}
-            </ul>
-            {notifications.length === 0 && (
-            <div className="p-4 text-gray-600">
-                <p>No notifications</p>
-            </div>
-            )}
-        </div>
+      <div  className='mr-4'>
+        <IconButton onClick={handleOpenMenu}>
+          <Badge badgeContent={3} color="primary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu} sx={{mt: 2}}>
+          {NotificationData.map((notifications) => ( 
+            <MenuItem onClick={handleCloseMenu} sx={{px: 4}}>{notifications.message}</MenuItem>
+          ))}
+        </Menu>
+      </div>
     </>
   );
 }
