@@ -12,6 +12,7 @@ import AdminDashboard from './Components/AdminDashboard';
 import Modal from '../src/modals/DeleteUser'
 import UserAvatar from './Components/UserAvatar';
 import SuccessNotification from './Components/Notification/SuccessNotification'
+import Profile from './Components/Profile';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/notif" element={<SuccessNotification/>} />
         <Route path="/modal" element={<Modal/>} />
         <Route path="/avatar" element={<UserAvatar/>} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
     </div>
   );
