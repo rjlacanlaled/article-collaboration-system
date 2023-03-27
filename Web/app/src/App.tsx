@@ -13,6 +13,8 @@ import Modal from '../src/modals/DeleteUser'
 import UserAvatar from './Components/UserAvatar';
 import SuccessNotification from './Components/Notification/SuccessNotification'
 import Profile from './Components/Profile';
+import EditableTitle from './Components/EditableTitle';
+import Board from './Components/Board';
 import './App.css';
 
 function App() {
@@ -32,6 +34,8 @@ function App() {
         <Route path="/modal" element={<Modal/>} />
         <Route path="/avatar" element={<UserAvatar/>} />
         <Route path="/profile" element={<Profile/>} />
+        <Route path="/title" element={<EditableTitle initialValue={''}/>} />
+        <Route path="/boardpage" element={<Board/>} />
       </Routes>
     </div>
   );

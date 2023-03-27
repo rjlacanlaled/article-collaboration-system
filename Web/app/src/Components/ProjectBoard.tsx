@@ -1,30 +1,38 @@
 import React, { useState } from 'react'
 import Data from '../Data/Data';
 import { AvatarGroup, Avatar } from '@mui/material';
-import AddIcon from '../Assets/Images/plus-icon.svg'
-import Board from './Board';
 import AddProject from '../modals/AddTask'
 import DashboardPage from '../Pages/DashboardPage';
+import EditableTitle from '../Components/EditableTitle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import AddBoard from '../Components/AddBoard'
+import BoardMenu from './BoardMenu';
 
+type Columns = {
+  [key: string]: {
+    title: string;
+    items: {
+      id: number;
+      name: string;
+      image: string;
+      description: string;
+    }[];
+  };
+};
 
-const columnsFromBackend = {
+const columnsFromBackend: Columns = {
   1: {
-    name: "To do",
+    title: "To do",
     items: Data
   },
   2: {
-    name: "In Progress",
+    title: "In Progress",
     items: []
   },
   3: {
-    name: "For Review",
+    title: "For Review",
     items: []
   },
-  4: {
-    name: "Completed",
-    items: []
-  }
 };
 
 
@@ -67,8 +75,32 @@ const onDragEnd = (result:any, columns:any, setColumns:any) => {
 
 
 function ProjectBoard() {
+  
   const [columns, setColumns] = useState(columnsFromBackend);
-  const [items, setItems] = useState(Data)
+  
+  const addBoard = (newBoardTitle: string) => {
+    const newColumnId = Object.keys(columns).length + 1;
+    const newColumn = {
+      id: newColumnId,
+      title: newBoardTitle,
+      items: []
+    };
+    const updatedColumns = {
+      ...columns,
+      [newColumnId]: newColumn
+    };
+    setColumns(updatedColumns);
+  };
+
+  const deleteBoard = (boardId: number) => {
+    const filteredColumns = Object.keys(columns)
+      .filter(columnId => parseInt(columnId) !== boardId)
+      .reduce((obj: Columns, columnId) => {
+        obj[columnId] = columns[columnId];
+        return obj;
+      }, {});
+    setColumns(filteredColumns);
+  };
 
   return (
     <DashboardPage>
@@ -81,7 +113,10 @@ function ProjectBoard() {
                     {(provided, snapshot) => {
                       return (
                         <div {...provided.droppableProps} ref={provided.innerRef} className='w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative'>
-                          <h4 className='text-stone-600 font-semibold p-2'>{column.name}</h4>
+                          <div className='p-1.5 flex justify-between'>
+                            <EditableTitle initialValue={column.title}/>
+                            <BoardMenu onDelete={() => deleteBoard(parseInt(columnId))} />
+                          </div>
                           <div className='mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth'>
                           {column.items.map((item, index) => {
                             return (
@@ -120,6 +155,12 @@ function ProjectBoard() {
                </div>
              );
           })}
+          <div className='self-start'>
+            <AddBoard 
+            onAddBoard={addBoard} 
+            initialValue={''}
+            />
+          </div>
         </DragDropContext>
       </div>
     </DashboardPage>
