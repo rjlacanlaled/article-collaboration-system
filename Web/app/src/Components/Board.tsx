@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import EditableTitle from '../Components/EditableTitle';
-import AddProject from '../modals/AddTask'
+import AddProject from '../modals/AddSwimLaneList'
 import AddBoard from '../Components/AddBoard'
 import BoardMenu from './BoardMenu';
 

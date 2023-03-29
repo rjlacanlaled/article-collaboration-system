@@ -1,29 +1,30 @@
 import React, { useState } from 'react'
-import Data from '../Data/Data';
-import { AvatarGroup, Avatar } from '@mui/material';
-import AddProject from '../modals/AddTask'
+import TaskData from '../Data/TaskData';
 import DashboardPage from '../Pages/DashboardPage';
 import EditableTitle from '../Components/EditableTitle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AddBoard from '../Components/AddBoard'
 import BoardMenu from './BoardMenu';
+import SwimlaneList from './SwimlaneList';
+import AddSwimLaneList from '../modals/AddSwimLaneList';
 
 type Columns = {
   [key: string]: {
     title: string;
     items: {
       id: number;
-      name: string;
+      title: string;
       image: string;
       description: string;
     }[];
   };
 };
 
+
 const columnsFromBackend: Columns = {
   1: {
     title: "To do",
-    items: Data
+    items: TaskData
   },
   2: {
     title: "In Progress",
@@ -75,9 +76,9 @@ const onDragEnd = (result:any, columns:any, setColumns:any) => {
 
 
 function ProjectBoard() {
-  
+
   const [columns, setColumns] = useState(columnsFromBackend);
-  
+
   const addBoard = (newBoardTitle: string) => {
     const newColumnId = Object.keys(columns).length + 1;
     const newColumn = {
@@ -101,7 +102,7 @@ function ProjectBoard() {
       }, {});
     setColumns(filteredColumns);
   };
-
+  
   return (
     <DashboardPage>
       <div className='h-content w-full flex justify-start flex-row items-center overflow-x-scroll scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth bg-white p-6 h-content drop-shadow rounded-md m-4'>
@@ -123,21 +124,12 @@ function ProjectBoard() {
                               <Draggable key={item.id} draggableId={String(item.id)} index={index}>
                                 {(provided, snapshot) => {
                                   return (
-                                      <div className='container w-auto min-h-24 max-h-34 h-auto overflow-hidden border-2 hover:border-slate-500 bg-gray-100 text-slate-500 shadow rounded-md mx-2 my-1 p-1 relative flex justify-start items-center flex-wrap'                                     ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}>
-                                        <div className='flex justify-center items-center flex-col'>
-                                          <h4 className='text-sm m-2 self-start'>{item.name}</h4>
-                                          <p className='text-xs mb-1 mx-1'>{item.description}</p>
-                                        </div>
-                                        <div className='p-2 absolute top-0 right-0'>
-                                          <AvatarGroup>
-                                            <Avatar alt="Remy Sharp" src={item.image} sx={{ width: 20, height: 20  }} />
-                                            <Avatar alt="Remy Sharp" src={item.image} sx={{ width: 20, height: 20  }} />
-                                            <Avatar alt="Remy Sharp" src={item.image} sx={{ width: 20, height: 20  }} />
-                                          </AvatarGroup>
-                                        </div>
-                                      </div>
+                                    <SwimlaneList 
+                                      name={item.title} 
+                                      description={item.description} 
+                                      image={item.image} 
+                                      provided={provided} 
+                                   />
                                   );
                                 }}
                               </Draggable>
@@ -146,7 +138,7 @@ function ProjectBoard() {
                           </div>
                           {provided.placeholder}  
                           <div className='flex justify-start items-center bg-gray-200 absolute bottom-0 left-0 p-2 w-full'>
-                            <AddProject/>
+                            <AddSwimLaneList/>
                           </div>
                         </div>
                       );
