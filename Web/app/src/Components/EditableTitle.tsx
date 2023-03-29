@@ -49,7 +49,7 @@ function EditableTitle({ initialValue }: EditableTitleProps) {
         </form>
       ) : (
         <div>
-          <h1 className="text-stone-600 font-semibold p-2 cursor-pointer" onClick={handleEdit}>{title}</h1>
+          <h1 className="text-stone-800 font-semibold p-2 cursor-pointer" onClick={handleEdit}>{title}</h1>
         </div>
       )}
     </div>

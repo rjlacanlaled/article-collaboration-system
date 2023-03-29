@@ -7,7 +7,7 @@ import ResetPassword from './Components/ResetPassword';
 import DashboardPage from './Pages/DashboardPage';
 import ProjectBoard from './Components/ProjectBoard';
 import DashboardContent from './Components/DashboardContent';
-import Task from './Components/Task';
+import TaskList from './Components/TaskList';
 import AdminDashboard from './Components/AdminDashboard';
 import Modal from '../src/modals/DeleteUser'
 import UserAvatar from './Components/UserAvatar';
@@ -15,6 +15,7 @@ import SuccessNotification from './Components/Notification/SuccessNotification'
 import Profile from './Components/Profile';
 import EditableTitle from './Components/EditableTitle';
 import Board from './Components/Board';
+import ViewTask from './Components/ViewTask';
 import './App.css';
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword/>} />
         <Route path="/dashboard" element={<DashboardPage children={undefined}/>} />
         <Route path="/board" element={<ProjectBoard/>} />
-        <Route path="/task" element={<Task/>} />
+        <Route path="/task" element={<TaskList/>} />
         <Route path="/user" element={<DashboardContent/>} />
         <Route path="/pending" element={<AdminDashboard/>} />
         <Route path="/notif" element={<SuccessNotification/>} />
@@ -36,6 +37,7 @@ function App() {
         <Route path="/profile" element={<Profile/>} />
         <Route path="/title" element={<EditableTitle initialValue={''}/>} />
         <Route path="/boardpage" element={<Board/>} />
+        <Route path="/viewTask/:id" element={<ViewTask />} />
       </Routes>
     </div>
   );

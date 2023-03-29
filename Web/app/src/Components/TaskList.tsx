@@ -4,8 +4,9 @@ import AddIcon from '../Assets/Images/add-task.svg'
 import TaskData from '../Data/TaskData'
 import DeleteTask from '../modals/DeleteTask'
 import UpdateTask from '../modals/UpdateTask'
+import { Link } from 'react-router-dom'
 
-function Task() {
+function TaskList() {
   return (
     <DashboardPage>
         <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
@@ -29,7 +30,10 @@ function Task() {
                               </div>
                           </th>
                           <th scope="col" className="px-6 py-3">
-                              Article Title
+                              Article
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                              Description
                           </th>
                           <th scope="col" className="px-6 py-3">
                               Status
@@ -60,8 +64,11 @@ function Task() {
                                   <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                               </div>
                           </td>
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                              {TaskDatas.title}
+                            <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                             <Link to={`/viewtask/${TaskDatas.id}`}>{TaskDatas.title}</Link>
+                            </th>
+                            <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                             <Link to={`/viewtask/${TaskDatas.id}`}>{TaskDatas.description}</Link>
                             </th>
                             <td className="px-6 py-4">
                                 <p className='bg-orange-500 rounded-lg p-1 w-content text-center'>{TaskDatas.status}</p>
@@ -81,7 +88,7 @@ function Task() {
                             <td className="flex items-center px-6 py-4 space-x-3">
                               <UpdateTask />
                               <DeleteTask/>
-                            </td>   
+                            </td>
                         </tr>
                       ))}
                   </tbody>
@@ -92,4 +99,4 @@ function Task() {
   )
 }
 
-export default Task
+export default TaskList
