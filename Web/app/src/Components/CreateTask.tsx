@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react'
+import AddIcon from '../Assets/Images/add-task.svg'
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -6,32 +7,32 @@ import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
-import Add from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import DatePicker from '../Components/DatePicker';
+import DatePicker from './DatePicker';
 
-function AddSwimLaneList() {
-  const [open, setOpen] = React.useState(false);
-  const [type, setType] = React.useState('');
+function CreateButton() {
+
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState('');
 
   const handleType = (event: SelectChangeEvent) => {
     setType(event.target.value);
   };
 
   return (
-    <React.Fragment>
-    <Button
-      variant="plain"
-      color="neutral"
-      size="sm"
-      startDecorator={<Add />}
-      onClick={() => setOpen(true)}
-    >
-      Add Item
-    </Button>
-    <Modal open={open} onClose={() => setOpen(false)}>
+    <>
+     <div>
+       <p className="rounded-lg p-5 bg-white drop-shadow-md space-y-3 dark:hover:bg-slate-300 cursor-pointer" onClick={() => setOpen(true)}>
+         <div className="flex items-center space-x-3">
+           <img src={AddIcon} alt="add-task" className='h-6 w-6'/>
+           <h3 className="text-slate-900 group-hover:text-white text-sm font-semibold">New project</h3>
+         </div>
+         <p className="text-slate-500 group-hover:text-white text-sm">Create a new project from a variety of starting templates.</p>
+       </p>
+     </div>
+     <Modal open={open} onClose={() => setOpen(false)}>
        <ModalDialog
          aria-labelledby="basic-modal-dialog-title"
          aria-describedby="basic-modal-dialog-description"
@@ -91,8 +92,8 @@ function AddSwimLaneList() {
          </form>
        </ModalDialog>
       </Modal>
-  </React.Fragment>
-  );
+    </>
+  )
 }
 
-export default AddSwimLaneList
+export default CreateButton

@@ -1,17 +1,16 @@
 import React from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import TaskData from '../Data/TaskData'
-import DeleteTask from '../modals/DeleteTask'
-import UpdateTask from '../modals/UpdateTask'
-import { Link } from 'react-router-dom'
-import CreateTask from './CreateTask'
+import ClientData from '../Data/ClientData'
+import UpdateClient from '../modals/UpdateClient'
+import DeleteClient from '../modals/DeleteClient'
+import CreateContract from './CreateContract'
 
-function TaskList() {
+function ClientBoard() {
   return (
     <DashboardPage>
         <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
-            <div className='flex justify-start flex-row items-center mb-8'> 
-                <CreateTask/>
+            <div className='flex justify-start flex-row items-center mb-8 w-64'> 
+                <CreateContract />
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-md">
               <table className="w-full text-sm text-left dark:text-black">
@@ -24,26 +23,22 @@ function TaskList() {
                               </div>
                           </th>
                           <th scope="col" className="px-6 py-3">
-                              Title
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                              Description
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                              Status
-                          </th>
-                          <th scope="col" className="px-6 py-3">
                               Client
                           </th>
-
                           <th scope="col" className="px-6 py-3">
-                              Type
+                              SEO
                           </th>
                           <th scope="col" className="px-6 py-3">
-                              Words
+                              Contract Type
                           </th>
                           <th scope="col" className="px-6 py-3">
-                              Timeliness
+                              Payment Plan
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                              Payment Status
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                              Managed By
                           </th>
                           <th scope="col" className="px-6 py-3">
                               CreatedAt
@@ -54,7 +49,7 @@ function TaskList() {
                       </tr>
                   </thead>
                   <tbody>
-                    {TaskData.map((TaskDatas) => (
+                    {ClientData.map((client) => (
                         <tr className="bg-white border-b dark:bg-white dark:border-gray-300 hover:bg-slate-300">
                           <td className="w-4 p-4">
                               <div className="flex items-center">
@@ -63,37 +58,32 @@ function TaskList() {
                               </div>
                           </td>
                             <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                             <Link to={`/viewtask/${TaskDatas.id}`}>{TaskDatas.title}</Link>
+                                {client.client}
                             </th>
                             <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                             <Link to={`/viewtask/${TaskDatas.id}`}>{TaskDatas.description}</Link>
+                                {client.seo}
+                            </th>
+                            <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                                {client.contractType}
+                            </th>
+                            <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                                {client.paymentPlan}
                             </th>
                             <td className="px-6 py-4">
-                                <p className='bg-orange-500 rounded-lg p-1 w-content text-center'>{TaskDatas.status}</p>
+                            <p className='bg-green-500 rounded-lg p-1 w-20 text-center'>{client.paymentStatus}</p>
                             </td>
                             <td className="px-6 py-4">
-                                {TaskDatas.client}
+                                {client.managedBy}
                             </td>
                             <td className="px-6 py-4">
-                                {TaskDatas.type}
-                            </td>
-                            <td className="px-6 py-4">
-                                {TaskDatas.words}
-                            </td>
-                            <td className="px-6 py-4">
-                                {TaskDatas.timeliness.pending ? "Pending" : ""}
-                                {TaskDatas.timeliness.past_eod ? "Past EOD" : ""}
-                                {TaskDatas.timeliness.on_time ? "On Time" : ""}
-                            </td>
-                            <td className="px-6 py-4">
-                                {TaskDatas.created_at}
+                                {client.createdAt}
                             </td>
                             <td className="flex items-center px-6 py-4 space-x-3">
-                              <UpdateTask />
-                              <DeleteTask/>
+                              <UpdateClient />
+                              <DeleteClient/>
                             </td>
                         </tr>
-                      ))}
+                    ))}
                   </tbody>
               </table>
           </div>
@@ -102,4 +92,4 @@ function TaskList() {
   )
 }
 
-export default TaskList
+export default ClientBoard
