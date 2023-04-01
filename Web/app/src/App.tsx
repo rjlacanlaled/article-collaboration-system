@@ -16,6 +16,7 @@ import Profile from './Components/Profile';
 import EditableTitle from './Components/EditableTitle';
 import Board from './Components/Board';
 import ViewTask from './Components/ViewTask';
+import ClientBoard from './Components/ClientBoard';
 import './App.css';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/title" element={<EditableTitle initialValue={''}/>} />
         <Route path="/boardpage" element={<Board/>} />
         <Route path="/viewTask/:id" element={<ViewTask />} />
+        <Route path="/client" element={<ClientBoard />} />
       </Routes>
     </div>
   );

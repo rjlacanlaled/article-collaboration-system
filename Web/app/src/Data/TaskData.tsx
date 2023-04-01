@@ -1,5 +1,11 @@
 import React from 'react'
 
+interface TaskTimeliness {
+    pending: boolean,
+    past_eod: boolean,
+    on_time: boolean
+  }
+
 interface Task {
     id: number,
     assignee: string,
@@ -12,6 +18,7 @@ interface Task {
     created_at: string,
     type: string,
     words: number,
+    timeliness: TaskTimeliness,
     action: string
   }
 
@@ -28,6 +35,11 @@ const TaskData: Task[] = [
         created_at: 'Friday, March 17, 2023',
         type: 'blog',
         words: 800,
+        timeliness: {
+            pending: true,
+            past_eod: false,
+            on_time: false
+          },
         action: ''
     },
     {
@@ -42,6 +54,11 @@ const TaskData: Task[] = [
         created_at: 'Friday, March 17, 2023',
         type: 'blog',
         words: 800,
+        timeliness: {
+            pending: true,
+            past_eod: false,
+            on_time: false
+          },
         action: ''
     },
     {
@@ -56,6 +73,11 @@ const TaskData: Task[] = [
         created_at: 'Friday, March 17, 2023',
         type: 'blog',
         words: 800,
+        timeliness: {
+            pending: true,
+            past_eod: false,
+            on_time: false
+          },
         action: ''
     },
     {
@@ -70,6 +92,11 @@ const TaskData: Task[] = [
         created_at: 'Friday, March 17, 2023',
         type: 'blog',
         words: 800,
+        timeliness: {
+            pending: true,
+            past_eod: false,
+            on_time: false
+          },
         action: ''
     },
     {
@@ -84,6 +111,11 @@ const TaskData: Task[] = [
         created_at: 'Friday, March 17, 2023',
         type: 'blog',
         words: 800,
+        timeliness: {
+            pending: true,
+            past_eod: false,
+            on_time: false
+          },
         action: ''
     },
     {
@@ -98,6 +130,11 @@ const TaskData: Task[] = [
         created_at: 'Friday, March 17, 2023',
         type: 'blog',
         words: 800,
+        timeliness: {
+            pending: true,
+            past_eod: false,
+            on_time: false
+          },
         action: ''
     },
 ]

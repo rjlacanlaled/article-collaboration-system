@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import NavLogo from '../Assets/Images/searchwork-logo.svg'
-import UserIcon from '../Assets/Images/user-icon.svg'
-import HomeIcon from "../Assets/Images/home-logo.svg"
-import TaskIcon from "../Assets/Images/task-icon.svg"
-import BoardIcon from "../Assets/Images/board.svg"
+import HomeIcon from '@mui/icons-material/HomeOutlined';
+import TaskIcon from '@mui/icons-material/FormatListBulletedOutlined';
+import ReportIcon from '@mui/icons-material/SummarizeOutlined';
+import KanbanBoardIcon from '@mui/icons-material/ViewKanbanOutlined';
+import UserIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ClientIcon from '@mui/icons-material/AccountBoxOutlined';
 
 function Navigation() {
   return (
@@ -15,29 +17,41 @@ function Navigation() {
       </div>
         <ul className='list-none text-l font-medium leading-relaxed tracking-wide'>
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
-              <img src={HomeIcon} alt="user-icon" className="w-5 mr-3"/>
+              <HomeIcon className='w-5 mr-3'/>
               <li>
                 <Link to="/pending"><a href="/">Dashboard</a></Link>
               </li>   
             </div> 
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
-            <img src={UserIcon} alt="user-icon" className=" w-5 mr-3"/>
+            <UserIcon className='w-5 mr-3'/>
               <li>
                 <Link to="/user"><a href="/">User</a></Link>
               </li>
             </div>
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
-              <img src={BoardIcon} alt="user-icon" className=" w-5 mr-3"/>
+              <KanbanBoardIcon className='w-5 mr-3'/>
               <li>
                 <Link to="/board"><a href="/">Board</a></Link>
               </li>   
             </div>  
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
-              <img src={TaskIcon} alt="user-icon" className=" w-5 mr-3"/>
+              <TaskIcon className='w-5 mr-3'/>
               <li>
                 <a href="/task">Task</a>
               </li>   
-            </div>  
+            </div>
+            <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
+              <ClientIcon className='w-5 mr-3'/>
+              <li>
+                <a href="/client">Client</a>
+              </li>   
+            </div>   
+            <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
+              <ReportIcon className='w-5 mr-3'/>
+              <li>
+                <a href="/">Report</a>
+              </li>   
+            </div>    
         </ul>
     </>
   )

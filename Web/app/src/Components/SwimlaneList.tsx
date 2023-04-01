@@ -50,7 +50,7 @@ function SwimlaneList({ name, description, image, provided }: ListItemProps) {
              </div>
              <div className='bg-white w-full h-full flex justify-start flex-col items-center'>
               <TaskAssigned />
-              <h2 className="absolute bottom-0 right-0 p-4 font-medium text-sm text-gray-500">Created March 28, 2023 at 2:49 PM</h2>
+              <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-gray-500">Created March 28, 2023 at 2:49 PM</h2>
              </div>
           </div>
         </ModalDialog>

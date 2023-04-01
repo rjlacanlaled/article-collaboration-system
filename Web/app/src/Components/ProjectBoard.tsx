@@ -34,6 +34,10 @@ const columnsFromBackend: Columns = {
     title: "For Review",
     items: []
   },
+  4: {
+    title: "Completed",
+    items: []
+  },
 };
 
 
