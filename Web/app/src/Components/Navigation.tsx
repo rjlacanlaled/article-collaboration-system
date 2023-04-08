@@ -37,19 +37,19 @@ function Navigation() {
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <TaskIcon className='w-5 mr-3'/>
               <li>
-                <a href="/task">Task</a>
+                <Link to="/task"><a href="/task">Task</a></Link>
               </li>   
             </div>
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <ClientIcon className='w-5 mr-3'/>
               <li>
-                <a href="/client">Client</a>
+              <Link to="/client"><a href="/client">Client</a></Link>
               </li>   
             </div>   
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <ReportIcon className='w-5 mr-3'/>
               <li>
-                <a href="/">Report</a>
+              <Link to="/report"><a href="/">Report</a></Link>
               </li>   
             </div>    
         </ul>

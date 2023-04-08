@@ -17,6 +17,7 @@ import EditableTitle from './Components/EditableTitle';
 import Board from './Components/Board';
 import ViewTask from './Components/ViewTask';
 import ClientBoard from './Components/ClientBoard';
+import Report from './Components/Report';
 import './App.css';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/boardpage" element={<Board/>} />
         <Route path="/viewTask/:id" element={<ViewTask />} />
         <Route path="/client" element={<ClientBoard />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </div>
   );

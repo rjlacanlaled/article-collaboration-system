@@ -6,6 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Slide from '@mui/material/Slide';
 import TaskData from '../Data/TaskData';
+import SelectUser from './SelectUser';
 
 export default function TaskAssigned() {
 
@@ -31,12 +32,7 @@ export default function TaskAssigned() {
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Assignee:</label>
                 <div className='flex items-center ml-2'>
-                  <img
-                    className="mr-2 w-6 h-6 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                    alt="Michael Gough"
-                  />
-                  <p>{task.assignee}</p>
+                  <SelectUser/>
                 </div>    
               </div>
               <div className='flex items-center'>
@@ -78,19 +74,14 @@ export default function TaskAssigned() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>Client Details</Typography>
+          <Typography>Contract Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
         <div className='flex flex-col items-start h-content text-sm'>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Client:</label>
                 <div className='flex items-center ml-2'>
-                  <img
-                    className="mr-2 w-6 h-6 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                    alt="Michael Gough"
-                  />
-                  <p>Teddy Swap</p>
+                  <SelectUser />
                 </div>    
               </div>
               <div className='flex items-center'>
