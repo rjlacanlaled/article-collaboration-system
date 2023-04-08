@@ -7,8 +7,6 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
 import UpdateIcon from '../Assets/Images/edit-icon.svg'
 
 function UpdateTask() {
@@ -33,10 +31,10 @@ function UpdateTask() {
             size="lg"
           >
             <Typography id="basic-modal-dialog-title" component="h2">
-              Update User
+              Update Task
             </Typography>
             <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
-              Fill in the information of the user.
+              Fill in the information of the Task.
             </Typography>
             <form
               onSubmit={(event) => {
@@ -47,6 +45,10 @@ function UpdateTask() {
               <Stack spacing={2}>
                 <FormControl>
                     <FormLabel>Title</FormLabel>
+                    <Input autoFocus required />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Description</FormLabel>
                     <Input autoFocus required />
                 </FormControl>
                 <FormControl>

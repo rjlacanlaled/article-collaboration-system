@@ -28,10 +28,10 @@ function DeleteClient() {
           size="lg"
         >
           <Typography id="basic-modal-dialog-title" component="h2">
-            Delete Client
+            Delete Contract
           </Typography>
           <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
-            Are you sure you want to delete this Client?
+            Are you sure you want to delete this Contract?
           </Typography>
           <form
             onSubmit={(event) => {

@@ -7,6 +7,9 @@ const UserData = [
         lastname: 'Saguit',
         email: 'Fakerbryan@yahoo.com',
         role: 'Admin',
+        inProgress: 2,
+        completed: 5,
+        pastEod: 2,
         status: true,
     },
     {
@@ -15,6 +18,9 @@ const UserData = [
         lastname: 'Saguit',
         email: 'Fakerbryan@yahoo.com',
         role: 'Admin',
+        inProgress: 2,
+        completed: 5,
+        pastEod: 2,
         status: true,
     },
     {
@@ -23,6 +29,9 @@ const UserData = [
         lastname: 'Saguit',
         email: 'Fakerbryan@yahoo.com',
         role: 'Admin',
+        inProgress: 2,
+        completed: 5,
+        pastEod: 2,
         status: true,
     },
     {
@@ -31,6 +40,9 @@ const UserData = [
         lastname: 'Saguit',
         email: 'Fakerbryan@yahoo.com',
         role: 'Admin',
+        inProgress: 2,
+        completed: 5,
+        pastEod: 2,
         status: true,
     },
     {
@@ -39,6 +51,9 @@ const UserData = [
         lastname: 'Saguit',
         email: 'Fakerbryan@yahoo.com',
         role: 'Admin',
+        inProgress: 2,
+        completed: 5,
+        pastEod: 2,
         status: true,
     },
     {
@@ -47,6 +62,9 @@ const UserData = [
         lastname: 'Saguit',
         email: 'Fakerbryan@yahoo.com',
         role: 'Admin',
+        inProgress: 2,
+        completed: 5,
+        pastEod: 2,
         status: true,
     },
 ]

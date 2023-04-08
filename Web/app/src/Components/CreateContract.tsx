@@ -72,8 +72,9 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>6 Months</MenuItem>
-                  <MenuItem value={20}>1 Year</MenuItem>
+                  <MenuItem value={4}>Open</MenuItem>
+                  <MenuItem value={7}>6 Months</MenuItem>
+                  <MenuItem value={5}>1 Year</MenuItem>
                 </Select>
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -89,9 +90,8 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>6 Months</MenuItem>
-                  <MenuItem value={20}>1 Year</MenuItem>
-                  <MenuItem value={20}>Open</MenuItem>
+                  <MenuItem value={11}>Full Payment</MenuItem>
+                  <MenuItem value={14}>2 Months Advance</MenuItem>
                 </Select>
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -107,7 +107,7 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Search-Work</MenuItem>
+                  <MenuItem value={10}>SearchWorks</MenuItem>
                   <MenuItem value={20}>Client</MenuItem>
                 </Select>
              </FormControl>
