@@ -1,0 +1,105 @@
+[
+    {
+        "id": 1,
+        "assignee": "Bryan Saguit",
+        "reporter": "shane futol",
+        "title": "Task 1",
+        "description": "The importance of Mindfulness in Daily Life",
+        "userProfile": "https://randomuser.me/api/portraits/men/6.jpg",
+        "status": "todo",
+        "client": "Search-Work",
+        "created_at": "Friday, March 17, 2023",
+        "type": "blog",
+        "words": 800,
+        "timeliness": {
+          "pending": true,
+          "past_eod": false,
+          "on_time": false
+        },
+        "openTask": 10,
+        "completedTask": 20,
+        "past_eod": 2,
+        "prod_date": "April 04, 2023",
+        "action": ""
+      },
+      {
+        "id": 2,
+        "assignee": "Bryan Saguit",
+        "reporter": "Edcel",
+        "title": "Task 2",
+        "description": "Navigating the New Normal: Adapting to Remote Work and Online Learning in the Post-Pandemic World",
+        "userProfile": "https://randomuser.me/api/portraits/men/1.jpg",
+        "status": "todo",
+        "client": "Search-Work",
+        "created_at": "Friday, March 17, 2023",
+        "type": "blog",
+        "words": 1500,
+        "timeliness": {
+          "pending": true,
+          "past_eod": false,
+          "on_time": false
+        },
+        "prod_date": "April 04, 2023",
+        "action": ""
+      },
+      {
+        "id": 3,
+        "assignee": "Bryan Saguit",
+        "reporter": "Edmon",
+        "title": "Task 3",
+        "description": "The Ethics of Genetic Editing: Balancing the Potential and Risks of CRISPR Technology",
+        "userProfile": "https://randomuser.me/api/portraits/men/2.jpg",
+        "status": "todo",
+        "client": "Eco-Friendly Co.",
+        "created_at": "Friday, March 17, 2023",
+        "type": "blog",
+        "words": 200,
+        "timeliness": {
+          "pending": true,
+          "past_eod": false,
+          "on_time": false
+        },
+        "prod_date": "April 04, 2023",
+        "action": ""
+      },
+      {
+        "id": 4,
+        "assignee": "Bryan Saguit",
+        "reporter": "Volt",
+        "title": "Task 4",
+        "description": "Exploring the Role of Artificial Intelligence in the Future of Healthcare",
+        "userProfile": "https://randomuser.me/api/portraits/men/3.jpg",
+        "status": "todo",
+        "client": "Bakeshop Inc.",
+        "created_at": "Friday, March 17, 2023",
+        "type": "blog",
+        "words": 900,
+        "timeliness": {
+          "pending": true,
+          "past_eod": false,
+          "on_time": false
+        },
+        "prod_date": "April 04, 2023",
+        "action": ""
+      },
+      {
+        "id": 5,
+        "assignee": "Bryan Saguit",
+        "reporter": "Volt",
+        "title": "Task 5",
+        "description": "Exploring the Role of Artificial Intelligence in the Future of Healthcare",
+        "userProfile": "https://randomuser.me/api/portraits/men/3.jpg",
+        "status": "todo",
+        "client": "Bakeshop Inc.",
+        "created_at": "Friday, March 17, 2023",
+        "type": "blog",
+        "words": 900,
+        "timeliness": {
+          "pending": true,
+          "past_eod": false,
+          "on_time": false
+        },
+        "prod_date": "April 04, 2023",
+        "action": ""
+      }
+]

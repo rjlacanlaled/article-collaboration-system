@@ -11,7 +11,7 @@ export default function ControlledComponent() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
-        <DatePicker label={'"month" and "year"'} views={['month', 'year']} value={value} onChange={(newValue) => setValue(newValue)} />
+        <DatePicker label={'month and year'} views={['month', 'year']} value={value} onChange={(newValue) => setValue(newValue)} />
       </DemoContainer>
     </LocalizationProvider>
   );

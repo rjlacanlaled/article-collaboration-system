@@ -1,0 +1,80 @@
+[
+    {
+      "id": 1,
+      "firstname": "Bryan",
+      "lastname": "Saguit",
+      "email": "Fakerbryan@yahoo.com",
+      "birthday": "07/07/1998",
+      "phonenumber": 9957810229,
+      "role": "Member",
+      "inProgress": 2,
+      "completed": 5,
+      "pastEod": 2,
+      "status": true
+    },
+    {
+      "id": 2,
+      "firstname": "shane",
+      "lastname": "futol",
+      "email": "Fakerbryan@yahoo.com",
+      "birthday": "07/07/1998",
+      "phonenumber": 9957810229,
+      "role": "Member",
+      "inProgress": 2,
+      "completed": 5,
+      "pastEod": 2,
+      "status": true
+    },
+    {
+      "id": 3,
+      "firstname": "RJ",
+      "lastname": "Lacanlale",
+      "email": "Fakerbryan@yahoo.com",
+      "birthday": "07/07/1998",
+      "phonenumber": 9957810229,
+      "role": "Member",
+      "inProgress": 2,
+      "completed": 5,
+      "pastEod": 2,
+      "status": true
+    },
+    {
+      "id": 4,
+      "firstname": "glen",
+      "lastname": "marabarbaras",
+      "email": "Fakerbryan@yahoo.com",
+      "birthday": "07/07/1998",
+      "phonenumber": 9957810229,
+      "role": "Member",
+      "inProgress": 2,
+      "completed": 5,
+      "pastEod": 2,
+      "status": true
+    },
+    {
+      "id": 5,
+      "firstname": "evelyn",
+      "lastname": "Geromo",
+      "email": "Fakerbryan@yahoo.com",
+      "birthday": "07/07/1998",
+      "phonenumber": 9957810229,
+      "role": "Member",
+      "inProgress": 2,
+      "completed": 5,
+      "pastEod": 2,
+      "status": true
+    },
+        {
+      "id": 6,
+      "firstname": "Volt",
+      "lastname": "Saguit",
+      "email": "Fakerbryan@yahoo.com",
+      "birthday": "07/07/1998",
+      "phonenumber": 9957810229,
+      "role": "Member",
+      "inProgress": 2,
+      "completed": 5,
+      "pastEod": 2,
+      "status": true
+    }
+  ]

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ReactComponent as SignupIcon } from "../Assets/Images/signup-icon.svg"
 import { ReactComponent as GoogleIcon } from "../Assets/Images/google-logo.svg"
@@ -7,13 +7,25 @@ import { ReactComponent as LinkedinIcon } from "../Assets/Images/linkedin-logo.s
 import AuthPage from '../Pages/AuthPage'
 
 function Signup() {
+
+  const [email, setEmail] = useState('')
+
+  const handleEmail = (event: any) => {
+    setEmail(event.target.value);
+    }
+
   return (
     <AuthPage>
         <div className="bg-white p-8 w-96  rounded-lg shadow-lg flex justify-center items-center flex-col">
             <SignupIcon className="w-32 h-full mb-4"/>
             <h2 className="mb-6 font-bold text-3xl text-gray-800">Create your account</h2>
             <div className="mb-4">
-                <input className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" type="text" placeholder="Email address"/>
+                <input 
+                className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                type="text" 
+                value={email}
+                onChange={handleEmail}
+                placeholder="Email address"/>
             </div>
             <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 rounded-sm">
                 Continue

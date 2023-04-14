@@ -1,12 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import UserData from '../Data/UserData'
+import UserData from '../Data/UserData.json'
 import ApproveUser from '../modals/ApproveUser'
 import RejectUser from '../modals/RejectUser'
 
 function AdminDashboard() {
-
-    const [member, setMember] = useState(UserData.length)
 
   return (
     <DashboardPage>
@@ -14,7 +12,7 @@ function AdminDashboard() {
         <div className='flex justify-center flex-col items-center bg-white p-7 drop-shadow w-72 h-16 rounded-md'>
             <div className='flex justify-center items-center'>
                 <h1 className="text-sm font-semibold mr-1">Pending Approvals</h1>
-                <label className='lining-nums font-bold text-sm bg-gray-300 rounded-full px-3'>{member}</label>
+                <label className='lining-nums font-bold text-sm bg-gray-300 rounded-full px-3'>{UserData.length}</label>
             </div>
         </div>
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">

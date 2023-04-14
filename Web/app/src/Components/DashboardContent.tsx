@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Chip } from '@mui/material'
 import MemberLogo from '../Assets/Images/member-logo.svg'
-import UserData from '../Data/UserData'
+import UserData from '../Data/UserData.json'
 import DashboardPage from '../Pages/DashboardPage'
-import DeleteButton from '../modals/DeleteUser'
+import DeleteUser from '../modals/DeleteUser'
 import UpdateUser from '../modals/UpdateUser'
 
 function DashboardContent() {
-
-  const [member, setMember] = useState(UserData.length)
 
   return (
     <DashboardPage>
@@ -17,7 +15,7 @@ function DashboardContent() {
             <div className='flex justify-center flex-row text-left bg-white p-7 drop-shadow w-72 rounded-md'>
                 <div className='flex justify-center flex-col mr-9'>
                     <h1 className="text-sm font-semibold mb-1">MEMBERS</h1>
-                    <label className='lining-nums font-bold text-4xl'>{member}</label>
+                    <label className='lining-nums font-bold text-4xl'>{UserData.length}</label>
                 </div>
                 <img src={MemberLogo} alt="member-logo" className='w-20' />
             </div>
@@ -54,7 +52,7 @@ function DashboardContent() {
                         <td className="border px-4 py-3 items-center">
                             <div className='flex justify-center'>
                                 <UpdateUser />
-                                <DeleteButton />
+                                <DeleteUser/>
                             </div>
                         </td>
                     </tr>

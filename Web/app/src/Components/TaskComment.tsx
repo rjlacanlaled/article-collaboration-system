@@ -1,7 +1,14 @@
-import React from 'react'
-import TaskData from '../Data/TaskData'
+import React, { useState } from 'react'
+import TaskData from '../Data/TaskData.json'
 
 function TaskComment() {
+
+    const [comment, setComment] = useState('')
+
+    const handleComment = (event: any) => {
+        setComment(event.target.value)
+    }
+
   return (
     <div>
         {TaskData.filter(task => task.id === 4).map((task) => ( 
@@ -23,7 +30,11 @@ function TaskComment() {
                     <label htmlFor="comment" className="sr-only">Your comment</label>
                     <textarea id="comment" 
                         className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-gray-900 dark:placeholder-gray-900 dark:bg-gray-100"
-                        placeholder="Write a comment..." required></textarea>
+                        value={comment}
+                        onChange={handleComment}
+                        placeholder="Write a comment..." 
+                        required>
+                    </textarea>
                 </div>
                 <button type="submit"
                     className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 hover:bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900">

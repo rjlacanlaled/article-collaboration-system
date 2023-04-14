@@ -1,9 +1,9 @@
 import React from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import ClientData from '../Data/ClientData'
-import UpdateClient from '../modals/UpdateClient'
+import ClientData from '../Data/ClientData.json'
+import UpdateContract from '../modals/UpdateContract'
 import DeleteClient from '../modals/DeleteClient'
-import CreateContract from './CreateContract'
+import CreateContract from '../modals/CreateContract'
 
 function ClientBoard() {
   return (
@@ -70,7 +70,10 @@ function ClientBoard() {
                                 {client.paymentPlan}
                             </th>
                             <td className="px-6 py-4">
-                            <p className='bg-green-500 rounded-lg p-1 w-20 text-center'>{client.paymentStatus}</p>
+                            {client.paymentStatus ? 
+                            <p className='bg-green-500 rounded-lg p-1 w-20 text-center'>Paid</p> 
+                            : <p className='bg-gray-500 rounded-lg p-1 w-20 text-center'>Not Paid</p>
+                            }
                             </td>
                             <td className="px-6 py-4">
                                 {client.managedBy}
@@ -79,7 +82,7 @@ function ClientBoard() {
                                 {client.createdAt}
                             </td>
                             <td className="flex items-center px-6 py-4 space-x-3">
-                              <UpdateClient />
+                              <UpdateContract />
                               <DeleteClient/>
                             </td>
                         </tr>

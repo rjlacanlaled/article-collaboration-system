@@ -10,10 +10,11 @@ type ListItemProps = {
   name: string;
   description: string;
   image: string;
+  prodDate: string;
   provided: any;
 };
 
-function SwimlaneList({ name, description, image, provided }: ListItemProps) {
+function TaskItems({ name, description, image, prodDate, provided }: ListItemProps) {
 
   const [open, setOpen] = React.useState('');
 
@@ -29,12 +30,12 @@ function SwimlaneList({ name, description, image, provided }: ListItemProps) {
         <div className="flex justify-center items-center flex-col">
           <h4 className="text-sm m-2 self-start">{name}</h4>
           <p className="text-xs mb-1 mx-1">{description}</p>
+          <i className="text-xs my-2 mx-1 self-end">Production Date:{prodDate}</i>
         </div>
         <div className="p-2 absolute top-0 right-0">
           <AvatarGroup>
             <Avatar alt="Avatar 1" src={image} sx={{ width: 20, height: 20 }} />
-            <Avatar alt="Avatar 2" src={image} sx={{ width: 20, height: 20 }} />
-            <Avatar alt="Avatar 3" src={image} sx={{ width: 20, height: 20 }} />
+            <Avatar alt="Avatar 1" src={image} sx={{ width: 20, height: 20 }} />
           </AvatarGroup>
         </div>
       </div>
@@ -59,4 +60,4 @@ function SwimlaneList({ name, description, image, provided }: ListItemProps) {
   );
 }
 
-export default SwimlaneList;
+export default TaskItems;

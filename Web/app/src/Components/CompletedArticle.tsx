@@ -1,37 +1,20 @@
 import React from 'react'
 import ExportButton from './ExportButton'
-import TaskData from '../Data/TaskData'
+import TaskData from '../Data/TaskData.json'
+import TaskTotalStatus from '../Data/TaskTotalStatus.json'
 import DatePickerViews from './DatePickerViews'
-import OverdueIcon from '@mui/icons-material/AssignmentLateOutlined';
-import CompletedIcon from '@mui/icons-material/FactCheckOutlined';
-import OpenIcon from '@mui/icons-material/ListAltOutlined';
+import ReportTaskStatus from './ReportTaskStatus' 
 
-function ArticleTable() {
+function CompletedArticle() {
   return (
-    <>
-        <div className='w-full flex justify-start items-center'>
-            <div className="bg-white w-64 h-24 drop-shadow rounded-md m-2 p-3">
-                <OpenIcon />
-                <div className="flex flex-row justify-center items-center">
-                  <h2 className="mr-2">Open Tasks</h2>
-                  <p className="lining-nums font-bold text-sm bg-gray-300 rounded-full px-3">20</p>
-                </div>
-            </div>
-            <div className="bg-white w-64 h-24 drop-shadow rounded-md m-2 p-3">
-                <CompletedIcon />
-                <div className="flex flex-row justify-center items-center">
-                  <h2 className="mr-2">Completed Task</h2>
-                  <p className="lining-nums font-bold text-sm text-white bg-green-600 rounded-full px-3">50</p>
-                </div>
-            </div>
-            <div className="bg-white w-64 h-24 drop-shadow rounded-md m-2 p-3">
-                <OverdueIcon />
-                <div className="flex flex-row justify-center items-center">
-                  <h2 className="mr-2">Past EOD</h2>
-                  <p className="lining-nums font-bold text-sm text-white bg-red-600 rounded-full px-3">2</p>
-                </div>
-            </div>
-        </div> 
+    <>  
+        {TaskTotalStatus.map((Task) => (
+          <ReportTaskStatus
+            openTask={Task.openTask}
+            completedTask={Task.completedTask}
+            pastEod={Task.past_eod}
+          />
+        ))}
         <div className="flex justify-start flex-col w-full h-fit bg-white p-6 text-center drop-shadow rounded-md m-4">
             <h2 className='text-gray-900 lining-nums font-bold'> Article's Completed</h2>
             <div className="bg-white flex justify-between items-center">
@@ -66,7 +49,7 @@ function ArticleTable() {
                         <td className="border px-4 py-3">{TaskDatas.client}</td>
                         <td className="border px-4 py-3">{TaskDatas.type}</td>
                         <td className="border px-4 py-3">{TaskDatas.words}</td>
-                        <td className="border px-4 py-3">On Time</td>
+                        <td className="border px-4 py-3">{TaskDatas.timeliness ? "Pending" : "On-Time"}</td>
                         <td className="border px-4 py-3 items-center">
                                 <ExportButton />
                         </td>
@@ -79,4 +62,4 @@ function ArticleTable() {
   )
 }
 
-export default ArticleTable
+export default CompletedArticle

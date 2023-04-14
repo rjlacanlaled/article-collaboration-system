@@ -1,6 +1,6 @@
 import React from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import TaskData from '../Data/TaskData'
+import TaskData from '../Data/TaskData.json'
 import DeleteTask from '../modals/DeleteTask'
 import UpdateTask from '../modals/UpdateTask'
 import { Link } from 'react-router-dom'

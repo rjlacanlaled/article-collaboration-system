@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AddIcon from '../Assets/Images/add-task.svg'
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
@@ -14,17 +14,37 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 function CreateContract() {
 
-  const [open, setOpen] = React.useState(false);
-  const [type, setType] = React.useState('');
-  const [contract, setContract] = React.useState('');
+  const [open, setOpen] = useState(false);
+  const [client, setClient] = useState('');
+  const [seo, setSeo] = useState('');
+  const [payment, setPayment] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('');
+  const [contract, setContract] = useState('');
+  const [manage, setManage] = useState('')
+
+  const HandleClient = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setClient(event.target.value)
+  }
+
+  const handleSeo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSeo(event.target.value)
+  }
 
   const handleContract = (event: SelectChangeEvent) => {
     setContract(event.target.value);
   };
 
-  const handleType = (event: SelectChangeEvent) => {
-    setType(event.target.value);
+  const handlePayment = (event: SelectChangeEvent) => {
+    setPayment(event.target.value);
   };
+
+  const handlePaymentStatus = (event: SelectChangeEvent) => {
+    setPaymentStatus(event.target.value);
+  };
+
+  const handleManage = (event: SelectChangeEvent) => {
+    setManage(event.target.value);
+  }
 
 
   return (
@@ -51,12 +71,16 @@ function CreateContract() {
                <FormLabel>Client</FormLabel>
                <Input
                  autoFocus
+                 value={client}
+                 onChange={HandleClient}
                />
              </FormControl>
              <FormControl>
                <FormLabel>SEO</FormLabel>
                <Input
                  required
+                 value={seo}
+                 onChange={handleSeo}
                />
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -82,9 +106,9 @@ function CreateContract() {
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={type}
+                  value={payment}
                   label="Payment"
-                  onChange={handleType}
+                  onChange={handlePayment}
                   sx={{ borderRadius: '7px', }}
                 >
                   <MenuItem value="">
@@ -94,14 +118,31 @@ function CreateContract() {
                   <MenuItem value={14}>2 Months Advance</MenuItem>
                 </Select>
              </FormControl>
+                 <FormControl sx={{ m: 1, minWidth: 120}} size="md">
+                 <FormLabel id="demo-select-small" sx={{ color: 'black' }}>Payment Status</FormLabel>
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    value={paymentStatus}
+                    label="Payment"
+                    onChange={handlePaymentStatus}
+                    sx={{ borderRadius: '7px', }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={1}>Paid</MenuItem>
+                    <MenuItem value={0}>Not Paid</MenuItem>
+                  </Select>
+              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
                 <FormLabel id="demo-select-small" sx={{ color: 'black' }}>Managed</FormLabel>
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={type}
+                  value={manage}
                   label="Managed"
-                  onChange={handleType}
+                  onChange={handleManage}
                   sx={{ borderRadius: '7px', }}
                 >
                   <MenuItem value="">

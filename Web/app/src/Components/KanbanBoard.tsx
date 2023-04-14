@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import TaskData from '../Data/TaskData';
+import TaskData from '../Data/TaskData.json';
 import DashboardPage from '../Pages/DashboardPage';
-import EditableTitle from '../Components/EditableTitle';
+import EditableTitle from './EditableTitle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import AddBoard from '../Components/AddBoard'
+import AddBoard from './AddBoard'
 import BoardMenu from './BoardMenu';
-import SwimlaneList from './SwimlaneList';
+import TaskItems from './TaskItems';
 import AddSwimLaneList from '../modals/AddSwimLaneList';
 
 type Columns = {
@@ -14,7 +14,8 @@ type Columns = {
     items: {
       id: number;
       title: string;
-      image: string;
+      userProfile: string;
+      prod_date: string;
       description: string;
     }[];
   };
@@ -79,7 +80,7 @@ const onDragEnd = (result:any, columns:any, setColumns:any) => {
 };
 
 
-function ProjectBoard() {
+function KanbanBoard() {
 
   const [columns, setColumns] = useState(columnsFromBackend);
 
@@ -128,10 +129,11 @@ function ProjectBoard() {
                               <Draggable key={item.id} draggableId={String(item.id)} index={index}>
                                 {(provided, snapshot) => {
                                   return (
-                                    <SwimlaneList 
+                                    <TaskItems
                                       name={item.title} 
                                       description={item.description} 
-                                      image={item.image} 
+                                      image={item.userProfile}
+                                      prodDate={item.prod_date} 
                                       provided={provided} 
                                    />
                                   );
@@ -163,4 +165,4 @@ function ProjectBoard() {
   )
 }
 
-export default ProjectBoard
+export default KanbanBoard

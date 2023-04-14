@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import { ReactComponent as GoogleIcon} from "../Assets/Images/google-logo.svg"
 import { ReactComponent as FacebookIcon} from "../Assets/Images/facebook-logo.svg"
@@ -6,15 +6,39 @@ import { ReactComponent as LinkedinIcon} from "../Assets/Images/linkedin-logo.sv
 import AuthPage from '../Pages/AuthPage'
 
 function Login() {
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleEmail = (event: any) => {
+        setEmail(event.target.value);
+    }
+
+    const handlePassword = (event: any) => {
+        setPassword(event.target.value);
+    }
+
   return (
     <AuthPage>
         <div className="bg-white p-8 w-96 rounded-lg shadow-lg flex justify-center items-center flex-col">
             <h2 className="mb-6 font-bold text-3xl text-gray-800">Welcome Back</h2>
             <div className="mb-4">
-                <input className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" type="text" placeholder="Email address"/>
+                <input 
+                    className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                    type="text"
+                    value={email} 
+                    onChange={handleEmail}
+                    placeholder="Email address"
+                />
             </div>
             <div className="mb-4">
-                <input className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" type="password" placeholder="Password"/>
+                <input 
+                    className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                    type="password" 
+                    value={password}
+                    onChange={handlePassword}
+                    placeholder="Password"
+                />
             </div>
             <Link to="/dashboard">
             <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 rounded-sm">
