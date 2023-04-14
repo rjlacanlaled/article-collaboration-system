@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import NotificationDropdown from './NotificationDropdown';
 import UserAvatar from './UserAvatar';
 
 function Header() {
-
-  const [showProfile, setShowProfile] = useState(false);
 
   return (
     <>

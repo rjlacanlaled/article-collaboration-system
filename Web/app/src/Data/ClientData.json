@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "client": "Teddy Swap",
+        "seo": "JR",
+        "contractType": "6 Months",
+        "paymentPlan": "2 months",
+        "paymentStatus": false,
+        "managedBy": "SearchWork",
+        "createdAt": "Friday, March 17, 2023"
+    },
+    {
+        "id": 1,
+        "client": "Teddy Swap",
+        "seo": "JR",
+        "contractType": "6 Months",
+        "paymentPlan": "2 months",
+        "paymentStatus": true,
+        "managedBy": "SearchWork",
+        "createdAt": "Friday, March 17, 2023"
+    }
+]

@@ -5,7 +5,7 @@ import Signup from './Components/Signup';
 import SignupSuccess from './Components/SignupSuccess';
 import ResetPassword from './Components/ResetPassword';
 import DashboardPage from './Pages/DashboardPage';
-import ProjectBoard from './Components/ProjectBoard';
+import ProjectBoard from './Components/KanbanBoard';
 import DashboardContent from './Components/DashboardContent';
 import TaskList from './Components/TaskList';
 import AdminDashboard from './Components/AdminDashboard';

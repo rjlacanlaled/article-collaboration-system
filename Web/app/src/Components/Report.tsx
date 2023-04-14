@@ -1,10 +1,9 @@
 import React from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import UserData from '../Data/UserData'
-
+import UserData from '../Data/UserData.json'
 import ExportButton from './ExportButton';
 import TimeFrame from './DatePickerViews';
-import ArticleTable from './ArticleTable';
+import ArticleTable from './CompletedArticle';
 
 function Report() {
   return (

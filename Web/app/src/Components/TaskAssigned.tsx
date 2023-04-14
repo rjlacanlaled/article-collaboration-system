@@ -1,16 +1,16 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Slide from '@mui/material/Slide';
-import TaskData from '../Data/TaskData';
+import TaskData from '../Data/TaskData.json';
 import SelectUser from './SelectUser';
 
 export default function TaskAssigned() {
 
-    const [expanded, setExpanded] = React.useState(true);
+    const [expanded, setExpanded] = useState(true);
 
     const handleAccordionChange = () => {
       setExpanded(!expanded);
@@ -26,7 +26,7 @@ export default function TaskAssigned() {
         >
           <Typography>Details</Typography>
         </AccordionSummary>
-         {TaskData.filter(task => task.id === 6).map((task) => ( 
+         {TaskData.filter(task => task.id === 4).map((task) => ( 
             <Slide direction="up" in={expanded} mountOnEnter unmountOnExit>
             <div className='p-2 flex flex-col items-start h-content relative text-sm'>
               <div className='flex items-center'>
@@ -40,7 +40,7 @@ export default function TaskAssigned() {
                 <div className='flex items-center ml-2'>
                   <img 
                     className="mr-2 w-6 h-6 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    src={task.userProfile}
                     alt="Jese Leos" 
                   />
                   <p>{task.reporter}</p>
