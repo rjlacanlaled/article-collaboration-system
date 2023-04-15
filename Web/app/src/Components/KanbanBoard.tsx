@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AddBoard from './AddBoard'
 import BoardMenu from './BoardMenu';
 import TaskItems from './TaskItems';
-import AddSwimLaneList from '../modals/AddSwimLaneList';
+import AddSwimLaneList from '../modals/AddItem';
 
 type Columns = {
   [key: string]: {

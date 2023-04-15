@@ -9,52 +9,44 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 
 function CreateContract() {
 
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useState('');
-  const [seo, setSeo] = useState('');
-  const [payment, setPayment] = useState('');
-  const [paymentStatus, setPaymentStatus] = useState('');
-  const [contract, setContract] = useState('');
-  const [manage, setManage] = useState('')
+  const [contractData, setContractData] = useState(
+    {
+      client: "",
+      seo: "",
+      contract: "",
+      payment: "",
+      paymentStatus: "",
+      manage: ""
+    }
+  )
 
-  const HandleClient = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setClient(event.target.value)
+  const handleChange = (e: any) => {
+    setContractData(prevContractData => {
+      return {
+        ...prevContractData,
+        [e.target.name]: e.target.value
+      }
+    })
   }
 
-  const handleSeo = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSeo(event.target.value)
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
   }
-
-  const handleContract = (event: SelectChangeEvent) => {
-    setContract(event.target.value);
-  };
-
-  const handlePayment = (event: SelectChangeEvent) => {
-    setPayment(event.target.value);
-  };
-
-  const handlePaymentStatus = (event: SelectChangeEvent) => {
-    setPaymentStatus(event.target.value);
-  };
-
-  const handleManage = (event: SelectChangeEvent) => {
-    setManage(event.target.value);
-  }
-
 
   return (
     <>
-        <p className="rounded-lg p-5 bg-white drop-shadow-md space-y-3 dark:hover:bg-slate-300 cursor-pointer" onClick={() => setOpen(true)}>
+        <div className="rounded-lg p-5 bg-white drop-shadow-md space-y-3 dark:hover:bg-slate-300 cursor-pointer" onClick={() => setOpen(true)}>
           <div className="flex items-center space-x-3">
             <img src={AddIcon} alt="add-task" className='h-6 w-6'/>
             <h3 className="text-slate-900 group-hover:text-white text-sm font-semibold">Create Contract</h3>
           </div>
-        </p>
+        </div>
        <Modal open={open} onClose={() => setOpen(false)}>
        <ModalDialog
          aria-labelledby="basic-modal-dialog-title"
@@ -70,17 +62,21 @@ function CreateContract() {
              <FormControl>
                <FormLabel>Client</FormLabel>
                <Input
-                 autoFocus
-                 value={client}
-                 onChange={HandleClient}
+                  type="text"
+                  name="client"
+                  value={contractData.client}
+                  onChange={handleChange}
+                  autoFocus
                />
              </FormControl>
              <FormControl>
                <FormLabel>SEO</FormLabel>
                <Input
-                 required
-                 value={seo}
-                 onChange={handleSeo}
+                  type="text"
+                  name="seo"
+                  value={contractData.seo}
+                  onChange={handleChange}
+                  required
                />
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -88,17 +84,19 @@ function CreateContract() {
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={contract}
+                  type="text"
+                  name="contract"
+                  value={contractData.contract}
                   label="Contract"
-                  onChange={handleContract}
+                  onChange={handleChange}
                   sx={{ borderRadius: '7px', color: 'black' }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={4}>Open</MenuItem>
-                  <MenuItem value={7}>6 Months</MenuItem>
-                  <MenuItem value={5}>1 Year</MenuItem>
+                  <MenuItem value="Open">Open</MenuItem>
+                  <MenuItem value="6 Months">6 Months</MenuItem>
+                  <MenuItem value="1 Year">1 Year</MenuItem>
                 </Select>
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -106,16 +104,18 @@ function CreateContract() {
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={payment}
+                  type="text"
+                  name="payment"
+                  value={contractData.payment}
                   label="Payment"
-                  onChange={handlePayment}
+                  onChange={handleChange}
                   sx={{ borderRadius: '7px', }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={11}>Full Payment</MenuItem>
-                  <MenuItem value={14}>2 Months Advance</MenuItem>
+                  <MenuItem value="Full Payment">Full Payment</MenuItem>
+                  <MenuItem value="2 months Advance">2 Months Advance</MenuItem>
                 </Select>
              </FormControl>
                  <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -123,16 +123,18 @@ function CreateContract() {
                   <Select
                     labelId="demo-select-small"
                     id="demo-select-small"
-                    value={paymentStatus}
-                    label="Payment"
-                    onChange={handlePaymentStatus}
+                    type="text"
+                    name="paymentStatus"
+                    value={contractData.paymentStatus}
+                    label="PaymentStatus"
+                    onChange={handleChange}
                     sx={{ borderRadius: '7px', }}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={1}>Paid</MenuItem>
-                    <MenuItem value={0}>Not Paid</MenuItem>
+                    <MenuItem value="Paid">Paid</MenuItem>
+                    <MenuItem value="Not Paid">Not Paid</MenuItem>
                   </Select>
               </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -140,19 +142,21 @@ function CreateContract() {
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={manage}
+                  type="text"
+                  name="manage"
+                  value={contractData.manage}
                   label="Managed"
-                  onChange={handleManage}
+                  onChange={handleChange}
                   sx={{ borderRadius: '7px', }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>SearchWorks</MenuItem>
-                  <MenuItem value={20}>Client</MenuItem>
+                  <MenuItem value="SearchWorks">SearchWorks</MenuItem>
+                  <MenuItem value="Client ">Client</MenuItem>
                 </Select>
              </FormControl>
-             <Button type="submit">Submit</Button>
+             <Button onSubmit={handleSubmit}>Submit</Button>
            </Stack>
          </form>
        </ModalDialog>

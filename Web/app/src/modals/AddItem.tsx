@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -9,19 +9,33 @@ import Stack from '@mui/joy/Stack';
 import Add from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import DatePicker from '../Components/DatePicker';
 
-function AddSwimLaneList() {
-  const [open, setOpen] = React.useState(false);
-  const [type, setType] = React.useState('');
+function AddItem() {
 
-  const handleType = (event: SelectChangeEvent) => {
-    setType(event.target.value);
-  };
+  const [open, setOpen] = useState(false);
+
+  const [taskData, setTaskData] = useState(
+    {
+      name: "",
+      description: "",
+      type: "",
+      words: ""
+    }
+  )
+
+  const handleChange = (e:any) => {
+    setTaskData(prevTaskData => {
+      return {
+          ...prevTaskData,
+          [e.target.name]: e.target.value
+      }
+    }) 
+  }
 
   return (
-    <React.Fragment>
+    <>
     <Button
       variant="plain"
       color="neutral"
@@ -39,20 +53,28 @@ function AddSwimLaneList() {
          size="lg"
        >
          <Typography id="basic-modal-dialog-title" component="h2">
-           Create new project
+           Create new Task
          </Typography>
          <form>
            <Stack spacing={2}>
              <FormControl>
                <FormLabel>Name</FormLabel>
                <Input
-                 autoFocus
+                  type="text"
+                  name="name"
+                  value={taskData.name}
+                  onChange={handleChange}
+                  autoFocus
                />
              </FormControl>
              <FormControl>
                <FormLabel>Description</FormLabel>
                <Input
-                 required
+                  type="text"
+                  name="description"
+                  value={taskData.description}
+                  onChange={handleChange}
+                  required
                />
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -60,22 +82,28 @@ function AddSwimLaneList() {
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={type}
+                  type="text"
+                  name="type"
+                  value={taskData.type}
                   label="Age"
-                  onChange={handleType}
+                  onChange={handleChange}
                   sx={{ borderRadius: '7px' }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Blog</MenuItem>
-                  <MenuItem value={20}>Guest Post</MenuItem>
+                  <MenuItem value="Blog">Blog</MenuItem>
+                  <MenuItem value="Guest Post">Guest Post</MenuItem>
                 </Select>
              </FormControl>
              <FormControl>
                <FormLabel>Words</FormLabel>
                <Input
-                 required
+                  type="text"
+                  name="words"
+                  value={taskData.words}
+                  onChange={handleChange}
+                  required
                />
              </FormControl>
               <FormControl>
@@ -86,13 +114,13 @@ function AddSwimLaneList() {
                 <FormLabel>SEO Deadline</FormLabel>
                 <DatePicker/>
               </FormControl>
-             <Button type="submit">Submit</Button>
+             <Button>Submit</Button>
            </Stack>
          </form>
        </ModalDialog>
       </Modal>
-  </React.Fragment>
+  </>
   );
 }
 
-export default AddSwimLaneList
+export default AddItem

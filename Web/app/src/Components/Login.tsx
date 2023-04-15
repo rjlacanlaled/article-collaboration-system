@@ -7,15 +7,17 @@ import AuthPage from '../Pages/AuthPage'
 
 function Login() {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [formData, setFormData] = useState(
+        {email:"", password: ""}
+    )
 
-    const handleEmail = (event: any) => {
-        setEmail(event.target.value);
-    }
-
-    const handlePassword = (event: any) => {
-        setPassword(event.target.value);
+    const handleChange = (e: any) => {
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [e.target.name]: e.target.value
+            }
+        })
     }
 
   return (
@@ -25,18 +27,20 @@ function Login() {
             <div className="mb-4">
                 <input 
                     className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                    name="email"
                     type="text"
-                    value={email} 
-                    onChange={handleEmail}
+                    value={formData.email} 
+                    onChange={handleChange}
                     placeholder="Email address"
                 />
             </div>
             <div className="mb-4">
                 <input 
                     className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                    name="password"
                     type="password" 
-                    value={password}
-                    onChange={handlePassword}
+                    value={formData.password}
+                    onChange={handleChange}
                     placeholder="Password"
                 />
             </div>

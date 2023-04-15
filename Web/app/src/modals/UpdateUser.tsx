@@ -11,11 +11,16 @@ import UpdateIcon from '../Assets/Images/edit-icon.svg'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 function UpdateUser() {
-  const [open, setOpen] = useState(false);
-  const [user, setUser] = useState('');
 
-  const handleUser = (event: SelectChangeEvent) => {
-    setUser(event.target.value)
+  const [open, setOpen] = useState(false);
+  const [userRole, setUserRole] = useState('');
+
+  const handleUserRole = (event: SelectChangeEvent) => {
+    setUserRole(event.target.value)
+  }
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
   }
 
   return (
@@ -43,37 +48,32 @@ function UpdateUser() {
             <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
               Select the role of the user.
             </Typography>
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                setOpen(false);
-              }}
-            >
+            <form>
               <Stack spacing={2}>
               <FormControl sx={{ m: 1, minWidth: 120}} size="md">
                   <FormLabel id="demo-select-small" sx={{color: 'black' }}>Role</FormLabel>
                   <Select
+                    label="Contract"
                     labelId="demo-select-small"
                     id="demo-select-small"
-                    value={user}
-                    label="Contract"
-                    onChange={handleUser}
+                    value={userRole}
+                    onChange={handleUserRole}
                     sx={{ borderRadius: '7px', color: 'black' }}
                   >
-                    <MenuItem value="3">
+                    <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={8}>Member</MenuItem>
-                    <MenuItem value={5}>Admin</MenuItem>
-                    <MenuItem value={14}>Content Manager</MenuItem>
-                    <MenuItem value={15}>Content Writer</MenuItem>
-                    <MenuItem value={10}>SEO Manager</MenuItem>
-                    <MenuItem value={13}>SEO Specialist</MenuItem>
-                    <MenuItem value={12}>Web Developer</MenuItem>
-                    <MenuItem value={7}>Client</MenuItem>
+                    <MenuItem value="Member">Member</MenuItem>
+                    <MenuItem value="Admin">Admin</MenuItem>
+                    <MenuItem value="Content Manager">Content Manager</MenuItem>
+                    <MenuItem value="Content Writer">Content Writer</MenuItem>
+                    <MenuItem value="SEO Manager">SEO Manager</MenuItem>
+                    <MenuItem value="SEO Specialist">SEO Specialist</MenuItem>
+                    <MenuItem value="Web Developer">Web Developer</MenuItem>
+                    <MenuItem value="Client">Client</MenuItem>
                   </Select>
                 </FormControl>
-                <Button type="submit">Submit</Button>
+                <Button onSubmit={handleSubmit}>Submit</Button>
               </Stack>
             </form>
           </ModalDialog>
