@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 import SignupSuccess from './Components/SignupSuccess';
-import ResetPassword from './Components/ResetPassword';
+import ForgotPassword from './Components/ForgotPassword';
 import DashboardPage from './Pages/DashboardPage';
 import ProjectBoard from './Components/KanbanBoard';
 import DashboardContent from './Components/DashboardContent';
@@ -18,6 +18,7 @@ import Board from './Components/Board';
 import ViewTask from './Components/ViewTask';
 import ClientBoard from './Components/ClientBoard';
 import Report from './Components/Report';
+import ResetPassword from './Components/ResetPassword';
 import './App.css';
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
         <Route path="/" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/success" element={<SignupSuccess/>} />
-        <Route path="/reset-password" element={<ResetPassword/>} />
+        <Route path="/forgotpassword" element={<ForgotPassword/>} />
         <Route path="/dashboard" element={<DashboardPage children={undefined}/>} />
         <Route path="/board" element={<ProjectBoard/>} />
         <Route path="/task" element={<TaskList/>} />
@@ -42,6 +43,7 @@ function App() {
         <Route path="/viewTask/:id" element={<ViewTask />} />
         <Route path="/client" element={<ClientBoard />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
       </Routes>
     </div>
   );

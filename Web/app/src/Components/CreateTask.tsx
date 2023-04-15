@@ -9,17 +9,32 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import DatePicker from './DatePicker';
 
-function CreateButton() {
+function CreateTask() {
 
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState('');
 
-  const handleType = (event: SelectChangeEvent) => {
-    setType(event.target.value);
-  };
+  const [taskData, setTaskData] = useState(
+    {
+      name: "",
+      description: "",
+      type: "",
+      words: ""
+    }
+  )
+
+  const handleChange = (e:any) => {
+    setTaskData(prevTaskData => {
+      return {
+          ...prevTaskData,
+          [e.target.name]: e.target.value
+      }
+    }) 
+  }
+
+
 
   return (
     <>
@@ -40,20 +55,28 @@ function CreateButton() {
          size="lg"
        >
          <Typography id="basic-modal-dialog-title" component="h2">
-           Create new project
+           Create new Task
          </Typography>
          <form>
            <Stack spacing={2}>
              <FormControl>
                <FormLabel>Name</FormLabel>
                <Input
-                 autoFocus
+                  type="text"
+                  name="name"
+                  value={taskData.name}
+                  onChange={handleChange}
+                  autoFocus
                />
              </FormControl>
              <FormControl>
                <FormLabel>Description</FormLabel>
                <Input
-                 required
+                  type="text"
+                  name="description"
+                  value={taskData.description}
+                  onChange={handleChange}
+                  required
                />
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -61,9 +84,11 @@ function CreateButton() {
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={type}
+                  type="text"
+                  name="type"
+                  value={taskData.type}
                   label="Age"
-                  onChange={handleType}
+                  onChange={handleChange}
                   sx={{ borderRadius: '7px' }}
                 >
                   <MenuItem value="">
@@ -76,7 +101,11 @@ function CreateButton() {
              <FormControl>
                <FormLabel>Words</FormLabel>
                <Input
-                 required
+                  type="text"
+                  name="words"
+                  value={taskData.words}
+                  onChange={handleChange}
+                  required
                />
              </FormControl>
               <FormControl>
@@ -96,4 +125,4 @@ function CreateButton() {
   )
 }
 
-export default CreateButton
+export default CreateTask

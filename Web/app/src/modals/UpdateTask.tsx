@@ -7,38 +7,36 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import Typography from '@mui/joy/Typography';
 import UpdateIcon from '../Assets/Images/edit-icon.svg'
 
 function UpdateTask() {
 
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [client, setClient] = useState('');
-  const [taskType, setTaskType] = useState('');
-  const [words, setWords] = useState('');
 
-  const handleTitle = (event: SelectChangeEvent) => {
-    setTitle(event.target.value);
-  };
+  const [taskData, setTaskData] = useState (
+    {
+      title: "",
+      description: "",
+      client: "",
+      words: "",
+      type: ""
+    }
+  )
 
-  const handleDescription = (event: SelectChangeEvent) => {
-    setDescription(event.target.value);
-  };
+  const handleChange = (e:any) => {
+    setTaskData(prevTaskData => {
+        return {
+            ...prevTaskData,
+            [e.target.name]: e.target.value
+        }
+      })  
+  }
 
-  const handleClient = (event: SelectChangeEvent) => {
-    setClient(event.target.value);
-  };
-
-  const handleTask = (event: SelectChangeEvent) => {
-    setTaskType(event.target.value);
-  };
-
-  const handleWords = (event: SelectChangeEvent) => {
-    setWords(event.target.value);
-  };
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+  }
 
   return (
     <>
@@ -75,24 +73,30 @@ function UpdateTask() {
                 <FormControl>
                     <FormLabel>Title</FormLabel>
                     <Input 
-                      value={title}
-                      onChange={handleTitle}
+                      type="text"
+                      name="title"
+                      value={taskData.title}
+                      onChange={handleChange}
                       autoFocus required 
                     />
                 </FormControl>
                 <FormControl>
                     <FormLabel>Description</FormLabel>
                     <Input 
-                      value={description}
-                      onChange={handleDescription}
+                      type="text"
+                      name="description"
+                      value={taskData.description}
+                      onChange={handleChange}
                       autoFocus required 
                     />
                 </FormControl>
                 <FormControl>
                     <FormLabel>Client</FormLabel>
-                    <Input 
-                      value={client}
-                      onChange={handleClient}
+                    <Input
+                      type="text"
+                      name="client" 
+                      value={taskData.client}
+                      onChange={handleChange}
                       autoFocus required 
                     />
                 </FormControl>
@@ -101,28 +105,30 @@ function UpdateTask() {
                   <Select
                     labelId="demo-select-small"
                     id="demo-select-small"
-                    value={taskType}
+                    name="type"
+                    value={taskData.type}
                     label="Contract"
-                    onChange={handleTask}
+                    onChange={handleChange}
                     sx={{ borderRadius: '7px', color: 'black' }}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={4}>Blog</MenuItem>
-                    <MenuItem value={9}>Guest Post</MenuItem>
+                    <MenuItem value="Blog">Blog</MenuItem>
+                    <MenuItem value="Guest Post">Guest Post</MenuItem>
                   </Select>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Words</FormLabel>
-                    <Input 
-                      value={words}
-                      onChange={handleWords}
-                      autoFocus 
-                      required 
+                    <Input
+                      type="text"
+                      name="words" 
+                      value={taskData.words}
+                      onChange={handleChange}
+                      autoFocus required 
                     />
                 </FormControl>
-                <Button type="submit">Submit</Button>
+                <Button onSubmit={handleSubmit}>Submit</Button>
               </Stack>
             </form>
           </ModalDialog>

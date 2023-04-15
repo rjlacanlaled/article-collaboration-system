@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
@@ -6,9 +6,11 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 
 function ApproveUser() {
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = useState(false);
+
   return (
-    <React.Fragment>
+    <>
       <Button
         variant="solid"
         color="success"
@@ -39,14 +41,14 @@ function ApproveUser() {
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button type="submit" color="neutral" className='w-24' size='sm'>Cancel</Button>
-                <Button type="submit" color="success" className='w-24' size='sm'>Approve</Button>
+                <Button color="neutral" className='w-24' size='sm'>Cancel</Button>
+                <Button color="success" className='w-24' size='sm'>Approve</Button>
               </Stack>
             </Stack>
           </form>
         </ModalDialog>
       </Modal>
-    </React.Fragment>
+    </>
   );
 }
 

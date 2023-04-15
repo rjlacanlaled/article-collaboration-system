@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
@@ -7,9 +7,11 @@ import Typography from '@mui/joy/Typography';
 import DeleteIcon from '../Assets/Images/delete-icon.svg'
 
 function DeleteClient() {
-  const [open, setOpen] = React.useState(false);
+  
+  const [open, setOpen] = useState(false);
+
   return (
-    <React.Fragment>
+    <>
       <Button
         className='h-6'
         variant="solid"
@@ -41,14 +43,14 @@ function DeleteClient() {
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button type="submit" color="neutral" className='w-24' size='sm'>Cancel</Button>
-                <Button type="submit" color="danger" className='w-24' size='sm'>Delete</Button>
+                <Button color="neutral" className='w-24' size='sm'>Cancel</Button>
+                <Button color="danger" className='w-24' size='sm'>Delete</Button>
               </Stack>
             </Stack>
           </form>
         </ModalDialog>
       </Modal>
-    </React.Fragment>
+    </>
   );
 }
 

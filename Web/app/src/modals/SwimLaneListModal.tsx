@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/joy/Button';
 import Stack from '@mui/joy/Stack';
 import Modal from '@mui/joy/Modal';
@@ -8,9 +8,11 @@ import Typography from '@mui/joy/Typography';
 
 
 const SwimLaneListModal = () => {
-  const [open, setOpen] = React.useState('');
+
+  const [open, setOpen] = useState('');
+
   return (
-    <React.Fragment>
+    <>
       <Stack direction="row" spacing={1}>
         <Button variant="outlined" color="neutral" onClick={() => setOpen('center')}>
           Center
@@ -31,7 +33,7 @@ const SwimLaneListModal = () => {
           </Typography>
         </ModalDialog>
       </Modal>
-    </React.Fragment>
+    </>
   );
 };
 
