@@ -34,6 +34,10 @@ function AddItem() {
     }) 
   }
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+  };
+
   return (
     <>
     <Button
@@ -55,7 +59,7 @@ function AddItem() {
          <Typography id="basic-modal-dialog-title" component="h2">
            Create new Task
          </Typography>
-         <form>
+         <form onSubmit={handleSubmit}>
            <Stack spacing={2}>
              <FormControl>
                <FormLabel>Name</FormLabel>

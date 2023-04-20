@@ -59,7 +59,7 @@ function Login() {
             <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-3 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><FacebookIcon className="w-6 h-full mr-3"/>Continue With Facebook</button>
             <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-3 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><LinkedinIcon className="w-6 h-full mr-3"/>Continue With LinkedIn</button>
             <div className="mt-4 w-80 text-center">
-                <Link to="/reset-password" className='text-blue-500 text-xs leading-normal tracking-wide'>Forgot Password?</Link>
+                <Link to="/forgotpassword" className='text-blue-500 text-xs leading-normal tracking-wide'>Forgot Password?</Link>
             </div>
         </div>
     </AuthPage>

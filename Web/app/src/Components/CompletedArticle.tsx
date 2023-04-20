@@ -16,7 +16,7 @@ function CompletedArticle() {
           />
         ))}
         <div className="flex justify-start flex-col w-full h-fit bg-white p-6 text-center drop-shadow rounded-md m-4">
-            <h2 className='text-gray-900 lining-nums font-bold'> Article's Completed</h2>
+            <h2 className='text-gray-900 lining-nums font-bold'> Task Completed</h2>
             <div className="bg-white flex justify-between items-center">
                 <DatePickerViews />
                 <label htmlFor="table-search" className="sr-only">Search</label>

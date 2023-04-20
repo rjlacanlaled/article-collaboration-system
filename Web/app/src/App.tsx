@@ -19,6 +19,7 @@ import ViewTask from './Components/ViewTask';
 import ClientBoard from './Components/ClientBoard';
 import Report from './Components/Report';
 import ResetPassword from './Components/ResetPassword';
+import ResetEmail from './Components/ResetEmail';
 import './App.css';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path="/client" element={<ClientBoard />} />
         <Route path="/report" element={<Report />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/resetemail" element={<ResetEmail />} />
       </Routes>
     </div>
   );

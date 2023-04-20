@@ -5,10 +5,18 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import DeleteIcon from '../Assets/Images/delete-icon.svg'
+import clientData from '../Data/ClientData.json'
 
 function DeleteClient() {
   
   const [open, setOpen] = useState(false);
+  const [clients, setClients] = useState(clientData)
+
+  const removeClient = (id: number) => {
+    const newList = clients.filter((client: { id: number; }) => client.id !== id);
+    setClients(newList);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -43,7 +51,7 @@ function DeleteClient() {
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button color="neutral" className='w-24' size='sm'>Cancel</Button>
+                <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
                 <Button color="danger" className='w-24' size='sm'>Delete</Button>
               </Stack>
             </Stack>

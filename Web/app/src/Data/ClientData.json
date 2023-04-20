@@ -6,16 +6,20 @@
         "contractType": "6 Months",
         "paymentPlan": "2 months",
         "paymentStatus": false,
+        "paymentAmount": 9000,
+        "paymentDate": "March 17, 2023",
         "managedBy": "SearchWork",
         "createdAt": "Friday, March 17, 2023"
     },
     {
-        "id": 1,
+        "id": 2,
         "client": "Teddy Swap",
         "seo": "JR",
         "contractType": "6 Months",
         "paymentPlan": "2 months",
         "paymentStatus": true,
+        "paymentAmount": 5000,
+        "paymentDate": "March 22, 2023",
         "managedBy": "SearchWork",
         "createdAt": "Friday, March 17, 2023"
     }
