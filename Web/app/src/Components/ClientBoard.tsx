@@ -38,6 +38,12 @@ function ClientBoard() {
                               Payment Status
                           </th>
                           <th scope="col" className="px-6 py-3">
+                              Payment Amount
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                              Payment Date
+                          </th>
+                          <th scope="col" className="px-6 py-3">
                               Managed By
                           </th>
                           <th scope="col" className="px-6 py-3">
@@ -75,6 +81,12 @@ function ClientBoard() {
                             : <p className='bg-gray-500 rounded-lg p-1 w-20 text-center'>Not Paid</p>
                             }
                             </td>
+                            <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                                ₱{client.paymentAmount}
+                            </th>
+                            <th scope="row" className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                                {client.paymentDate}
+                            </th>
                             <td className="px-6 py-4">
                                 {client.managedBy}
                             </td>

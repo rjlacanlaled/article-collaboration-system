@@ -15,12 +15,12 @@ function UpdateUser() {
   const [open, setOpen] = useState(false);
   const [userRole, setUserRole] = useState('');
 
-  const handleUserRole = (event: SelectChangeEvent) => {
-    setUserRole(event.target.value)
+  const handleUserRole = (e: SelectChangeEvent) => {
+    setUserRole(e.target.value)
   }
 
   const handleSubmit = (e:any) => {
-    e.preventDefault();
+    e.preventDefault(); 
   }
 
   return (
@@ -51,11 +51,9 @@ function UpdateUser() {
             <form>
               <Stack spacing={2}>
               <FormControl sx={{ m: 1, minWidth: 120}} size="md">
-                  <FormLabel id="demo-select-small" sx={{color: 'black' }}>Role</FormLabel>
+                  <FormLabel sx={{color: 'black' }}>Role</FormLabel>
                   <Select
-                    label="Contract"
-                    labelId="demo-select-small"
-                    id="demo-select-small"
+                    label="Role"
                     value={userRole}
                     onChange={handleUserRole}
                     sx={{ borderRadius: '7px', color: 'black' }}

@@ -43,7 +43,7 @@ function DeleteUser() {
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button color="neutral" className='w-24' size='sm'>Cancel</Button>
+                <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
                 <Button color="danger" className='w-24' size='sm'>Delete</Button>
               </Stack>
             </Stack>

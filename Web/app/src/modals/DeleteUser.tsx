@@ -5,10 +5,16 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import DeleteIcon from '../Assets/Images/delete-icon.svg'
+import DataUser from '../Data/UserData.json'
 
 function DeleteUser() {
 
   const [open, setOpen] = useState(false);
+
+  const deleteUserById = (userId:number) => {
+    const updatedUserList = DataUser.filter(user => user.id !== userId);
+    console.log(updatedUserList); // You can save the updatedUserList to a state variable or update the original array as per your requirement.
+  }
 
   return (
     <>
@@ -36,14 +42,15 @@ function DeleteUser() {
             Are you sure you want to delete this user?
           </Typography>
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
+            onSubmit={(e) => {
+              e.preventDefault();
+              deleteUserById(123); // Pass the ID of the user to delete
               setOpen(false);
             }}
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button color="neutral" className='w-24' size='sm'>Cancel</Button>
+                <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
                 <Button color="danger" className='w-24' size='sm'>Delete</Button>
               </Stack>
             </Stack>
