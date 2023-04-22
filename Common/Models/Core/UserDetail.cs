@@ -1,8 +1,9 @@
 namespace Common.Models.Core;
 
-public class UserDetails
+public class UserDetail
 {
-    public User User { get; init; } = new();
+    public int Id { get; init; }
+    public int UserId { get; init; } = new();
     public string FirstName { get; set; } = string.Empty;
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = string.Empty;

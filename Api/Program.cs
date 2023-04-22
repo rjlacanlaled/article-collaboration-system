@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Sink.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,12 @@ builder.Services.AddAuthentication(options =>
            });
 
 builder.Services.AddDbContextFactory<IdentityApplicationContext>(options =>
+{
+    options.EnableSensitiveDataLogging(true);
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AcsPostgres"));
+});
+
+builder.Services.AddDbContextFactory<ApplicationContext>(options =>
 {
     options.EnableSensitiveDataLogging(true);
     options.UseNpgsql(builder.Configuration.GetConnectionString("AcsPostgres"));
