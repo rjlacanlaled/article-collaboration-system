@@ -32,17 +32,16 @@ public class ApplicationContext : DbContext
         modelBuilder.Entity<UserDetail>().HasKey(u => u.Id);
         modelBuilder.Entity<UserRole>().HasKey(u => u.Id);
 
-
-        // Relationship
-        // modelBuilder.Entity<Comment>()
-        //     .HasOne(c => c.ProjectTask)
-        //     .WithMany(p => p.Comments)
-        //     .HasForeignKey(c => c.TaskId);
-
-        // modelBuilder.Entity<ProjectTask>()
-        //     .HasMany(p => p.Comments)
-        //     .WithOne(c => c.ProjectTask)
-        //     .HasForeignKey(p => p.CommentId);
+        modelBuilder.Entity<Comment>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<Contract>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<ContractPayment>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<Notification>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<NotificationAssignee>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<ProjectTask>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<Role>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<User>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<UserDetail>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<UserRole>().Property(c => c.Id).ValueGeneratedOnAdd();
 
         base.OnModelCreating(modelBuilder);
     }

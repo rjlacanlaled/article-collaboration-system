@@ -166,7 +166,6 @@ namespace Data.Migrations
                     Message = table.Column<string>(type: "text", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CommentId = table.Column<int>(type: "integer", nullable: false),
                     ProjectTaskId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
