@@ -116,7 +116,7 @@ function KanbanBoard() {
             return (
                <div style={{   display: "flex",   flexDirection: "column",  alignItems: "center"}} key={columnId}>
                   <Droppable droppableId={columnId} key={columnId}>
-                    {(provided, snapshot) => {
+                    {(provided) => {
                       return (
                         <div {...provided.droppableProps} ref={provided.innerRef} className='w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative'>
                           <div className='p-1.5 flex justify-between'>
@@ -127,7 +127,7 @@ function KanbanBoard() {
                           {column.items.map((item, index) => {
                             return (
                               <Draggable key={item.id} draggableId={String(item.id)} index={index}>
-                                {(provided, snapshot) => {
+                                {(provided) => {
                                   return (
                                     <TaskItems
                                       name={item.title} 
@@ -155,8 +155,8 @@ function KanbanBoard() {
           })}
           <div className='self-start'>
             <AddBoard 
-            onAddBoard={addBoard} 
-            initialValue={''}
+              onAddBoard={addBoard} 
+              initialValue={''}
             />
           </div>
         </DragDropContext>
