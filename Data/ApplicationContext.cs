@@ -12,6 +12,7 @@ public class ApplicationContext : DbContext
     public DbSet<NotificationAssignee> NotificationAssignees => Set<NotificationAssignee>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<ProjectTask> ProjectTasks => Set<ProjectTask>();
+    public DbSet<ProjectTaskAssignee> ProjectTaskAssignees => Set<ProjectTaskAssignee>();
     public DbSet<User> Users => Set<User>();
     public DbSet<UserDetail> UserDetails => Set<UserDetail>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();
@@ -27,6 +28,7 @@ public class ApplicationContext : DbContext
         modelBuilder.Entity<Notification>().HasKey(n => n.Id);
         modelBuilder.Entity<NotificationAssignee>().HasKey(n => n.Id);
         modelBuilder.Entity<ProjectTask>().HasKey(pt => pt.Id);
+        modelBuilder.Entity<ProjectTaskAssignee>().HasKey(pt => pt.Id);
         modelBuilder.Entity<Role>().HasKey(r => r.Id);
         modelBuilder.Entity<User>().HasKey(u => u.Id);
         modelBuilder.Entity<UserDetail>().HasKey(u => u.Id);
@@ -38,6 +40,7 @@ public class ApplicationContext : DbContext
         modelBuilder.Entity<Notification>().Property(c => c.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<NotificationAssignee>().Property(c => c.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<ProjectTask>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<ProjectTaskAssignee>().Property(c => c.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<Role>().Property(c => c.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<User>().Property(c => c.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<UserDetail>().Property(c => c.Id).ValueGeneratedOnAdd();

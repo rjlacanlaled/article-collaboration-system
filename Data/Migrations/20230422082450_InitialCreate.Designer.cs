@@ -12,7 +12,7 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230422073945_InitialCreate")]
+    [Migration("20230422082450_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -107,6 +107,9 @@ namespace Data.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("ContractId")
                         .HasColumnType("integer");
