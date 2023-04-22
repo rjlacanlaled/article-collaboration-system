@@ -3206,19 +3206,19 @@
     ]
   },
   "packageFolders": {
-    "/home/rjlacanlaled/.nuget/packages/": {}
+    "/home/bryansaguit/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/rjlacanlaled/article-collaboration-system/Api/Api.csproj",
+      "projectUniqueName": "/home/bryansaguit/article-collaboration-system/Api/Api.csproj",
       "projectName": "Api",
-      "projectPath": "/home/rjlacanlaled/article-collaboration-system/Api/Api.csproj",
-      "packagesPath": "/home/rjlacanlaled/.nuget/packages/",
-      "outputPath": "/home/rjlacanlaled/article-collaboration-system/Api/obj/",
+      "projectPath": "/home/bryansaguit/article-collaboration-system/Api/Api.csproj",
+      "packagesPath": "/home/bryansaguit/.nuget/packages/",
+      "outputPath": "/home/bryansaguit/article-collaboration-system/Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/rjlacanlaled/.nuget/NuGet/NuGet.Config"
+        "/home/bryansaguit/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -3230,11 +3230,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj": {
-              "projectPath": "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj"
+            "/home/bryansaguit/article-collaboration-system/Common/Common.csproj": {
+              "projectPath": "/home/bryansaguit/article-collaboration-system/Common/Common.csproj"
             },
-            "/home/rjlacanlaled/article-collaboration-system/Data/Data.csproj": {
-              "projectPath": "/home/rjlacanlaled/article-collaboration-system/Data/Data.csproj"
+            "/home/bryansaguit/article-collaboration-system/Data/Data.csproj": {
+              "projectPath": "/home/bryansaguit/article-collaboration-system/Data/Data.csproj"
             }
           }
         }

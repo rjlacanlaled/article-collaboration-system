@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/rjlacanlaled/article-collaboration-system/Data/Data.csproj": {}
+    "/home/bryansaguit/article-collaboration-system/Data/Data.csproj": {}
   },
   "projects": {
-    "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj": {
+    "/home/bryansaguit/article-collaboration-system/Common/Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj",
+        "projectUniqueName": "/home/bryansaguit/article-collaboration-system/Common/Common.csproj",
         "projectName": "Common",
-        "projectPath": "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj",
-        "packagesPath": "/home/rjlacanlaled/.nuget/packages/",
-        "outputPath": "/home/rjlacanlaled/article-collaboration-system/Common/obj/",
+        "projectPath": "/home/bryansaguit/article-collaboration-system/Common/Common.csproj",
+        "packagesPath": "/home/bryansaguit/.nuget/packages/",
+        "outputPath": "/home/bryansaguit/article-collaboration-system/Common/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/rjlacanlaled/.nuget/NuGet/NuGet.Config"
+          "/home/bryansaguit/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -63,17 +63,17 @@
         }
       }
     },
-    "/home/rjlacanlaled/article-collaboration-system/Data/Data.csproj": {
+    "/home/bryansaguit/article-collaboration-system/Data/Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/rjlacanlaled/article-collaboration-system/Data/Data.csproj",
+        "projectUniqueName": "/home/bryansaguit/article-collaboration-system/Data/Data.csproj",
         "projectName": "Data",
-        "projectPath": "/home/rjlacanlaled/article-collaboration-system/Data/Data.csproj",
-        "packagesPath": "/home/rjlacanlaled/.nuget/packages/",
-        "outputPath": "/home/rjlacanlaled/article-collaboration-system/Data/obj/",
+        "projectPath": "/home/bryansaguit/article-collaboration-system/Data/Data.csproj",
+        "packagesPath": "/home/bryansaguit/.nuget/packages/",
+        "outputPath": "/home/bryansaguit/article-collaboration-system/Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/rjlacanlaled/.nuget/NuGet/NuGet.Config"
+          "/home/bryansaguit/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -85,8 +85,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj": {
-                "projectPath": "/home/rjlacanlaled/article-collaboration-system/Common/Common.csproj"
+              "/home/bryansaguit/article-collaboration-system/Common/Common.csproj": {
+                "projectPath": "/home/bryansaguit/article-collaboration-system/Common/Common.csproj"
               }
             }
           }
