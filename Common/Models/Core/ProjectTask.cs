@@ -9,6 +9,7 @@ public class ProjectTask
     public int Type { get; set; }
     public int Words { get; set; }
     public int Timeliness { get; set; }
-    public int ContractId { get; init; }
-    public List<Comment>? Comments { get; init; } = new();
+    public int ContractId { get; set; }
+    public DateTime DateCreated { get; set; }
+    public DateTime DateUpdated { get; set; }
 }

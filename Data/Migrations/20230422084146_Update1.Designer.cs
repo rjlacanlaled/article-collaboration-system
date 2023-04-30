@@ -12,12 +12,8 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-<<<<<<<< HEAD:Data/Migrations/20230422082927_InitialCreate.Designer.cs
-    [Migration("20230422082927_InitialCreate")]
-========
-    [Migration("20230422082450_InitialCreate")]
->>>>>>>> fd1ec4b3d8fcb064cc805ed7b25b962f31b6ac27:Data/Migrations/20230422082450_InitialCreate.Designer.cs
-    partial class InitialCreate
+    [Migration("20230422084146_Update1")]
+    partial class Update1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,6 +150,9 @@ namespace Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("EmailSent")
                         .HasColumnType("boolean");

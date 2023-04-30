@@ -12,12 +12,8 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-<<<<<<<< HEAD:Data/Migrations/20230422082927_InitialCreate.Designer.cs
-    [Migration("20230422082927_InitialCreate")]
-========
-    [Migration("20230422082450_InitialCreate")]
->>>>>>>> fd1ec4b3d8fcb064cc805ed7b25b962f31b6ac27:Data/Migrations/20230422082450_InitialCreate.Designer.cs
-    partial class InitialCreate
+    [Migration("20230422090702_Update2")]
+    partial class Update2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,9 +43,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ProjectTaskId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("TaskId")
                         .HasColumnType("integer");
 
@@ -57,8 +50,6 @@ namespace Data.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectTaskId");
 
                     b.ToTable("Comments");
                 });
@@ -155,6 +146,9 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("EmailSent")
                         .HasColumnType("boolean");
 
@@ -183,6 +177,12 @@ namespace Data.Migrations
                     b.Property<int>("ContractId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -206,6 +206,28 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectTasks");
+                });
+
+            modelBuilder.Entity("Common.Models.Core.ProjectTaskAssignee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProjectTaskId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectTaskAssignees");
                 });
 
             modelBuilder.Entity("Common.Models.Core.Role", b =>
@@ -297,18 +319,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("Common.Models.Core.Comment", b =>
-                {
-                    b.HasOne("Common.Models.Core.ProjectTask", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("ProjectTaskId");
-                });
-
-            modelBuilder.Entity("Common.Models.Core.ProjectTask", b =>
-                {
-                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }
