@@ -29,7 +29,7 @@ public class UserRolesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] AddUserRolesRequest request)
     {
-        UserRole newUserRoles= new()
+        UserRole newUserRoles = new()
         {
             UserId = request.UserId,
             RoleId = request.RoleId

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import TaskData from '../Data/TaskData.json';
-import DashboardPage from '../Pages/DashboardPage';
-import EditableTitle from './EditableTitle';
+import React, { useEffect, useState } from "react";
+import TaskData from "../Data/TaskData.json";
+import DashboardPage from "../Pages/DashboardPage";
+import EditableTitle from "./EditableTitle";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import AddBoard from './AddBoard'
-import BoardMenu from './BoardMenu';
-import TaskItems from './TaskItems';
-import AddSwimLaneList from '../modals/AddItem';
+import AddBoard from "./AddBoard";
+import BoardMenu from "./BoardMenu";
+import TaskItems from "./TaskItems";
+import AddSwimLaneList from "../modals/AddItem";
 
 type Columns = {
   [key: string]: {
@@ -21,32 +21,30 @@ type Columns = {
   };
 };
 
-
 const columnsFromBackend: Columns = {
   1: {
     title: "To do",
-    items: TaskData
+    items: TaskData,
   },
   2: {
     title: "In Progress",
-    items: []
+    items: [],
   },
   3: {
     title: "For Review",
-    items: []
+    items: [],
   },
   4: {
     title: "Completed",
-    items: []
+    items: [],
   },
 };
 
-
-const onDragEnd = (result:any, columns:any, setColumns:any) => {
+const onDragEnd = (result: any, columns: any, setColumns: any) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
-  if (source.droppableId !== destination.droppableId) {   
+  if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
     const sourceItems = [...sourceColumn.items];
@@ -57,12 +55,12 @@ const onDragEnd = (result:any, columns:any, setColumns:any) => {
       ...columns,
       [source.droppableId]: {
         ...sourceColumn,
-        items: sourceItems
+        items: sourceItems,
       },
       [destination.droppableId]: {
         ...destColumn,
-        items: destItems
-      }
+        items: destItems,
+      },
     });
   } else {
     const column = columns[source.droppableId];
@@ -73,15 +71,13 @@ const onDragEnd = (result:any, columns:any, setColumns:any) => {
       ...columns,
       [source.droppableId]: {
         ...column,
-        items: copiedItems
-      }
+        items: copiedItems,
+      },
     });
   }
 };
 
-
 function KanbanBoard() {
-
   const [columns, setColumns] = useState(columnsFromBackend);
 
   const addBoard = (newBoardTitle: string) => {
@@ -89,80 +85,96 @@ function KanbanBoard() {
     const newColumn = {
       id: newColumnId,
       title: newBoardTitle,
-      items: []
+      items: [],
     };
     const updatedColumns = {
       ...columns,
-      [newColumnId]: newColumn
+      [newColumnId]: newColumn,
     };
     setColumns(updatedColumns);
   };
 
   const deleteBoard = (boardId: number) => {
     const filteredColumns = Object.keys(columns)
-      .filter(columnId => parseInt(columnId) !== boardId)
+      .filter((columnId) => parseInt(columnId) !== boardId)
       .reduce((obj: Columns, columnId) => {
         obj[columnId] = columns[columnId];
         return obj;
       }, {});
     setColumns(filteredColumns);
   };
-  
+
   return (
     <DashboardPage>
-      <div className='h-content w-full flex justify-start flex-row items-center overflow-x-scroll scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth bg-white p-6 h-content drop-shadow rounded-md m-4'>
-        <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
+      <div className="h-content w-full flex justify-start flex-row items-center overflow-x-scroll scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth bg-white p-6 h-content drop-shadow rounded-md m-4">
+        <DragDropContext
+          onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+        >
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
-               <div style={{   display: "flex",   flexDirection: "column",  alignItems: "center"}} key={columnId}>
-                  <Droppable droppableId={columnId} key={columnId}>
-                    {(provided) => {
-                      return (
-                        <div {...provided.droppableProps} ref={provided.innerRef} className='w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative'>
-                          <div className='p-1.5 flex justify-between'>
-                            <EditableTitle initialValue={column.title}/>
-                            <BoardMenu onDelete={() => deleteBoard(parseInt(columnId))} />
-                          </div>
-                          <div className='mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth'>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                key={columnId}
+              >
+                <Droppable droppableId={columnId} key={columnId}>
+                  {(provided) => {
+                    return (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className="w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative"
+                      >
+                        <div className="p-1.5 flex justify-between">
+                          <EditableTitle initialValue={column.title} />
+                          <BoardMenu
+                            onDelete={() => deleteBoard(parseInt(columnId))}
+                          />
+                        </div>
+                        <div className="mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
                           {column.items.map((item, index) => {
                             return (
-                              <Draggable key={item.id} draggableId={String(item.id)} index={index}>
+                              <Draggable
+                                key={item.id}
+                                draggableId={String(item.id)}
+                                index={index}
+                              >
                                 {(provided) => {
                                   return (
                                     <TaskItems
-                                      name={item.title} 
-                                      description={item.description} 
+                                      name={item.title}
+                                      description={item.description}
                                       image={item.userProfile}
-                                      prodDate={item.prod_date} 
-                                      provided={provided} 
-                                   />
+                                      prodDate={item.prod_date}
+                                      provided={provided}
+                                    />
                                   );
                                 }}
                               </Draggable>
                             );
                           })}
-                          </div>
-                          {provided.placeholder}  
-                          <div className='flex justify-start items-center bg-gray-200 absolute bottom-0 left-0 p-2 w-full'>
-                            <AddSwimLaneList/>
-                          </div>
                         </div>
-                      );
-                    }}
-                  </Droppable>
-               </div>
-             );
+                        {provided.placeholder}
+                        <div className="flex justify-start items-center bg-gray-200 absolute bottom-0 left-0 p-2 w-full">
+                          <AddSwimLaneList />
+                        </div>
+                      </div>
+                    );
+                  }}
+                </Droppable>
+              </div>
+            );
           })}
-          <div className='self-start'>
-            <AddBoard 
-              onAddBoard={addBoard} 
-              initialValue={''}
-            />
+          <div className="self-start">
+            <AddBoard onAddBoard={addBoard} initialValue={""} />
           </div>
         </DragDropContext>
       </div>
     </DashboardPage>
-  )
+  );
 }
 
-export default KanbanBoard
+export default KanbanBoard;

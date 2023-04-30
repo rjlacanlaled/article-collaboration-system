@@ -34,6 +34,7 @@ public class ContractPaymentsController : ControllerBase
             ContractId = request.ContractId,
             Link = request.Link,
             Amount = request.Amount,
+            ClientId = request.ClientId,
             PaymentDate = DateTime.UtcNow
         };
 
@@ -86,6 +87,16 @@ public class ContractPaymentsController : ControllerBase
     {
         List<ContractPayment> contractPayments = await _dbContext.ContractPayments
             .Where(c => c.ClientId == clientId)
+            .OrderBy(c => c.PaymentDate)
+            .ToListAsync();
+
+        return Ok(contractPayments);
+    }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> FetchAllAsync()
+    {
+        List<ContractPayment> contractPayments = await _dbContext.ContractPayments
             .OrderBy(c => c.PaymentDate)
             .ToListAsync();
 

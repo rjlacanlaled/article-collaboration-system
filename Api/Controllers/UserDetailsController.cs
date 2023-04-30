@@ -91,4 +91,23 @@ public class UserDetailsController : ControllerBase
 
         return Ok(UserDetails);
     }
+
+    // @TODO: Paginate
+    [HttpGet("all")]
+    public async Task<IActionResult> FetchAllAsync()
+    {
+        List<UserDetail> UserDetails = await _dbContext.UserDetails
+            .ToListAsync();
+
+        return Ok(UserDetails);
+    }
+
+    [HttpGet("all/pending")]
+    public async Task<IActionResult> FetchAllPendingAsync()
+    {
+        List<UserDetail> UserDetails = await _dbContext.UserDetails
+            .ToListAsync();
+
+        return Ok(UserDetails);
+    }
 }

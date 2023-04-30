@@ -94,8 +94,45 @@ public class ProjectTasksController : ControllerBase
     [HttpGet("user/{userId}")]
     public async Task<IActionResult> FetchAsync([FromRoute] int userId)
     {
+        // @TODO: join with project assignees
         List<ProjectTask> tasks = await _dbContext.ProjectTasks
             .OrderBy(c => c.DateUpdated)
+            .ToListAsync();
+
+        return Ok(tasks);
+    }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> FetchAllAsync()
+    {
+        var tasks = await _dbContext.ProjectTasks
+            .OrderBy(c => c.DateUpdated)
+            .GroupJoin(_dbContext.ProjectTaskAssignees, pt => pt.Id, pta => pta.ProjectTaskId, (pt, pta) => new { ProjectTask = pt, Assignee = pta })
+            //     .GroupJoin(_dbContext.Roles, pta => pta.RoleId, r => r.Id, (pta, r) => new { Pta = pta, Role = r })
+            //     .ToList(), pt => pt.Id, pta => pta.Pta.ProjectTaskId,
+            // (pt, pta) => new { ProjectTask = pt, Assignee = pta })
+            .Select(g => new ProjectTaskDetails()
+            {
+                ProjectTaskId = g.ProjectTask.Id,
+                Title = g.ProjectTask.Title,
+                Description = g.ProjectTask.Description,
+                Status = g.ProjectTask.Status,
+                Type = g.ProjectTask.Type,
+                Words = g.ProjectTask.Words,
+                Timeliness = g.ProjectTask.Timeliness,
+                ContractId = g.ProjectTask.ContractId,
+                DateCreate = g.ProjectTask.DateCreated,
+                DateUpdated = g.ProjectTask.DateUpdated,
+                Assignees = g.Assignee.Select(a => new ProjectAssigneeRole()
+                {
+                    UserId = a.UserId,
+                    FirstName = "",
+                    LastName = "",
+                    RoleId = a.Id,
+                    Role = ""
+                })
+                .ToList()
+            })
             .ToListAsync();
 
         return Ok(tasks);
