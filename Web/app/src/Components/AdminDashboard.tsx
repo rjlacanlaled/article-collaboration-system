@@ -1,10 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import UserData from '../Data/UserData.json'
+// import UserData from '../Data/UserData.json'
 import ApproveUser from '../modals/ApproveUser'
 import RejectUser from '../modals/RejectUser'
 
+
+export type UserDetail = {
+  id: number;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  address: string;
+}
+
 function AdminDashboard() {
+
+    const [userDetails, setUserDetails] = useState<UserDetail[]>([{
+      id: 1,
+      userId: 1,
+      firstName: "bryan",
+      lastName: "saguit",
+      email: "fakerbryan@yahoo.com",
+      role: "member",
+      address: "rizal",
+    }])
+
+    useEffect(() => {
+        fetch("http://localhost:5143/api/v1/UserDetails/user/2")
+        .then(res => res.json())
+        .then(data => setUserDetails(data))
+        .catch(error => {
+            console.log('Error fetching user:', error);
+        })
+    }, [])
 
   return (
     <DashboardPage>
@@ -12,7 +42,7 @@ function AdminDashboard() {
         <div className='flex justify-center flex-col items-center bg-white p-7 drop-shadow w-72 h-16 rounded-md'>
             <div className='flex justify-center items-center'>
                 <h1 className="text-sm font-semibold mr-1">Pending Approvals</h1>
-                <label className='lining-nums font-bold text-sm bg-gray-300 rounded-full px-3'>{UserData.length}</label>
+                <label className='lining-nums font-bold text-sm bg-gray-300 rounded-full px-3'>1</label>
             </div>
         </div>
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
@@ -38,20 +68,21 @@ function AdminDashboard() {
                 </tr>
             </thead>
             <tbody className='overflow-scroll text-sm'>
-                { UserData.map((UserDatas) => (
-                    <tr className='hover:bg-slate-300'>
-                        <td className="border px-4 py-3">{UserDatas.id}</td>
-                        <td className="border px-4 py-3">{UserDatas.firstname}</td>
-                        <td className="border px-4 py-3">{UserDatas.lastname}</td>
-                        <td className="border px-4 py-3">{UserDatas.email}</td>
-                        <td className="border px-4 py-3">{UserDatas.role}</td>
-                        <td className="border px-4 py-3">Sunday, March 19, 2023</td>
-                        <td className="border px-4 py-3 items-center space-x-3">
-                            <ApproveUser/>
-                            <RejectUser/>
-                        </td>
-                    </tr>
-                ))}     
+                { userDetails.map((userDetail) => (
+                  <tr className='hover:bg-slate-300' key={userDetail.id}>
+                    <td className="border px-4 py-3">{userDetail.id}</td>
+                    <td className="border px-4 py-3">{userDetail.userId}</td>
+                    <td className="border px-4 py-3">{userDetail.firstName}</td>
+                    <td className="border px-4 py-3">{userDetail.lastName}</td>
+                    <td className="border px-4 py-3">{userDetail.email}</td>
+                    <td className="border px-4 py-3">{userDetail.role}</td>
+                    <td className="border px-4 py-3">Sunday, March 19, 2023</td>
+                    <td className="border px-4 py-3 items-center space-x-3">
+                      <ApproveUser/>
+                      <RejectUser/>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
             </table>
         </div>    
