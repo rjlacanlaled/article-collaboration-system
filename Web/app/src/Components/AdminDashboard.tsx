@@ -90,6 +90,7 @@ function AdminDashboard() {
                 <th className="px-4 py-3">Last Name</th>
                 <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Role</th>
+                <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Registration Date</th>
                 <th className="px-4 py-3">Action</th>
               </tr>
@@ -102,6 +103,7 @@ function AdminDashboard() {
                   <td className="border px-4 py-3">{userDetail.lastName}</td>
                   <td className="border px-4 py-3">{userDetail.email}</td>
                   <td className="border px-4 py-3">{userDetail.role}</td>
+                  <td className="border px-4 py-3">For Approval</td>
                   <td className="border px-4 py-3">
                     {userDetail.registrationDate}
                   </td>

@@ -4,6 +4,7 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
+import UserRole from '../modals/UserRole'
 
 function ApproveUser() {
 
@@ -40,9 +41,9 @@ function ApproveUser() {
             }}
           >
             <Stack spacing={2}>
-              <Stack direction="row" justifyContent="flex-end" spacing={2}>
+              <Stack direction="row" justifyContent="center" spacing={2}>
                 <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button color="success" className='w-24' size='sm'>Approve</Button>
+                <UserRole/>
               </Stack>
             </Stack>
           </form>

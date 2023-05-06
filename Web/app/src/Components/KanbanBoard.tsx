@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState} from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TaskData from "../Data/TaskData.json";
 import DashboardPage from "../Pages/DashboardPage";
 import EditableTitle from "./EditableTitle";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AddBoard from "./AddBoard";
 import BoardMenu from "./BoardMenu";
 import TaskItems from "./TaskItems";
@@ -24,7 +24,7 @@ type Columns = {
 const columnsFromBackend: Columns = {
   1: {
     title: "To do",
-    items: TaskData,
+    items: TaskData.map((task) => ({ ...task, status: "To do" })),
   },
   2: {
     title: "In Progress",
@@ -78,8 +78,10 @@ const onDragEnd = (result: any, columns: any, setColumns: any) => {
 };
 
 function KanbanBoard() {
+
   const [columns, setColumns] = useState(columnsFromBackend);
 
+  // ADD BOARD
   const addBoard = (newBoardTitle: string) => {
     const newColumnId = Object.keys(columns).length + 1;
     const newColumn = {
@@ -94,6 +96,7 @@ function KanbanBoard() {
     setColumns(updatedColumns);
   };
 
+  // DELETE BOARD
   const deleteBoard = (boardId: number) => {
     const filteredColumns = Object.keys(columns)
       .filter((columnId) => parseInt(columnId) !== boardId)
@@ -146,6 +149,7 @@ function KanbanBoard() {
                                   return (
                                     <TaskItems
                                       name={item.title}
+                                      status={column.title}
                                       description={item.description}
                                       image={item.userProfile}
                                       prodDate={item.prod_date}
