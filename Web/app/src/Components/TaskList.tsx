@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DashboardPage from "../Pages/DashboardPage";
-import TaskData from "../Data/TaskData.json";
 import DeleteTask from "../modals/DeleteTask";
 import UpdateTask from "../modals/UpdateTask";
 import { Link } from "react-router-dom";
@@ -136,9 +135,9 @@ function TaskList() {
                       <td className="px-6 py-4">{task.type}</td>
                       <td className="px-6 py-4">{task.words}</td>
                       <td className="px-6 py-4">
-                        {task.timeliness == 0 ? "Pending" : ""}
-                        {task.timeliness == 1 ? "Past EOD" : ""}
-                        {task.timeliness == 2 ? "On Time" : ""}
+                        {task.timeliness === 0 ? "Pending" : ""}
+                        {task.timeliness === 1 ? "Past EOD" : ""}
+                        {task.timeliness === 2 ? "On Time" : ""}
                       </td>
                       <td className="px-6 py-4">{task.dateCreated}</td>
                       <td className="flex items-center px-6 py-4 space-x-3">

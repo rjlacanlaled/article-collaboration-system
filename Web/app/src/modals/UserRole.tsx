@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import UpdateIcon from '../Assets/Images/edit-icon.svg'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-function UpdateUser() {
+function UserRole() {
 
   const [open, setOpen] = useState(false);
   const [userRole, setUserRole] = useState('');
@@ -33,7 +33,7 @@ function UpdateUser() {
           onClick={() => setOpen(true)}
         >
         <img src={UpdateIcon} alt="update" className='h-4 w-4 mr-1.5'/>
-          Update
+        Select a role to proceed
         </Button>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog
@@ -43,7 +43,7 @@ function UpdateUser() {
             size="lg"
           >
             <Typography id="basic-modal-dialog-title" component="h2">
-              Update User
+              User Role
             </Typography>
             <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
               Select the role of the user.
@@ -72,7 +72,7 @@ function UpdateUser() {
                     <MenuItem value="Client">Client</MenuItem>
                   </Select>
                 </FormControl>
-                <Button onSubmit={handleSubmit}>Submit</Button>
+                <Button color="success" className='w-full' size='lg' onSubmit={handleSubmit}>Approve</Button>
               </Stack>
             </form>
           </ModalDialog>
@@ -82,4 +82,4 @@ function UpdateUser() {
   );
 }
 
-export default UpdateUser
+export default UserRole

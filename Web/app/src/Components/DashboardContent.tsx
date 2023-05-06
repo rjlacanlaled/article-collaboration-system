@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Chip } from "@mui/material";
 import MemberLogo from "../Assets/Images/member-logo.svg";
-import UserData from "../Data/UserData.json";
 import DashboardPage from "../Pages/DashboardPage";
 import DeleteUser from "../modals/DeleteUser";
 import UpdateUser from "../modals/UpdateUser";

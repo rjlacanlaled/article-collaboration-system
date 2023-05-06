@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DashboardPage from "../Pages/DashboardPage";
-import ClientData from "../Data/ClientData.json";
 import UpdateContract from "../modals/UpdateContract";
 import DeleteClient from "../modals/DeleteClient";
 import CreateContract from "../modals/CreateContract";

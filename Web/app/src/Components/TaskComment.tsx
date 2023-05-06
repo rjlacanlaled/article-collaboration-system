@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import TaskData from '../Data/TaskData.json'
 
-function TaskComment() {
+type taskComment = {
+    status?: string;
+}
+
+function TaskComment({status}: taskComment) {
 
     const [comment, setComment] = useState('')
 
@@ -17,7 +21,7 @@ function TaskComment() {
               <div className='mb-9'>
                 <div className='flex justify-between items-center'>
                     <h1 className='mb-4 text-lg lg:text-2xl font-bold text-gray-900 dark:text-black'>{task.title}</h1>
-                    <p className='bg-orange-500 rounded-lg p-1 w-20 text-center font-medium'>Todo</p>
+                    <p className='bg-orange-500 rounded-lg p-1 px-2.5 w-content text-center font-medium'>{status}</p>
                 </div>
                 <label className='font-semibold'>Description</label>
                 <p>{task.description}</p>

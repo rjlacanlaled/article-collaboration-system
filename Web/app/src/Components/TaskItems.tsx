@@ -9,12 +9,13 @@ import TaskAssigned from './TaskAssigned';
 type ListItemProps = {
   name: string;
   description: string;
+  status: string;
   image: string;
   prodDate: string;
   provided: any;
 };
 
-function TaskItems({ name, description, image, prodDate, provided }: ListItemProps) {
+function TaskItems({ name, description, status, image, prodDate, provided }: ListItemProps) {
 
   const [open, setOpen] = React.useState('');
 
@@ -47,7 +48,7 @@ function TaskItems({ name, description, image, prodDate, provided }: ListItemPro
           <ModalClose />
           <div className='bg-black mx-auto sm:w-800 md:w-400 lg:w-1000 xl:w-1200 w-1500 h-700 flex justify-center items-center'>
              <div className='w-full h-full overflow-y-auto'>
-              <TaskComment />
+              <TaskComment status={status}/>
              </div>
              <div className='bg-white w-full h-full flex justify-start flex-col items-center'>
               <TaskAssigned />
