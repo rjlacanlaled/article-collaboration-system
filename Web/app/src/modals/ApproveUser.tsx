@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import UserRole from '../modals/UserRole'
+import React, { useState } from "react";
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import UserRole from "./UserRole";
+import { UserDetail } from "../Components/DashboardContent";
 
-function ApproveUser() {
+interface MyProps {
+  user: UserDetail;
+}
 
+function ApproveUser({ user }: MyProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,7 +20,7 @@ function ApproveUser() {
         variant="solid"
         color="success"
         size="sm"
-        className='h-6'
+        className="h-6"
         onClick={() => setOpen(true)}
       >
         Approve
@@ -31,7 +35,10 @@ function ApproveUser() {
           <Typography id="basic-modal-dialog-title" component="h2">
             Approve User
           </Typography>
-          <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
+          <Typography
+            id="basic-modal-dialog-description"
+            textColor="text.tertiary"
+          >
             Are you sure you want to approve this user?
           </Typography>
           <form
@@ -42,8 +49,15 @@ function ApproveUser() {
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="center" spacing={2}>
-                <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <UserRole/>
+                <Button
+                  color="neutral"
+                  className="w-24"
+                  size="sm"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <UserRole user={user} />
               </Stack>
             </Stack>
           </form>
@@ -53,4 +67,4 @@ function ApproveUser() {
   );
 }
 
-export default ApproveUser
+export default ApproveUser;

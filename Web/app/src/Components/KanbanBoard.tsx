@@ -78,7 +78,6 @@ const onDragEnd = (result: any, columns: any, setColumns: any) => {
 };
 
 function KanbanBoard() {
-
   const [columns, setColumns] = useState(columnsFromBackend);
 
   // ADD BOARD
@@ -154,6 +153,7 @@ function KanbanBoard() {
                                       image={item.userProfile}
                                       prodDate={item.prod_date}
                                       provided={provided}
+                                      task={null}
                                     />
                                   );
                                 }}

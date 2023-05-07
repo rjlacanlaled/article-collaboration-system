@@ -17,13 +17,13 @@ export type UserDetail = {
 function AdminDashboard() {
   const [userDetails, setUserDetails] = useState<UserDetail[]>([
     {
-      id: 1,
-      userId: 1,
-      firstName: "bryan",
-      lastName: "saguit",
-      email: "fakerbryan@yahoo.com",
-      role: "member",
-      registrationDate: Date.now(),
+      id: -1,
+      userId: -1,
+      firstName: "",
+      lastName: "",
+      email: "",
+      role: "",
+      registrationDate: 0,
     },
   ]);
 
@@ -32,12 +32,18 @@ function AdminDashboard() {
       const res = await fetch(
         "http://localhost:5143/api/v1/Users/users/unapproved"
       );
+
       const userDetails = await res.json();
-      setUserDetails(userDetails);
+
+      setUserDetails(res.ok ? userDetails : []);
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(userDetails);
+  }, [userDetails]);
 
   return (
     <DashboardPage>
@@ -46,10 +52,7 @@ function AdminDashboard() {
           <div className="flex justify-center items-center">
             <h1 className="text-sm font-semibold mr-1">Pending Approvals</h1>
             <label className="lining-nums font-bold text-sm bg-gray-300 rounded-full px-3">
-              {
-                userDetails.filter((u) => u.role == null || u.role === "")
-                  .length
-              }
+              {userDetails.length}
             </label>
           </div>
         </div>
@@ -96,23 +99,27 @@ function AdminDashboard() {
               </tr>
             </thead>
             <tbody className="overflow-scroll text-sm">
-              {userDetails.map((userDetail) => (
-                <tr className="hover:bg-slate-300" key={userDetail.id}>
-                  <td className="border px-4 py-3">{userDetail.userId}</td>
-                  <td className="border px-4 py-3">{userDetail.firstName}</td>
-                  <td className="border px-4 py-3">{userDetail.lastName}</td>
-                  <td className="border px-4 py-3">{userDetail.email}</td>
-                  <td className="border px-4 py-3">{userDetail.role}</td>
-                  <td className="border px-4 py-3">For Approval</td>
-                  <td className="border px-4 py-3">
-                    {userDetail.registrationDate}
-                  </td>
-                  <td className="border px-4 py-3 items-center space-x-3">
-                    <ApproveUser />
-                    <RejectUser />
-                  </td>
-                </tr>
-              ))}
+              {userDetails.length <= 0 ? (
+                <p>No pending approvals</p>
+              ) : (
+                userDetails.map((userDetail) => (
+                  <tr className="hover:bg-slate-300" key={userDetail.id}>
+                    <td className="border px-4 py-3">{userDetail.userId}</td>
+                    <td className="border px-4 py-3">{userDetail.firstName}</td>
+                    <td className="border px-4 py-3">{userDetail.lastName}</td>
+                    <td className="border px-4 py-3">{userDetail.email}</td>
+                    <td className="border px-4 py-3">{userDetail.role}</td>
+                    <td className="border px-4 py-3">For Approval</td>
+                    <td className="border px-4 py-3">
+                      {userDetail.registrationDate}
+                    </td>
+                    <td className="border px-4 py-3 items-center space-x-3">
+                      <ApproveUser user={userDetail} />
+                      <RejectUser />
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

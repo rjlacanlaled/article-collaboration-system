@@ -57,6 +57,8 @@ public class ProjectTasksController : ControllerBase
             .Where(c => c.Id == id)
             .FirstOrDefaultAsync();
 
+        Console.WriteLine(existing);
+
         if (existing is null) return NotFound();
 
         existing.Title = request.Title;
@@ -95,11 +97,28 @@ public class ProjectTasksController : ControllerBase
     public async Task<IActionResult> FetchAsync([FromRoute] int userId)
     {
         // @TODO: join with project assignees
-        List<ProjectTask> tasks = await _dbContext.ProjectTasks
-            .OrderBy(c => c.DateUpdated)
+        List<ProjectTaskAssigneeDetails> tasks = await _dbContext.ProjectTasks
+            .Join(_dbContext.ProjectTaskAssignees.Where(pta => pta.UserId == userId), pt => pt.Id, pta => pta.ProjectTaskId, (pt, pta) => new { ProjectTask = pt, Assignee = pta })
+            .OrderBy(g => g.ProjectTask.DateUpdated)
+            .Select(g => new ProjectTaskAssigneeDetails()
+            {
+                ProjectTask = g.ProjectTask,
+                ProjectTaskAssignee = g.Assignee ?? new ProjectTaskAssignee()
+            })
             .ToListAsync();
 
         return Ok(tasks);
+    }
+
+    [HttpGet("task/{taskId}")]
+    public async Task<IActionResult> FetchTaskAsync([FromRoute] int taskId)
+    {
+        // @TODO: join with project assignees
+        ProjectTask? task = await _dbContext.ProjectTasks
+            .Where(pt => pt.Id == taskId)
+            .FirstOrDefaultAsync();
+
+        return Ok(task);
     }
 
     [HttpGet("all")]
@@ -108,12 +127,9 @@ public class ProjectTasksController : ControllerBase
         var tasks = await _dbContext.ProjectTasks
             .OrderBy(c => c.DateUpdated)
             .GroupJoin(_dbContext.ProjectTaskAssignees, pt => pt.Id, pta => pta.ProjectTaskId, (pt, pta) => new { ProjectTask = pt, Assignee = pta })
-            //     .GroupJoin(_dbContext.Roles, pta => pta.RoleId, r => r.Id, (pta, r) => new { Pta = pta, Role = r })
-            //     .ToList(), pt => pt.Id, pta => pta.Pta.ProjectTaskId,
-            // (pt, pta) => new { ProjectTask = pt, Assignee = pta })
             .Select(g => new ProjectTaskDetails()
             {
-                ProjectTaskId = g.ProjectTask.Id,
+                Id = g.ProjectTask.Id,
                 Title = g.ProjectTask.Title,
                 Description = g.ProjectTask.Description,
                 Status = g.ProjectTask.Status,

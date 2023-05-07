@@ -1,39 +1,68 @@
-import React, { useState } from 'react';
-import Button from '@mui/joy/Button';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import UpdateIcon from '../Assets/Images/edit-icon.svg'
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React, { useEffect, useState } from "react";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import MenuItem from "@mui/material/MenuItem";
+import UpdateIcon from "../Assets/Images/edit-icon.svg";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { UserDetail } from "../Components/AdminDashboard";
 
-function UserRole() {
+export type Role = {
+  id: number;
+  name: string;
+};
 
+interface MyUserRoleProps {
+  user: UserDetail;
+}
+
+function UserRole({ user }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
-  const [userRole, setUserRole] = useState('');
+  const [userRoles, setUserRoles] = useState<Role[]>([]);
+  const [selectedRole, setSelectedRole] = useState<number>(0);
 
   const handleUserRole = (e: SelectChangeEvent) => {
-    setUserRole(e.target.value)
-  }
+    setSelectedRole(parseInt(e.target.value));
+  };
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault(); 
-  }
+  const handleSubmit = async () => {
+    await fetch("http://localhost:5143/api/v1/UserRoles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.userId,
+        roleId: selectedRole,
+      }),
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/Roles/all");
+      const roles = await res.json();
+      setUserRoles(roles);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
-      <div className='mr-2'>
+      <div className="mr-2">
         <Button
           variant="solid"
           color="primary"
-          size='sm'
+          size="sm"
           onClick={() => setOpen(true)}
         >
-        <img src={UpdateIcon} alt="update" className='h-4 w-4 mr-1.5'/>
-        Select a role to proceed
+          <img src={UpdateIcon} alt="update" className="h-4 w-4 mr-1.5" />
+          Select a role to proceed
         </Button>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog
@@ -45,34 +74,38 @@ function UserRole() {
             <Typography id="basic-modal-dialog-title" component="h2">
               User Role
             </Typography>
-            <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
+            <Typography
+              id="basic-modal-dialog-description"
+              textColor="text.tertiary"
+            >
               Select the role of the user.
             </Typography>
             <form>
               <Stack spacing={2}>
-              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
-                  <FormLabel sx={{color: 'black' }}>Role</FormLabel>
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
+                  <FormLabel sx={{ color: "black" }}>Role</FormLabel>
                   <Select
                     label="Role"
-                    value={userRole}
+                    value={selectedRole.toString()}
                     onChange={handleUserRole}
-                    sx={{ borderRadius: '7px', color: 'black' }}
+                    sx={{ borderRadius: "7px", color: "black" }}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value="Member">Member</MenuItem>
-                    <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="Admin">Top Management</MenuItem>
-                    <MenuItem value="Content Manager">Content Manager</MenuItem>
-                    <MenuItem value="Content Writer">Content Writer</MenuItem>
-                    <MenuItem value="SEO Manager">SEO Manager</MenuItem>
-                    <MenuItem value="SEO Specialist">SEO Specialist</MenuItem>
-                    <MenuItem value="Web Developer">Web Developer</MenuItem>
-                    <MenuItem value="Client">Client</MenuItem>
+                    {userRoles.map((r) => (
+                      <MenuItem value={r.id}>{r.name}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
-                <Button color="success" className='w-full' size='lg' onSubmit={handleSubmit}>Approve</Button>
+                <Button
+                  color="success"
+                  className="w-full"
+                  size="lg"
+                  onClick={handleSubmit}
+                >
+                  Approve
+                </Button>
               </Stack>
             </form>
           </ModalDialog>
@@ -82,4 +115,4 @@ function UserRole() {
   );
 }
 
-export default UserRole
+export default UserRole;

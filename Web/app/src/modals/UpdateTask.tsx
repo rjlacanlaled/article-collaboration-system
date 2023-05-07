@@ -1,53 +1,86 @@
-import React, { useState } from 'react';
-import Button from '@mui/joy/Button';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import Stack from '@mui/joy/Stack';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Typography from '@mui/joy/Typography';
-import UpdateIcon from '../Assets/Images/edit-icon.svg'
+import React, { useState } from "react";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Input from "@mui/joy/Input";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Typography from "@mui/joy/Typography";
+import UpdateIcon from "../Assets/Images/edit-icon.svg";
+import { ProjectTask } from "../Components/TaskList";
 
-function UpdateTask() {
+interface MyProps {
+  task: ProjectTask;
+}
 
+function UpdateTask({ task }: MyProps) {
   const [open, setOpen] = useState(false);
 
-  const [taskData, setTaskData] = useState (
-    {
-      title: "",
-      description: "",
-      client: "",
-      words: "",
-      type: ""
-    }
-  )
+  const [taskData, setTaskData] = useState<ProjectTask>({
+    id: -1,
+    title: "",
+    description: "",
+    words: -1,
+    type: -1,
+    timeliness: 0,
+    status: 0,
+    contractId: -1,
+    dateCreated: 0,
+    dateUpdated: 0,
+    assignees: [],
+  });
 
-  const handleChange = (e:any) => {
-    setTaskData(prevTaskData => {
-        return {
-            ...prevTaskData,
-            [e.target.name]: e.target.value
-        }
-      })  
-  }
+  const handleChange = (e: any) => {
+    setTaskData((prevTaskData) => {
+      return {
+        ...prevTaskData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
-  }
+  const handleSubmit = async () => {
+    console.log({
+      taskId: task.id,
+      title: taskData.title,
+      description: taskData.description,
+      type: taskData.type,
+      words: taskData.words,
+      contractId: taskData.contractId,
+      timeliness: taskData.timeliness,
+    });
+
+    console.log(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`);
+    await fetch(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: taskData.title,
+        description: taskData.description,
+        status: taskData.status,
+        type: taskData.type,
+        words: taskData.words,
+        timeliness: taskData.timeliness,
+        contractId: taskData.contractId,
+      }),
+    });
+  };
 
   return (
     <>
-      <div className='mr-2'>
+      <div className="mr-2">
         <Button
           variant="solid"
           color="primary"
-          size='sm'
+          size="sm"
           onClick={() => setOpen(true)}
         >
-        <img src={UpdateIcon} alt="update" className='h-4 w-4 mr-1.5'/>
+          <img src={UpdateIcon} alt="update" className="h-4 w-4 mr-1.5" />
           Update
         </Button>
         <Modal open={open} onClose={() => setOpen(false)}>
@@ -60,7 +93,10 @@ function UpdateTask() {
             <Typography id="basic-modal-dialog-title" component="h2">
               Update Task
             </Typography>
-            <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
+            <Typography
+              id="basic-modal-dialog-description"
+              textColor="text.tertiary"
+            >
               Fill in the information of the Task.
             </Typography>
             <form
@@ -71,37 +107,42 @@ function UpdateTask() {
             >
               <Stack spacing={2}>
                 <FormControl>
-                    <FormLabel>Title</FormLabel>
-                    <Input 
-                      type="text"
-                      name="title"
-                      value={taskData.title}
-                      onChange={handleChange}
-                      autoFocus required 
-                    />
+                  <FormLabel>Title</FormLabel>
+                  <Input
+                    type="text"
+                    name="title"
+                    value={taskData.title}
+                    onChange={handleChange}
+                    autoFocus
+                    required
+                  />
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Description</FormLabel>
-                    <Input 
-                      type="text"
-                      name="description"
-                      value={taskData.description}
-                      onChange={handleChange}
-                      autoFocus required 
-                    />
+                  <FormLabel>Description</FormLabel>
+                  <Input
+                    type="text"
+                    name="description"
+                    value={taskData.description}
+                    onChange={handleChange}
+                    autoFocus
+                    required
+                  />
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Client</FormLabel>
-                    <Input
-                      type="text"
-                      name="client" 
-                      value={taskData.client}
-                      onChange={handleChange}
-                      autoFocus required 
-                    />
+                  <FormLabel>Client</FormLabel>
+                  <Input
+                    type="text"
+                    name="contractId"
+                    value={taskData.contractId}
+                    onChange={handleChange}
+                    autoFocus
+                    required
+                  />
                 </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 120}} size="md">
-                  <FormLabel id="demo-select-small" sx={{color: 'black' }}>Type</FormLabel>
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
+                  <FormLabel id="demo-select-small" sx={{ color: "black" }}>
+                    Type
+                  </FormLabel>
                   <Select
                     labelId="demo-select-small"
                     id="demo-select-small"
@@ -109,26 +150,27 @@ function UpdateTask() {
                     value={taskData.type}
                     label="Contract"
                     onChange={handleChange}
-                    sx={{ borderRadius: '7px', color: 'black' }}
+                    sx={{ borderRadius: "7px", color: "black" }}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value="Blog">Blog</MenuItem>
-                    <MenuItem value="Guest Post">Guest Post</MenuItem>
+                    <MenuItem value={0}>Blog</MenuItem>
+                    <MenuItem value={1}>Guest Post</MenuItem>
                   </Select>
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Words</FormLabel>
-                    <Input
-                      type="text"
-                      name="words" 
-                      value={taskData.words}
-                      onChange={handleChange}
-                      autoFocus required 
-                    />
+                  <FormLabel>Words</FormLabel>
+                  <Input
+                    type="text"
+                    name="words"
+                    value={taskData.words}
+                    onChange={handleChange}
+                    autoFocus
+                    required
+                  />
                 </FormControl>
-                <Button onSubmit={handleSubmit}>Submit</Button>
+                <Button onClick={handleSubmit}>Submit</Button>
               </Stack>
             </form>
           </ModalDialog>
@@ -138,4 +180,4 @@ function UpdateTask() {
   );
 }
 
-export default UpdateTask
+export default UpdateTask;

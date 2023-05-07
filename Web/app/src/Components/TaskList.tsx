@@ -141,7 +141,7 @@ function TaskList() {
                       </td>
                       <td className="px-6 py-4">{task.dateCreated}</td>
                       <td className="flex items-center px-6 py-4 space-x-3">
-                        <UpdateTask />
+                        <UpdateTask task={task} />
                         <DeleteTask />
                       </td>
                     </tr>

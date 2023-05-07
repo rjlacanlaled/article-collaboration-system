@@ -84,4 +84,14 @@ public class RolesController : ControllerBase
 
         return Ok(Roles);
     }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> FetchAllAsync()
+    {
+        List<Role> Roles = await _dbContext.Roles
+            .OrderBy(r => r.Name)
+            .ToListAsync();
+
+        return Ok(Roles);
+    }
 }
