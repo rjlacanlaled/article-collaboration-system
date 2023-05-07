@@ -5,7 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import ExportIcon from '@mui/icons-material/FileDownloadOutlined';
 
-export default function ExportButton() {
+export type exportButton = {
+  label: string
+}
+
+export default function ExportButton({label}:exportButton) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -29,7 +33,7 @@ export default function ExportButton() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Export
+        {label}
       </Button>
       <Menu
         id="fade-menu"

@@ -10,11 +10,15 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 function CreateContract() {
-
   const [open, setOpen] = useState(false);
+  const [paymentDate, setPaymentDate] = useState({ paymentAmount: null })
   const [contractData, setContractData] = useState(
     {
       client: "",
@@ -22,6 +26,7 @@ function CreateContract() {
       contract: "",
       payment: "",
       paymentStatus: "",
+      paymentAmount: "",
       manage: ""
     }
   )
@@ -33,6 +38,10 @@ function CreateContract() {
         [e.target.name]: e.target.value
       }
     })
+  }
+
+  const handleDateChange = (date: any) => {
+    setPaymentDate(date);
   }
 
   const handleSubmit = (e:any) => {
@@ -118,25 +127,46 @@ function CreateContract() {
                   <MenuItem value="2 months Advance">2 Months Advance</MenuItem>
                 </Select>
              </FormControl>
-                 <FormControl sx={{ m: 1, minWidth: 120}} size="md">
-                 <FormLabel id="demo-select-small" sx={{ color: 'black' }}>Payment Status</FormLabel>
-                  <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    type="text"
-                    name="paymentStatus"
-                    value={contractData.paymentStatus}
-                    label="PaymentStatus"
-                    onChange={handleChange}
-                    sx={{ borderRadius: '7px', }}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="Paid">Paid</MenuItem>
-                    <MenuItem value="Not Paid">Not Paid</MenuItem>
-                  </Select>
+             <FormControl sx={{ m: 1, minWidth: 120}} size="md">
+                <FormLabel id="demo-select-small" sx={{ color: 'black' }}>Payment Status</FormLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  type="text"
+                  name="paymentStatus"
+                  value={contractData.paymentStatus}
+                  label="PaymentStatus"
+                  onChange={handleChange}
+                  sx={{ borderRadius: '7px', }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="Paid">Paid</MenuItem>
+                  <MenuItem value="Not Paid">Not Paid</MenuItem>
+                </Select>
               </FormControl>
+              <FormControl>
+               <FormLabel>Payment Amount</FormLabel>
+               <Input
+                  type="text"
+                  name="paymentAmount"
+                  value={contractData.paymentAmount}
+                  onChange={handleChange}
+                  autoFocus
+               />
+             </FormControl>
+             <FormControl>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                  <DatePicker 
+                    label="Payment Date" 
+                    value={paymentDate}
+                    onChange={handleDateChange}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+             </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
                 <FormLabel id="demo-select-small" sx={{ color: 'black' }}>Managed</FormLabel>
                 <Select
