@@ -51,12 +51,13 @@ function CompletedArticle() {
                         <td className="border px-4 py-3">{TaskDatas.words}</td>
                         <td className="border px-4 py-3">{TaskDatas.timeliness ? "Pending" : "On-Time"}</td>
                         <td className="border px-4 py-3 items-center">
-                                <ExportButton />
+                                <ExportButton label="export" />
                         </td>
                     </tr>
                 ))}     
             </tbody>
             </table>
+            <ExportButton label="export all" />
         </div>
     </>
   )
