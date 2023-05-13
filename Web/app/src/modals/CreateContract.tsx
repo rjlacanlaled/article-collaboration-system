@@ -27,7 +27,7 @@ function CreateContract() {
       payment: "",
       paymentStatus: "",
       paymentAmount: "",
-      manage: ""
+      manageBy: "",
     }
   )
 
@@ -44,9 +44,23 @@ function CreateContract() {
     setPaymentDate(date);
   }
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
-  }
+  const onSubmitCreateContract= async () => {
+    await fetch("http://localhost:5143/api/v1/ContractPayments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        client: contractData.client,
+        seo: contractData.seo,
+        contract: contractData.contract,
+        payment: contractData.payment,
+        paymentStatus: contractData.paymentStatus,
+        paymentAmount: contractData.paymentAmount,
+        manageBy: contractData.manageBy
+      }),
+    });
+  };
 
   return (
     <>
@@ -103,9 +117,9 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Open">Open</MenuItem>
-                  <MenuItem value="6 Months">6 Months</MenuItem>
-                  <MenuItem value="1 Year">1 Year</MenuItem>
+                  <MenuItem value={0}>Open</MenuItem>
+                  <MenuItem value={1}>6 Months</MenuItem>
+                  <MenuItem value={2}>1 Year</MenuItem>
                 </Select>
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -123,8 +137,8 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Full Payment">Full Payment</MenuItem>
-                  <MenuItem value="2 months Advance">2 Months Advance</MenuItem>
+                  <MenuItem value={0}>Full Payment</MenuItem>
+                  <MenuItem value={1}>2 Months Advance</MenuItem>
                 </Select>
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
@@ -142,8 +156,8 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Paid">Paid</MenuItem>
-                  <MenuItem value="Not Paid">Not Paid</MenuItem>
+                  <MenuItem value={1}>Paid</MenuItem>
+                  <MenuItem value={0}>Not Paid</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
@@ -173,8 +187,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="manage"
-                  value={contractData.manage}
+                  name="manageBy"
+                  value={contractData.manageBy}
                   label="Managed"
                   onChange={handleChange}
                   sx={{ borderRadius: '7px', }}
@@ -182,11 +196,11 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="SearchWorks">SearchWorks</MenuItem>
-                  <MenuItem value="Client ">Client</MenuItem>
+                  <MenuItem value={1}>SearchWorks</MenuItem>
+                  <MenuItem value={2}>Client</MenuItem>
                 </Select>
              </FormControl>
-             <Button onSubmit={handleSubmit}>Submit</Button>
+             <Button type="submit" onClick={onSubmitCreateContract}>Submit</Button>
            </Stack>
          </form>
        </ModalDialog>

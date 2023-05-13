@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TaskData from "../Data/TaskData.json";
 import { ProjectTask } from "./TaskList";
 
 // type taskComment = {

@@ -20,16 +20,16 @@ function UpdateTask({ task }: MyProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState<ProjectTask>({
-    id: -1,
-    title: "",
-    description: "",
-    words: -1,
-    type: -1,
-    timeliness: 0,
-    status: 0,
-    contractId: -1,
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    words: task.words,
+    type: task.type,
+    timeliness: task.timeliness,
+    status: task.status,
+    contractId: task.contractId,
     dateCreated: 0,
-    dateUpdated: 0,
+    dateUpdated: Date.now(),
     assignees: [],
   });
 
@@ -43,17 +43,6 @@ function UpdateTask({ task }: MyProps) {
   };
 
   const handleSubmit = async () => {
-    console.log({
-      taskId: task.id,
-      title: taskData.title,
-      description: taskData.description,
-      type: taskData.type,
-      words: taskData.words,
-      contractId: taskData.contractId,
-      timeliness: taskData.timeliness,
-    });
-
-    console.log(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`);
     await fetch(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`, {
       method: "PUT",
       headers: {
@@ -99,12 +88,7 @@ function UpdateTask({ task }: MyProps) {
             >
               Fill in the information of the Task.
             </Typography>
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                setOpen(false);
-              }}
-            >
+            <form>
               <Stack spacing={2}>
                 <FormControl>
                   <FormLabel>Title</FormLabel>
@@ -112,8 +96,8 @@ function UpdateTask({ task }: MyProps) {
                     type="text"
                     name="title"
                     value={taskData.title}
+                    placeholder="Title"
                     onChange={handleChange}
-                    autoFocus
                     required
                   />
                 </FormControl>
@@ -123,8 +107,8 @@ function UpdateTask({ task }: MyProps) {
                     type="text"
                     name="description"
                     value={taskData.description}
+                    placeholder="Description"
                     onChange={handleChange}
-                    autoFocus
                     required
                   />
                 </FormControl>
@@ -135,7 +119,6 @@ function UpdateTask({ task }: MyProps) {
                     name="contractId"
                     value={taskData.contractId}
                     onChange={handleChange}
-                    autoFocus
                     required
                   />
                 </FormControl>
@@ -148,15 +131,17 @@ function UpdateTask({ task }: MyProps) {
                     id="demo-select-small"
                     name="type"
                     value={taskData.type}
+                    placeholder="Type"
                     label="Contract"
                     onChange={handleChange}
+                    required
                     sx={{ borderRadius: "7px", color: "black" }}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={0}>Blog</MenuItem>
-                    <MenuItem value={1}>Guest Post</MenuItem>
+                    <MenuItem value={0}>Guest Post</MenuItem>
+                    <MenuItem value={1}>Blog</MenuItem>
                   </Select>
                 </FormControl>
                 <FormControl>
@@ -166,11 +151,10 @@ function UpdateTask({ task }: MyProps) {
                     name="words"
                     value={taskData.words}
                     onChange={handleChange}
-                    autoFocus
                     required
                   />
                 </FormControl>
-                <Button onClick={handleSubmit}>Submit</Button>
+                <Button type="submit" onClick={handleSubmit}>Submit</Button>
               </Stack>
             </form>
           </ModalDialog>

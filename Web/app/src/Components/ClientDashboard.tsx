@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DashboardPage from "../Pages/DashboardPage";
-import TaskData from "../Data/TaskData.json";
 import LinkButton from "./LinkButton";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";

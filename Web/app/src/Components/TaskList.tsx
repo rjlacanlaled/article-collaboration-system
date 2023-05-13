@@ -128,11 +128,17 @@ function TaskList() {
                       </th>
                       <td className="px-6 py-4">
                         <p className="bg-orange-500 rounded-lg p-1 w-content text-center">
-                          {task.status}
+                          {task.status === 0 ? "To Do" : ""}
+                          {task.status === 1 ? "In Progress" : ""}
+                          {task.status === 2 ? "For Review" : ""}
+                          {task.status === 3 ? "Completed" : ""}
                         </p>
                       </td>
                       <td className="px-6 py-4">{"client"}</td>
-                      <td className="px-6 py-4">{task.type}</td>
+                      <td className="px-6 py-4">
+                        {task.type === 0 ? "Guest Post" : ""}
+                        {task.type === 1 ? "Blog" : ""}
+                      </td>
                       <td className="px-6 py-4">{task.words}</td>
                       <td className="px-6 py-4">
                         {task.timeliness === 0 ? "Pending" : ""}

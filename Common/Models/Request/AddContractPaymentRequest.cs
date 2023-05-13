@@ -6,5 +6,6 @@ public record AddContractPaymentRequest
     public int ClientId { get; init; }
     public string Link { get; init; } = string.Empty;
     public decimal Amount { get; init; }
+    public int ManagedBy { get; init; }
     public DateTime Date { get; init; }
 }

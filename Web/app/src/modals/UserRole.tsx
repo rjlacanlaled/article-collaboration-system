@@ -85,9 +85,11 @@ function UserRole({ user }: MyUserRoleProps) {
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
                   <FormLabel sx={{ color: "black" }}>Role</FormLabel>
                   <Select
+                    type="text"
                     label="Role"
                     value={selectedRole.toString()}
                     onChange={handleUserRole}
+                    required
                     sx={{ borderRadius: "7px", color: "black" }}
                   >
                     <MenuItem value="">
@@ -99,6 +101,7 @@ function UserRole({ user }: MyUserRoleProps) {
                   </Select>
                 </FormControl>
                 <Button
+                  type="submit"
                   color="success"
                   className="w-full"
                   size="lg"

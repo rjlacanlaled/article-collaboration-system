@@ -106,7 +106,7 @@ function DashboardContent() {
                   </td>
                   <td className="border px-4 py-3 items-center">
                     <div className="flex justify-center">
-                      <UpdateUser />
+                      <UpdateUser user={userDetail} />
                       <DeleteUser />
                     </div>
                   </td>

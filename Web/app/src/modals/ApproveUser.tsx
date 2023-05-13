@@ -42,8 +42,7 @@ function ApproveUser({ user }: MyProps) {
             Are you sure you want to approve this user?
           </Typography>
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
+            onSubmit={() => {
               setOpen(false);
             }}
           >
