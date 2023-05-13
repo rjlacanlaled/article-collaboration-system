@@ -8,9 +8,12 @@ export type Payment = {
   id: number;
   contractId: number;
   clientId: number;
+  paymentplan: number;
   link: string;
   amount: number;
   paymentDate: number;
+  manageBy: number;
+  dateCreated: number;
 };
 
 function ClientBoard() {
@@ -118,13 +121,16 @@ function ClientBoard() {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {1}
+                        {payment.contractId === 0 ? "Open" : ""}
+                        {payment.contractId === 1 ? "6 Months" : ""}
+                        {payment.contractId=== 2 ? "1 Year" : ""}
                       </th>
                       <th
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {1}
+                        {payment.clientId === 0 ? "Full Payment" : ""}
+                        {payment.clientId === 1 ? "2 Months Advance" : ""}
                       </th>
                       <td className="px-6 py-4">
                         {payment.paymentDate != null ? (
@@ -141,16 +147,21 @@ function ClientBoard() {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        ₱{payment.amount}
+                        ₱{payment.amount.toString()}
                       </th>
                       <th
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {payment.paymentDate}
+                        {new Date(payment.paymentDate).toLocaleDateString()}
                       </th>
-                      <td className="px-6 py-4">{"todo"}</td>
-                      <td className="px-6 py-4">{"todo"}</td>
+                      <td className="px-6 py-4">
+                        {payment.manageBy === 1 ? "SearchWorks" : ""}
+                        {payment.manageBy === 2 ? "Client" : ""}asds
+                      </td>
+                      <td className="px-6 py-4">
+                        {new Date(payment.dateCreated).toLocaleDateString()}
+                      </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateContract />
                         <DeleteClient />

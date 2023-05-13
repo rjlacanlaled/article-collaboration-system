@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -9,19 +9,49 @@ import Typography from '@mui/joy/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import UpdateIcon from '../Assets/Images/edit-icon.svg'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { UserDetail } from "../Components/AdminDashboard";
 
-function UpdateUser() {
+export type Role = {
+  id: number;
+  name: string;
+};
+
+interface MyUserRoleProps {
+  user: UserDetail;
+}
+
+function UpdateUser({ user }: MyUserRoleProps) {
 
   const [open, setOpen] = useState(false);
-  const [userRole, setUserRole] = useState('');
+  const [userRoles, setUserRoles] = useState<Role[]>([]);
+  const [selectedRole, setSelectedRole] = useState<number>(0);
 
   const handleUserRole = (e: SelectChangeEvent) => {
-    setUserRole(e.target.value)
-  }
+    setSelectedRole(parseInt(e.target.value));
+  };
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault(); 
-  }
+  const handleUserRoleSubmit = async () => {
+    await fetch(`http://localhost:5143/api/v1/UserRoles/id/${user.userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.userId,
+        roleId: selectedRole,
+      }),
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/Roles/all");
+      const roles = await res.json();
+      setUserRoles(roles);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -54,25 +84,23 @@ function UpdateUser() {
                   <FormLabel sx={{color: 'black' }}>Role</FormLabel>
                   <Select
                     label="Role"
-                    value={userRole}
+                    value={selectedRole.toString()}
                     onChange={handleUserRole}
                     sx={{ borderRadius: '7px', color: 'black' }}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value="Member">Member</MenuItem>
-                    <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="Admin">Top Management</MenuItem>
-                    <MenuItem value="Content Manager">Content Manager</MenuItem>
-                    <MenuItem value="Content Writer">Content Writer</MenuItem>
-                    <MenuItem value="SEO Manager">SEO Manager</MenuItem>
-                    <MenuItem value="SEO Specialist">SEO Specialist</MenuItem>
-                    <MenuItem value="Web Developer">Web Developer</MenuItem>
-                    <MenuItem value="Client">Client</MenuItem>
+                      {userRoles.map((r) => (
+                      <MenuItem value={r.id}>{r.name}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
-                <Button onSubmit={handleSubmit}>Submit</Button>
+                <Button 
+                  type="submit" 
+                  onClick={handleUserRoleSubmit}>
+                  Submit
+                </Button>
               </Stack>
             </form>
           </ModalDialog>

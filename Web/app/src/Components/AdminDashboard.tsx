@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DashboardPage from "../Pages/DashboardPage";
-// import UserData from '../Data/UserData.json'
+import { Chip } from "@mui/material";
 import ApproveUser from "../modals/ApproveUser";
 import RejectUser from "../modals/RejectUser";
 
@@ -98,9 +98,11 @@ function AdminDashboard() {
                 <th className="px-4 py-3">Action</th>
               </tr>
             </thead>
-            <tbody className="overflow-scroll text-sm">
+            <tbody className="overflow-scroll text-sm relative">
               {userDetails.length <= 0 ? (
-                <p>No pending approvals</p>
+                <div className="absolute top-0 left-0 bottom-0 right-0 mt-5">
+                  <h1 className="text-xl text-stone-800">No Pending Approvals</h1>
+                </div>
               ) : (
                 userDetails.map((userDetail) => (
                   <tr className="hover:bg-slate-300" key={userDetail.id}>
@@ -109,9 +111,9 @@ function AdminDashboard() {
                     <td className="border px-4 py-3">{userDetail.lastName}</td>
                     <td className="border px-4 py-3">{userDetail.email}</td>
                     <td className="border px-4 py-3">{userDetail.role}</td>
-                    <td className="border px-4 py-3">For Approval</td>
+                    <td className="border px-4 py-3"><Chip label="For Approval" /></td>
                     <td className="border px-4 py-3">
-                      {userDetail.registrationDate}
+                    {new Date(userDetail.registrationDate).toLocaleString()}
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
                       <ApproveUser user={userDetail} />

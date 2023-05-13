@@ -19,7 +19,7 @@ function CreateTask() {
     name: "",
     description: "",
     type: 1,
-    words: 100,
+    words: 0,
   });
 
   const handleChange = (e: any) => {
@@ -59,7 +59,7 @@ function CreateTask() {
           <div className="flex items-center space-x-3">
             <img src={AddIcon} alt="add-task" className="h-6 w-6" />
             <h3 className="text-slate-900 group-hover:text-white text-sm font-semibold">
-              New project
+              New Task
             </h3>
           </div>
           <p className="text-slate-500 group-hover:text-white text-sm">

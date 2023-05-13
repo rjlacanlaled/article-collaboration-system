@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TaskData from "../Data/TaskData.json";
 import DashboardPage from "../Pages/DashboardPage";
@@ -40,6 +40,31 @@ const columnsFromBackend: Columns = {
   },
 };
 
+export type Assignee = {
+  userId: number;
+  firstName: string;
+  lastName: string;
+  roleId: number;
+  role: string;
+};
+
+export type ProjectTask = {
+  task: ProjectTask | null;
+  id: number;
+  title: string;
+  description: string;
+  status: string;
+  prodDate: string;
+  image: string;
+  type: number;
+  words: number;
+  timeliness: number;
+  contractId: number;
+  dateCreated: Date;
+  dateUpdated: number;
+  assignees: Assignee[];
+};
+
 const onDragEnd = (result: any, columns: any, setColumns: any) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -79,6 +104,36 @@ const onDragEnd = (result: any, columns: any, setColumns: any) => {
 
 function KanbanBoard() {
   const [columns, setColumns] = useState(columnsFromBackend);
+  const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all");
+      const tasks = await res.json();
+      setTasks(tasks);
+      setColumns({
+        1: {
+          title: "To do",
+          items: tasks.map((task:any) => ({ ...task, status: "To do" })),
+        },
+        2: {
+          title: "In Progress",
+          items: [],
+        },
+        3: {
+          title: "For Review",
+          items: [],
+        },
+        4: {
+          title: "Completed",
+          items: [],
+        },
+      });
+    };
+  
+    fetchData();
+  }, []);
+
 
   // ADD BOARD
   const addBoard = (newBoardTitle: string) => {
@@ -147,7 +202,7 @@ function KanbanBoard() {
                                 {(provided) => {
                                   return (
                                     <TaskItems
-                                      name={item.title}
+                                      title={item.title}
                                       status={column.title}
                                       description={item.description}
                                       image={item.userProfile}

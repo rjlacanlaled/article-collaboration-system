@@ -1,0 +1,18 @@
+{
+    "1": {
+      "title": "To do",
+      "items": []
+    },
+    "2": {
+      "title": "In Progress",
+      "items": []
+    },
+    "3": {
+      "title": "For Review",
+      "items": []
+    },
+    "4": {
+      "title": "Completed",
+      "items": []
+    }
+  }

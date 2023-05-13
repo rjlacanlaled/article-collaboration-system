@@ -8,9 +8,9 @@ import TaskAssigned from "./TaskAssigned";
 import { ProjectTask } from "./TaskList";
 
 type ListItemProps = {
-  name: string;
-  description: string;
   status: string;
+  title: string;
+  description: string;
   image: string;
   prodDate: string;
   provided: any;
@@ -18,9 +18,9 @@ type ListItemProps = {
 };
 
 function TaskItems({
-  name,
-  description,
   status,
+  title,
+  description,
   image,
   prodDate,
   provided,
@@ -38,7 +38,7 @@ function TaskItems({
         onClick={() => setOpen("center")}
       >
         <div className="flex justify-center items-center flex-col">
-          <h4 className="text-sm m-2 self-start">{name}</h4>
+          <h4 className="text-sm m-2 self-start">{title}</h4>
           <p className="text-xs mb-1 mx-1">{description}</p>
           <i className="text-xs my-2 mx-1 self-end">
             Production Date:{prodDate}
