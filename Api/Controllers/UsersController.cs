@@ -97,6 +97,7 @@ public class UsersController : ControllerBase
                 Role = g.UserRoleDetail.Name,
                 RegistrationDate = DateTime.UtcNow
             })
+            .OrderBy(u => u.UserId)
             .ToListAsync();
 
         if (users is null || users.Count <= 0) return NotFound();

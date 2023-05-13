@@ -22,7 +22,7 @@ export type ProjectTask = {
   words: number;
   timeliness: number;
   contractId: number;
-  dateCreated: number;
+  dateCreate: number;
   dateUpdated: number;
   assignees: Assignee[];
 };
@@ -145,7 +145,7 @@ function TaskList() {
                         {task.timeliness === 1 ? "Past EOD" : ""}
                         {task.timeliness === 2 ? "On Time" : ""}
                       </td>
-                      <td className="px-6 py-4">{task.dateCreated}</td>
+                      <td className="px-6 py-4">{task.dateCreate}</td>
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateTask task={task} />
                         <DeleteTask />

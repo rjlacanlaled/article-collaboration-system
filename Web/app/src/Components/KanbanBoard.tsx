@@ -1,43 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import TaskData from "../Data/TaskData.json";
 import DashboardPage from "../Pages/DashboardPage";
 import EditableTitle from "./EditableTitle";
 import AddBoard from "./AddBoard";
 import BoardMenu from "./BoardMenu";
 import TaskItems from "./TaskItems";
 import AddSwimLaneList from "../modals/AddItem";
+import { ProjectTask } from "./TaskList";
 
 type Columns = {
   [key: string]: {
     title: string;
-    items: {
-      id: number;
-      title: string;
-      userProfile: string;
-      prod_date: string;
-      description: string;
-    }[];
+    items: ProjectTask[];
   };
-};
-
-const columnsFromBackend: Columns = {
-  1: {
-    title: "To do",
-    items: TaskData.map((task) => ({ ...task, status: "To do" })),
-  },
-  2: {
-    title: "In Progress",
-    items: [],
-  },
-  3: {
-    title: "For Review",
-    items: [],
-  },
-  4: {
-    title: "Completed",
-    items: [],
-  },
 };
 
 export type Assignee = {
@@ -48,117 +23,154 @@ export type Assignee = {
   role: string;
 };
 
-export type ProjectTask = {
-  task: ProjectTask | null;
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  prodDate: string;
-  image: string;
-  type: number;
-  words: number;
-  timeliness: number;
-  contractId: number;
-  dateCreated: Date;
-  dateUpdated: number;
-  assignees: Assignee[];
-};
-
-const onDragEnd = (result: any, columns: any, setColumns: any) => {
+const onDragEnd = async (result: any, columns: any, setColumns: any) => {
   if (!result.destination) return;
-  const { source, destination } = result;
+  columns[result.destination.droppableId].items.push(
+    columns[result.source.droppableId].items[result.source.index]
+  );
 
-  if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destColumn.items];
-    const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems,
+  const updatedTask: ProjectTask =
+    columns[result.source.droppableId].items[result.source.index];
+
+  updatedTask.status = result.destination.droppableId - 1;
+  await fetch(
+    `http://localhost:5143/api/v1/ProjectTasks/id/${updatedTask.id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems,
-      },
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.items];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...column,
-        items: copiedItems,
-      },
-    });
-  }
+      body: JSON.stringify(updatedTask),
+    }
+  );
+
+  let arr: ProjectTask[] = columns[result.source.droppableId].items;
+
+  arr = arr.filter((i) => i.id !== updatedTask.id);
+
+  columns[result.source.droppableId].items = arr;
+
+  setColumns({
+    ...columns,
+    [result.source.droppableId]: {
+      title: columns[result.source.droppableId].title,
+      items: arr,
+    },
+  });
+
+  // if (source.droppableId !== destination.droppableId) {
+  //   const sourceColumn = columns[source.droppableId];
+  //   const destColumn = columns[destination.droppableId];
+  //   const sourceItems = [...sourceColumn.items];
+  //   const destItems = [...destColumn.items];
+  //   const [removed] = sourceItems.splice(source.index, 1);
+  //   destItems.splice(destination.index, 0, removed);
+  //   setColumns({
+  //     ...columns,
+  //     [source.droppableId]: {
+  //       ...sourceColumn,
+  //       items: sourceItems,
+  //     },
+  //     [destination.droppableId]: {
+  //       ...destColumn,
+  //       items: destItems,
+  //     },
+  //   });
+  // } else {
+  //   const column = columns[source.droppableId];
+  //   const copiedItems = [...column.items];
+  //   const [removed] = copiedItems.splice(source.index, 1);
+  //   copiedItems.splice(destination.index, 0, removed);
+  //   setColumns({
+  //     ...columns,
+  //     [source.droppableId]: {
+  //       ...column,
+  //       items: copiedItems,
+  //     },
+  //   });
+  // }
 };
 
 function KanbanBoard() {
-  const [columns, setColumns] = useState(columnsFromBackend);
+  const [columns, setColumns] = useState<Columns | null>(null);
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all");
-      const tasks = await res.json();
-      setTasks(tasks);
+      const resJson = await res.json();
+      setTasks(resJson);
+
+      console.log(resJson);
+
       setColumns({
         1: {
           title: "To do",
-          items: tasks.map((task:any) => ({ ...task, status: "To do" })),
+          items: tasks?.filter((task) => task.status === 0) ?? [],
         },
         2: {
           title: "In Progress",
-          items: [],
+          items: tasks?.filter((task) => task.status === 1) ?? [],
         },
         3: {
           title: "For Review",
-          items: [],
+          items: tasks?.filter((task) => task.status === 2) ?? [],
         },
         4: {
           title: "Completed",
-          items: [],
+          items: tasks?.filter((task) => task.status === 3) ?? [],
         },
       });
     };
-  
+
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setColumns({
+      1: {
+        title: "To do",
+        items: tasks?.filter((task) => task.status === 0) ?? [],
+      },
+      2: {
+        title: "In Progress",
+        items: tasks?.filter((task) => task.status === 1) ?? [],
+      },
+      3: {
+        title: "For Review",
+        items: tasks?.filter((task) => task.status === 2) ?? [],
+      },
+      4: {
+        title: "Completed",
+        items: tasks?.filter((task) => task.status === 3) ?? [],
+      },
+    });
+  }, [tasks]);
 
   // ADD BOARD
   const addBoard = (newBoardTitle: string) => {
-    const newColumnId = Object.keys(columns).length + 1;
-    const newColumn = {
-      id: newColumnId,
-      title: newBoardTitle,
-      items: [],
-    };
-    const updatedColumns = {
-      ...columns,
-      [newColumnId]: newColumn,
-    };
-    setColumns(updatedColumns);
+    // const newColumnId = Object.keys(columns).length + 1;
+    // const newColumn = {
+    //   id: newColumnId,
+    //   title: newBoardTitle,
+    //   items: [],
+    // };
+    // const updatedColumns = {
+    //   ...columns,
+    //   [newColumnId]: newColumn,
+    // };
+    // setColumns(updatedColumns);
   };
 
-  // DELETE BOARD
+  // // DELETE BOARD
   const deleteBoard = (boardId: number) => {
-    const filteredColumns = Object.keys(columns)
-      .filter((columnId) => parseInt(columnId) !== boardId)
-      .reduce((obj: Columns, columnId) => {
-        obj[columnId] = columns[columnId];
-        return obj;
-      }, {});
-    setColumns(filteredColumns);
+    // const filteredColumns = Object.keys(columns)
+    //   .filter((columnId) => parseInt(columnId) !== boardId)
+    //   .reduce((obj: Columns, columnId) => {
+    //     obj[columnId] = columns[columnId];
+    //     return obj;
+    //   }, {});
+    // setColumns(filteredColumns);
   };
 
   return (
@@ -167,7 +179,7 @@ function KanbanBoard() {
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
         >
-          {Object.entries(columns).map(([columnId, column], index) => {
+          {Object.entries(columns ?? []).map(([columnId, column], index) => {
             return (
               <div
                 style={{
@@ -187,9 +199,7 @@ function KanbanBoard() {
                       >
                         <div className="p-1.5 flex justify-between">
                           <EditableTitle initialValue={column.title} />
-                          <BoardMenu
-                            onDelete={() => deleteBoard(parseInt(columnId))}
-                          />
+                          <BoardMenu onDelete={() => deleteBoard} />
                         </div>
                         <div className="mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
                           {column.items.map((item, index) => {
@@ -205,10 +215,10 @@ function KanbanBoard() {
                                       title={item.title}
                                       status={column.title}
                                       description={item.description}
-                                      image={item.userProfile}
-                                      prodDate={item.prod_date}
+                                      prodDate={item.dateCreate}
                                       provided={provided}
-                                      task={null}
+                                      image={""}
+                                      task={item}
                                     />
                                   );
                                 }}

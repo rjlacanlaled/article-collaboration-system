@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AvatarGroup, Avatar } from "@mui/material";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
@@ -12,7 +12,7 @@ type ListItemProps = {
   title: string;
   description: string;
   image: string;
-  prodDate: string;
+  prodDate: number;
   provided: any;
   task: ProjectTask | null;
 };
@@ -21,12 +21,15 @@ function TaskItems({
   status,
   title,
   description,
-  image,
   prodDate,
   provided,
   task,
 }: ListItemProps) {
   const [open, setOpen] = React.useState("");
+
+  useEffect(() => {
+    console.log({ task });
+  }, [task]);
 
   return (
     <>
@@ -46,8 +49,8 @@ function TaskItems({
         </div>
         <div className="p-2 absolute top-0 right-0">
           <AvatarGroup>
-            <Avatar alt="Avatar 1" src={image} sx={{ width: 20, height: 20 }} />
-            <Avatar alt="Avatar 1" src={image} sx={{ width: 20, height: 20 }} />
+            <Avatar alt="Avatar 1" src={""} sx={{ width: 20, height: 20 }} />
+            <Avatar alt="Avatar 1" src={""} sx={{ width: 20, height: 20 }} />
           </AvatarGroup>
         </div>
       </div>

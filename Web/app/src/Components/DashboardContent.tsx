@@ -29,16 +29,16 @@ function DashboardContent() {
   ]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        "http://localhost:5143/api/v1/Users/users/approved"
-      );
-      const userDetails = await res.json();
-      setUserDetails(userDetails);
-    };
-
-    fetchData();
+    refreshData();
   }, []);
+
+  const refreshData = async () => {
+    const res = await fetch(
+      "http://localhost:5143/api/v1/Users/users/approved"
+    );
+    const userDetails = await res.json();
+    setUserDetails(userDetails);
+  };
 
   return (
     <DashboardPage>
@@ -106,7 +106,10 @@ function DashboardContent() {
                   </td>
                   <td className="border px-4 py-3 items-center">
                     <div className="flex justify-center">
-                      <UpdateUser user={userDetail} />
+                      <UpdateUser
+                        user={userDetail}
+                        updateHandler={refreshData}
+                      />
                       <DeleteUser />
                     </div>
                   </td>

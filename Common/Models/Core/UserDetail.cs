@@ -8,5 +8,5 @@ public class UserDetail
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = string.Empty;
     public string? Address { get; set; }
-
+    // public string? ImageUrl { get; set; }
 }

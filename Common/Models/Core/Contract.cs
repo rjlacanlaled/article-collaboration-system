@@ -8,7 +8,7 @@ public class Contract
     public int Type { get; set; }
     public int Plan { get; set; }
     public int Status { get; set; }
-    public int ManagedBy { get; set; }
+    public string ManagedBy { get; set; } = string.Empty;
     public DateTime DateCreated { get; set; } = DateTime.Now;
     public DateTime DateUpdated { get; set; } = DateTime.Now;
 }

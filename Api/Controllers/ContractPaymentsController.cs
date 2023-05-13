@@ -96,8 +96,11 @@ public class ContractPaymentsController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> FetchAllAsync()
     {
-        List<ContractPayment> contractPayments = await _dbContext.ContractPayments
-            .OrderBy(c => c.PaymentDate)
+        var contractPayments = await _dbContext.ContractPayments
+            .Join(_dbContext.Contracts, cp => cp.ContractId, c => c.Id, (cp, c) => new { ContractPayment = cp, Contract = c })
+            .Where(g => g.Contract != null)
+            .Join(_dbContext.UserDetails, g => g.Contract.ClientId, ud => ud.Id, (g, ud) => new { g.ContractPayment, g.Contract, UserDetails = ud })
+            .OrderBy(g => g.ContractPayment.PaymentDate)
             .ToListAsync();
 
         return Ok(contractPayments);

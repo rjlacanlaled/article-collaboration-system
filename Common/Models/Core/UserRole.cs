@@ -4,5 +4,5 @@ public class UserRole
 {
     public int Id { get; init; }
     public int UserId { get; set; }
-    public int RoleId { get; init; }
+    public int RoleId { get; set; }
 }

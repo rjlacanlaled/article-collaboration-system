@@ -28,7 +28,7 @@ function UpdateTask({ task }: MyProps) {
     timeliness: task.timeliness,
     status: task.status,
     contractId: task.contractId,
-    dateCreated: 0,
+    dateCreate: 0,
     dateUpdated: Date.now(),
     assignees: [],
   });
@@ -154,7 +154,9 @@ function UpdateTask({ task }: MyProps) {
                     required
                   />
                 </FormControl>
-                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                <Button type="submit" onClick={handleSubmit}>
+                  Submit
+                </Button>
               </Stack>
             </form>
           </ModalDialog>

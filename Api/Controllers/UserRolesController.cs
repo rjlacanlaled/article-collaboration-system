@@ -46,12 +46,13 @@ public class UserRolesController : ControllerBase
     public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] AddUserRolesRequest addUserRolesRequest)
     {
         UserRole? existing = await _dbContext.UserRoles
-            .Where(c => c.Id == id)
+            .Where(c => c.UserId == id)
             .FirstOrDefaultAsync();
 
         if (existing is null) return NotFound();
 
         existing.UserId = addUserRolesRequest.UserId;
+        existing.RoleId = addUserRolesRequest.RoleId;
 
         _dbContext.UserRoles.Update(existing);
         await _dbContext.SaveChangesAsync();

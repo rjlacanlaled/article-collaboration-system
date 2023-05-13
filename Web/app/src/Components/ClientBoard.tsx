@@ -4,20 +4,53 @@ import UpdateContract from "../modals/UpdateContract";
 import DeleteClient from "../modals/DeleteClient";
 import CreateContract from "../modals/CreateContract";
 
-export type Payment = {
+export type Plan = {
+  title: string;
+};
+
+export type ContractPayment = {
   id: number;
   contractId: number;
   clientId: number;
-  paymentplan: number;
   link: string;
   amount: number;
-  paymentDate: number;
-  manageBy: number;
-  dateCreated: number;
+  paymentDate: Date;
 };
 
+export type Contract = {
+  id: number;
+  clientId: number;
+  seoId: number;
+  type: number;
+  plan: number;
+  status: number;
+  managedBy: string;
+  dateCreated: Date;
+  dateUpdated: Date;
+};
+
+export type ContractUserDetails = {
+  id: number;
+  userId: number;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  address: string;
+};
+
+export type ContractFullDetails = {
+  contract: Contract;
+  userDetails: ContractUserDetails;
+  contractPayment: ContractPayment;
+};
+
+const paymentPlanStrings: string[] = ["Open", "6 months", "1 year"];
+const paymentType: string[] = ["Full Payment", "2 months advance"];
+
 function ClientBoard() {
-  const [payments, setPayments] = useState<Payment[] | undefined | null>([]);
+  const [payments, setPayments] = useState<
+    ContractFullDetails[] | undefined | null
+  >([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +59,7 @@ function ClientBoard() {
       );
       const paymentDetails = await res.json();
       setPayments(paymentDetails);
+      console.log(paymentDetails);
     };
 
     fetchData();
@@ -109,31 +143,30 @@ function ClientBoard() {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {payment.clientId}
+                        {payment.userDetails.firstName +
+                          " " +
+                          payment.userDetails.lastName}
                       </th>
                       <th
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {1}
+                        {"tbd"}
                       </th>
                       <th
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {payment.contractId === 0 ? "Open" : ""}
-                        {payment.contractId === 1 ? "6 Months" : ""}
-                        {payment.contractId=== 2 ? "1 Year" : ""}
+                        {paymentPlanStrings[payment.contract.plan]}
                       </th>
                       <th
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {payment.clientId === 0 ? "Full Payment" : ""}
-                        {payment.clientId === 1 ? "2 Months Advance" : ""}
+                        {paymentType[payment.contract.type]}
                       </th>
                       <td className="px-6 py-4">
-                        {payment.paymentDate != null ? (
+                        {payment.contractPayment.paymentDate != null ? (
                           <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
                             Paid
                           </p>
@@ -147,20 +180,23 @@ function ClientBoard() {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        ₱{payment.amount.toString()}
+                        ₱{payment.contractPayment.amount.toString()}
                       </th>
                       <th
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                       >
-                        {new Date(payment.paymentDate).toLocaleDateString()}
+                        {new Date(
+                          payment.contractPayment.paymentDate
+                        ).toLocaleString()}
                       </th>
                       <td className="px-6 py-4">
-                        {payment.manageBy === 1 ? "SearchWorks" : ""}
-                        {payment.manageBy === 2 ? "Client" : ""}asds
+                        {payment.contract.managedBy}
                       </td>
                       <td className="px-6 py-4">
-                        {new Date(payment.dateCreated).toLocaleDateString()}
+                        {new Date(
+                          payment.contract.dateCreated
+                        ).toLocaleString()}
                       </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateContract />
