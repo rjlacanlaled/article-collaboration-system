@@ -44,7 +44,7 @@ function TaskItems({
           <h4 className="text-sm m-2 self-start">{title}</h4>
           <p className="text-xs mb-1 mx-1">{description}</p>
           <i className="text-xs my-2 mx-1 self-end">
-            Production Date:{prodDate}
+            Production Date:{new Date(prodDate).toLocaleDateString()}
           </i>
         </div>
         <div className="p-2 absolute top-0 right-0">
