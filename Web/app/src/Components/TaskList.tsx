@@ -40,6 +40,36 @@ function TaskList() {
     fetchData();
   }, []);
 
+  const getStatus = (status:any) => { 
+  switch(status) {
+    case 0:
+      return 'bg-orange-500';
+    case 1:
+      return 'bg-blue-500';
+    case 2:
+      return 'bg-purple-500';
+    case 3:
+      return 'bg-green-500';
+    default:
+      return '';
+  }
+}
+
+const getStatusText = (status:any) => {
+  switch(status) {
+    case 0:
+      return 'To Do';
+    case 1:
+      return 'In Progress';
+    case 2:
+      return 'For Review';
+    case 3:
+      return 'Completed';
+    default:
+      return '';
+  }
+}
+
   return (
     <DashboardPage>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
@@ -127,11 +157,8 @@ function TaskList() {
                         </Link>
                       </th>
                       <td className="px-6 py-4">
-                        <p className="bg-orange-500 rounded-lg p-1 w-content text-center">
-                          {task.status === 0 ? "To Do" : ""}
-                          {task.status === 1 ? "In Progress" : ""}
-                          {task.status === 2 ? "For Review" : ""}
-                          {task.status === 3 ? "Completed" : ""}
+                        <p className={`${getStatus(task.status)} rounded-lg p-1 w-content text-center`}>
+                          {getStatusText(task.status)}
                         </p>
                       </td>
                       <td className="px-6 py-4">{"client"}</td>
@@ -145,7 +172,11 @@ function TaskList() {
                         {task.timeliness === 1 ? "Past EOD" : ""}
                         {task.timeliness === 2 ? "On Time" : ""}
                       </td>
-                      <td className="px-6 py-4">{task.dateCreate}</td>
+                      <td className="px-6 py-4">
+                      {new Date(
+                          task.dateCreate
+                        ).toLocaleString()}
+                      </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateTask task={task} />
                         <DeleteTask />

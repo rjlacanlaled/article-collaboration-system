@@ -23,7 +23,7 @@ function AdminDashboard() {
       lastName: "",
       email: "",
       role: "",
-      registrationDate: 0,
+      registrationDate: 1,
     },
   ]);
 
@@ -113,7 +113,9 @@ function AdminDashboard() {
                     <td className="border px-4 py-3">{userDetail.role}</td>
                     <td className="border px-4 py-3"><Chip label="For Approval" /></td>
                     <td className="border px-4 py-3">
-                    {new Date(userDetail.registrationDate).toLocaleString()}
+                    {new Date(
+                          userDetail.registrationDate
+                        ).toLocaleString()}
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
                       <ApproveUser user={userDetail} />

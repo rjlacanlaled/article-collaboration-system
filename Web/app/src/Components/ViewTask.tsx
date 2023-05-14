@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import DashboardPage from "../Pages/DashboardPage";
 import TaskAssigned from "./TaskAssigned";
 import TaskComment from "./TaskComment";
-import TaskData from "../Data/TaskData.json";
 import { ProjectTask } from "./TaskList";
 
 function ViewTask() {

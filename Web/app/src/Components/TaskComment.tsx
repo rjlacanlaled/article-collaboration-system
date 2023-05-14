@@ -16,6 +16,37 @@ function TaskComment({ task }: MyProps) {
     setComment(event.target.value);
   };
 
+  
+  const getStatus = (status:any) => { 
+    switch(status) {
+      case 0:
+        return 'bg-orange-500';
+      case 1:
+        return 'bg-blue-500';
+      case 2:
+        return 'bg-purple-500';
+      case 3:
+        return 'bg-green-500';
+      default:
+        return '';
+    }
+  }
+  
+  const getStatusText = (status:any) => {
+    switch(status) {
+      case 0:
+        return 'To Do';
+      case 1:
+        return 'In Progress';
+      case 2:
+        return 'For Review';
+      case 3:
+        return 'Completed';
+      default:
+        return '';
+    }
+  }
+
   return (
     <div>
       <section className="bg-white dark:bg-white py-8 lg:py-13">
@@ -25,16 +56,8 @@ function TaskComment({ task }: MyProps) {
               <h1 className="mb-4 text-lg lg:text-2xl font-bold text-gray-900 dark:text-black">
                 {task?.title}
               </h1>
-              <p className="bg-orange-500 rounded-lg p-1 px-2.5 w-content text-center font-medium">
-                {task?.status === 0
-                  ? "To Do"
-                  : task?.status === 1
-                  ? "In Progress"
-                  : task?.status === 2
-                  ? "For Review"
-                  : task?.status === 3
-                  ? "Completed"
-                  : "Undefined"}
+              <p className={`${getStatus(task?.status)} rounded-lg p-1 px-2.5 w-content text-center font-medium`}>
+                {getStatusText(task?.status)}
               </p>
             </div>
             <label className="font-semibold">Description</label>
