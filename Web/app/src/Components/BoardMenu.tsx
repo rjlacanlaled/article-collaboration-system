@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -6,10 +6,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface MyComponentProps {
     onDelete?: () => void;
+    columnId: any;
+    columnItems: any;
 }
 
-const BoardMenu = ({ onDelete }: MyComponentProps) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+const BoardMenu = ({ onDelete, columnId, columnItems }: MyComponentProps) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -34,24 +36,50 @@ const BoardMenu = ({ onDelete }: MyComponentProps) => {
       >
         <MoreVertIcon />
       </IconButton>
-      <Menu
-        id="long-menu"
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            width: '20ch',
-          },
-        }}
-      >
-        <MenuItem onClick={handleDeleteClick}>
-            Delete
-        </MenuItem>
-      </Menu>
+
+        { columnId === "4" ? (
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              'aria-labelledby': 'long-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                width: '20ch',
+              },
+            }}
+          >
+            <MenuItem onClick={handleDeleteClick}>
+              <p className='text-sm text-slate-500 '> Delete </p>
+            </MenuItem>
+            <MenuItem >
+               <p className='text-sm text-slate-500'>Clear ({columnItems.length}) Done Issue</p> 
+            </MenuItem>
+          </Menu>
+        ) : (     
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              'aria-labelledby': 'long-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                width: '20ch',
+              },
+            }}
+          >
+            <MenuItem onClick={handleDeleteClick}>
+              <p className='text-sm text-slate-500'> Delete </p>
+            </MenuItem>
+          </Menu>
+        )}
+
     </div>
   );
 }

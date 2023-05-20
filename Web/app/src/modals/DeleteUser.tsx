@@ -5,16 +5,30 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import DeleteIcon from '../Assets/Images/delete-icon.svg'
-import DataUser from '../Data/UserData.json'
+import { UserDetail } from "../Components/AdminDashboard";
 
-function DeleteUser() {
+interface MyUserRoleProps {
+  user: UserDetail;
+  updateHandler: any;
+}
+
+function DeleteUser({user, updateHandler}: MyUserRoleProps) {
 
   const [open, setOpen] = useState(false);
 
-  const deleteUserById = (userId:number) => {
-    const updatedUserList = DataUser.filter(user => user.id !== userId);
-    console.log(updatedUserList); // You can save the updatedUserList to a state variable or update the original array as per your requirement.
-  }
+  const handleDeleteUserSubmit = async () => {
+    await fetch(`http://localhost:5143/api/v1/UserDetails/id/${user.userId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: user.userId
+    }),
+  });
+    await updateHandler();
+    setOpen(false)
+  };
 
   return (
     <>
@@ -41,17 +55,11 @@ function DeleteUser() {
           <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
             Are you sure you want to delete this user?
           </Typography>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              deleteUserById(123); // Pass the ID of the user to delete
-              setOpen(false);
-            }}
-          >
+          <form>
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button color="danger" className='w-24' size='sm'>Delete</Button>
+                <Button color="danger" className='w-24' size='sm' onClick={handleDeleteUserSubmit}>Delete</Button>
               </Stack>
             </Stack>
           </form>

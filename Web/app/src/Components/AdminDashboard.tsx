@@ -28,6 +28,10 @@ function AdminDashboard() {
   ]);
 
   useEffect(() => {
+    refreshData();
+  }, []);
+
+  const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch(
         "http://localhost:5143/api/v1/Users/users/unapproved"
@@ -39,7 +43,7 @@ function AdminDashboard() {
     };
 
     fetchData();
-  }, []);
+  };
 
   useEffect(() => {
     console.log(userDetails);
@@ -118,7 +122,7 @@ function AdminDashboard() {
                         ).toLocaleString()}
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
-                      <ApproveUser user={userDetail} />
+                      <ApproveUser user={userDetail} updateHandler={refreshData} />
                       <RejectUser />
                     </td>
                   </tr>

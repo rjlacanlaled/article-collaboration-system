@@ -1,45 +1,56 @@
-import * as React from 'react';
-import { Avatar } from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import FormControl from "@mui/joy/FormControl";
+import { MenuItem } from '@mui/material';
+import Select from "@mui/material/Select";
+
+export type UserDetail = {
+  id: number;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  registrationDate: number;
+};
 
 export default function SelectUser() {
-  const [user, setUser] = React.useState('');
+  const [user, setUser] = useState()
+  const [assign, setAssign] = useState<UserDetail[]>([]);
 
   const handleChange = (event: any) => {
     setUser(event.target.value);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/UserDetails/all");
+      const roles = await res.json();
+      setAssign(roles);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
-        <div className="m-1 w-min">
-          <select
-            value={user}
-            onChange={handleChange}
-            className="h-8 w-40 py-1.5 px-3 bg-transparent border border-none rounded-sm focus:border-blue-500 cursor-pointer"
-          >
-            <option value="" disabled className='hover-bg-white'>
-              Unassigned
-            </option>
-            <option value={10}>
-              <span className="flex items-center">
-                <Avatar src="/broken-image.jpg" />
-                <span className="ml-2">Option 1</span>
-              </span>
-            </option>
-            <option value={20}>
-              <span className="flex items-center">
-                <Avatar>H</Avatar>
-                <span className="ml-2">Option 2</span>
-              </span>
-            </option>
-            <option value={30}>
-              <span className="flex items-center">
-                <Avatar>H</Avatar>
-                <span className="ml-2">Option 3</span>
-              </span>
-            </option>
-          </select>
-        </div>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="sm">
+        <Select
+          type="text"
+          label="Role"
+          value={user}
+          onChange={handleChange}
+          required
+          sx={{ borderRadius: "2px",  border: "none", color: "black", fontSize: "12px", padding: "4px", minWidth: "180px",  maxHeight: "33px"}}
+          size='small'
+        >
+          <MenuItem value="" sx={{fontSize: "15px"}}>
+            <em>None</em>
+          </MenuItem>
+          {assign.map((users) => (
+            <MenuItem value={users.id} sx={{fontSize: "15px"}}>{users.firstName} {users.lastName}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </div>
   );
 }

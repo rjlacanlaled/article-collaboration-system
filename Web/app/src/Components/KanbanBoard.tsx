@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import DashboardPage from "../Pages/DashboardPage";
 import EditableTitle from "./EditableTitle";
 import AddBoard from "./AddBoard";
-import BoardMenu from "./BoardMenu";
+import ColumnMenu from "./BoardMenu";
 import TaskItems from "./TaskItems";
 import AddSwimLaneList from "../modals/AddItem";
 import { ProjectTask } from "./TaskList";
@@ -198,8 +198,8 @@ function KanbanBoard() {
                         className="w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative"
                       >
                         <div className="p-1.5 flex justify-between">
-                          <EditableTitle initialValue={column.title} />
-                          <BoardMenu onDelete={() => deleteBoard} />
+                          <EditableTitle initialValue={column.title} task={column.items} columnId={columnId}/>
+                          <ColumnMenu onDelete={() => deleteBoard} columnId={columnId} columnItems={column.items} />
                         </div>
                         <div className="mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
                           {column.items.map((item, index) => {
@@ -219,6 +219,7 @@ function KanbanBoard() {
                                       provided={provided}
                                       image={""}
                                       task={item}
+                                      createdAt={item.dateCreate}
                                     />
                                   );
                                 }}
@@ -231,7 +232,7 @@ function KanbanBoard() {
                           <AddSwimLaneList />
                         </div>
                       </div>
-                    );
+                    );  
                   }}
                 </Droppable>
               </div>

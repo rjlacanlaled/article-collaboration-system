@@ -12,7 +12,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import DatePicker from "./DatePicker";
 
-function CreateTask() {
+interface MyProps {
+  updateHandler: any;
+}
+
+function CreateTask({updateHandler}: MyProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState({
@@ -31,7 +35,7 @@ function CreateTask() {
     });
   };
 
-  const onSubmitCreateTask = async () => {
+  const handleCreateTaskSubmit = async () => {
     await fetch("http://localhost:5143/api/v1/ProjectTasks", {
       method: "POST",
       headers: {
@@ -47,6 +51,8 @@ function CreateTask() {
         contractId: -1,
       }),
     });
+    await updateHandler();
+    setOpen(false);
   };
 
   return (
@@ -136,7 +142,7 @@ function CreateTask() {
                 <FormLabel>SEO Deadline</FormLabel>
                 <DatePicker />
               </FormControl>
-              <Button type="submit" onClick={onSubmitCreateTask}>
+              <Button onClick={handleCreateTaskSubmit}>
                 Submit
               </Button>
             </Stack>

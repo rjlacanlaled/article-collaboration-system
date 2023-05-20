@@ -14,9 +14,10 @@ import { ProjectTask } from "../Components/TaskList";
 
 interface MyProps {
   task: ProjectTask;
+  updateHandler: any;
 }
 
-function UpdateTask({ task }: MyProps) {
+function UpdateTask({ task, updateHandler }: MyProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState<ProjectTask>({
@@ -42,7 +43,7 @@ function UpdateTask({ task }: MyProps) {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleUpdateTaskSubmit = async () => {
     await fetch(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`, {
       method: "PUT",
       headers: {
@@ -58,6 +59,8 @@ function UpdateTask({ task }: MyProps) {
         contractId: taskData.contractId,
       }),
     });
+    await updateHandler();
+    setOpen(false);
   };
 
   return (
@@ -154,7 +157,7 @@ function UpdateTask({ task }: MyProps) {
                     required
                   />
                 </FormControl>
-                <Button type="submit" onClick={handleSubmit}>
+                <Button onClick={handleUpdateTaskSubmit}>
                   Submit
                 </Button>
               </Stack>

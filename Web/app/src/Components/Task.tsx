@@ -52,7 +52,7 @@ const [open, setOpen] = React.useState("");
                       <TaskComment task={task.status} />
                     </div>
                     <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-                      <TaskAssigned />
+                      <TaskAssigned task={task}/>
                       <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-gray-500">
                         Created March 28, 2023 at 2:49 PM
                       </h2>

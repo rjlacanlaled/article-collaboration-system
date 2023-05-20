@@ -53,18 +53,18 @@ function TaskComment({ task }: MyProps) {
         <div className="max-w-2xl mx-auto px-4">
           <div className="mb-9">
             <div className="flex justify-between items-center">
-              <h1 className="mb-4 text-lg lg:text-2xl font-bold text-gray-900 dark:text-black">
+              <h1 className="mb-4 max-w-md lg:text-2xl font-bold text-slate-800">
                 {task?.title}
               </h1>
-              <p className={`${getStatus(task?.status)} rounded-lg p-1 px-2.5 w-content text-center font-medium`}>
+              <p className={`${getStatus(task?.status)} rounded-lg p-1 px-2.5 w-content text-center font-medium text-white`}>
                 {getStatusText(task?.status)}
               </p>
             </div>
-            <label className="font-semibold">Description</label>
-            <p>{task?.description}</p>
+            <label className="font-semibold text-slate-800">Description</label>
+            <p className="text-slate-800">{task?.description}</p>
           </div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-black">
+            <h2 className="text-lg lg:text-2xl font-bold text-slate-800">
               Discussion (20)
             </h2>
           </div>
