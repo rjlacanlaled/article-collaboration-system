@@ -31,6 +31,10 @@ function TaskList() {
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
 
   useEffect(() => {
+    refreshData();
+  }, []);
+
+  const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all");
       const tasks = await res.json();
@@ -38,7 +42,7 @@ function TaskList() {
     };
 
     fetchData();
-  }, []);
+  };
 
   const getStatus = (status:any) => { 
   switch(status) {
@@ -74,7 +78,7 @@ const getStatusText = (status:any) => {
     <DashboardPage>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
         <div className="flex justify-start flex-row items-center mb-8">
-          <CreateTask />
+          <CreateTask updateHandler={refreshData} />
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-md">
           <table className="w-full text-sm text-left dark:text-black">
@@ -144,20 +148,20 @@ const getStatusText = (status:any) => {
                       </td>
                       <th
                         scope="row"
-                        className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
+                        className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-black"
                       >
                         <Link to={`/viewtask/${task.id}`}>{task.title}</Link>
                       </th>
                       <th
                         scope="row"
-                        className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
+                        className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-black"
                       >
                         <Link to={`/viewtask/${task.id}`}>
                           {task.description}
                         </Link>
                       </th>
-                      <td className="px-6 py-4">
-                        <p className={`${getStatus(task.status)} rounded-lg p-1 w-content text-center`}>
+                      <td className="px-6.5 py-4">
+                        <p className={`${getStatus(task.status)} rounded-lg py-1 w-24 text-center text-zinc-50`}>
                           {getStatusText(task.status)}
                         </p>
                       </td>
@@ -178,8 +182,8 @@ const getStatusText = (status:any) => {
                         ).toLocaleString()}
                       </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
-                        <UpdateTask task={task} />
-                        <DeleteTask />
+                        <UpdateTask task={task} updateHandler={refreshData} />
+                        <DeleteTask task={task} updateHandler={refreshData}/>
                       </td>
                     </tr>
                   ))}

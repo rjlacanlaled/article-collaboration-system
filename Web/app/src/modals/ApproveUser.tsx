@@ -9,9 +9,10 @@ import { UserDetail } from "../Components/DashboardContent";
 
 interface MyProps {
   user: UserDetail;
+  updateHandler: any;
 }
 
-function ApproveUser({ user }: MyProps) {
+function ApproveUser({ user, updateHandler }: MyProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -56,7 +57,7 @@ function ApproveUser({ user }: MyProps) {
                 >
                   Cancel
                 </Button>
-                <UserRole user={user} />
+                <UserRole user={user} updateHandler={updateHandler} />
               </Stack>
             </Stack>
           </form>

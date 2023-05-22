@@ -29,7 +29,7 @@ function ViewTask() {
             <TaskComment task={taskData} />
           </div>
           <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-            <TaskAssigned />
+            <TaskAssigned task={taskData}/>
             <h2 className="absolute bottom-0 right-0 p-4 font-medium text-sm text-gray-500">
               Created March 28, 2023 at 2:49 PM
             </h2>

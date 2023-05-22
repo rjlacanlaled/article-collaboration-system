@@ -5,20 +5,24 @@ import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Slide from '@mui/material/Slide';
-import TaskData from '../Data/TaskData.json';
 import SelectUser from './SelectUser';
+import { ProjectTask } from "./TaskList";
 
-export default function TaskAssigned() {
+interface MyProps {
+  task: ProjectTask | null;
+}
 
-    const [expanded, setExpanded] = useState(true);
+export default function TaskAssigned({ task }: MyProps) {
+
+    const [detailsExpand, setDetailsExpanded] = useState(true);
 
     const handleAccordionChange = () => {
-      setExpanded(!expanded);
+      setDetailsExpanded(!detailsExpand);
     };
 
   return (
     <div className='p-2 w-full mt-7'>
-      <Accordion expanded={expanded} onChange={handleAccordionChange} TransitionProps={{ unmountOnExit: true }}>
+      <Accordion expanded={detailsExpand} onChange={handleAccordionChange} TransitionProps={{ unmountOnExit: true }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -26,9 +30,8 @@ export default function TaskAssigned() {
         >
           <Typography>Details</Typography>
         </AccordionSummary>
-         {TaskData.filter(task => task.id === 4).map((task) => ( 
-            <Slide direction="up" in={expanded} mountOnEnter unmountOnExit>
-            <div className='p-2 flex flex-col items-start h-content relative text-sm'>
+            <Slide direction="up" in={detailsExpand} mountOnEnter unmountOnExit>
+            <div className='p-2 flex flex-col items-start h-content relative text-sm text-slate-800'>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Assignee:</label>
                 <div className='flex items-center ml-2'>
@@ -40,25 +43,26 @@ export default function TaskAssigned() {
                 <div className='flex items-center ml-2'>
                   <img 
                     className="mr-2 w-6 h-6 rounded-full"
-                    src={task.userProfile}
+                    src={''}
                     alt="Jese Leos" 
                   />
-                  <p>{task.reporter}</p>
+                  <p>{task?.id}</p>
                 </div>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Type:</label>
-                <p>{task.type}</p>
+                <p>{task?.type === 0 ? "Guest Post" : ""}</p>
+                <p>{task?.type === 1 ? "Blog" : ""}</p>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Words:</label>
-                <p>{task.words}</p>
+                <p>{task?.words}</p>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Timeliness:</label>
-                  {task.timeliness.pending ? "Pending" : ""}
-                  {task.timeliness.past_eod ? "Past EOD" : ""}
-                  {task.timeliness.on_time ? "On Time" : ""}
+                  {task?.timeliness ? "Pending" : ""}
+                  {task?.timeliness ? "Past EOD" : ""}
+                  {task?.timeliness ? "On Time" : ""}
               </div>
               <div className='absolute bottom-0 right-0 p-3 text-xs text-gray-500'>
                 <p>SEO Deadline: April 04, 2023</p>
@@ -66,9 +70,8 @@ export default function TaskAssigned() {
               </div>
             </div>
             </Slide>
-        ))}
       </Accordion>
-      <Accordion>
+      <Accordion expanded={detailsExpand} onChange={handleAccordionChange} TransitionProps={{ unmountOnExit: true }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -77,11 +80,11 @@ export default function TaskAssigned() {
           <Typography>Contract Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <div className='flex flex-col items-start h-content text-sm'>
+        <div className='flex flex-col items-start h-content text-sm text-slate-800'>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Client:</label>
                 <div className='flex items-center ml-2'>
-                  <SelectUser />
+                    <SelectUser />
                 </div>    
               </div>
               <div className='flex items-center'>
@@ -107,7 +110,7 @@ export default function TaskAssigned() {
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Payment Status:</label>
-                <p className='bg-green-500 rounded-lg px-3 py-0.5 text-center'>Paid</p>
+                <p className='bg-green-500 text-white rounded-lg px-3 py-0.5 text-center'>Paid</p>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Managed By:</label>

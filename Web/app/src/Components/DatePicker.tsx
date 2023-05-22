@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function DatePicker() {
   
-  const [selectedDate, setSelectedDate] = useState('Deadline');
+  const [selectedDate, setSelectedDate] = useState('');
 
   function handleDateChange(event:any) {
     setSelectedDate(event.target.value);

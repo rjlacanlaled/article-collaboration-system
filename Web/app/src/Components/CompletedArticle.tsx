@@ -3,7 +3,12 @@ import ExportButton from './ExportButton'
 import TaskData from '../Data/TaskData.json'
 import TaskTotalStatus from '../Data/TaskTotalStatus.json'
 import DatePickerViews from './DatePickerViews'
-import ReportTaskStatus from './ReportTaskStatus' 
+import ReportTaskStatus from './ReportTaskStatus'
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; 
 
 function CompletedArticle() {
   return (
@@ -57,7 +62,20 @@ function CompletedArticle() {
                 ))}     
             </tbody>
             </table>
-            <ExportButton label="export all" />
+            <div className='place-self-center mb-5'>
+                <Stack spacing={2}>
+                    <Pagination
+                        count={10}
+                        renderItem={(item) => (
+                    <PaginationItem
+                        slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                        {...item}
+                     />
+                    )}
+                  />
+                </Stack>
+            </div>
+                <ExportButton label="export all" />
         </div>
     </>
   )

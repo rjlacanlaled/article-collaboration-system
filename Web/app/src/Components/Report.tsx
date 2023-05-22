@@ -4,6 +4,11 @@ import UserData from '../Data/UserData.json'
 import ExportButton from './ExportButton';
 import TimeFrame from './DatePickerViews';
 import ArticleTable from './CompletedArticle';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function Report() {
   return (
@@ -53,6 +58,19 @@ function Report() {
                 ))}     
             </tbody>
             </table>
+            <div className='place-self-center mb-5'>
+                <Stack spacing={2}>
+                    <Pagination
+                        count={10}
+                        renderItem={(item) => (
+                    <PaginationItem
+                        slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                        {...item}
+                     />
+                    )}
+                  />
+                </Stack>
+            </div>
             <ExportButton label="export all"/>         
         </div>
     </DashboardPage>

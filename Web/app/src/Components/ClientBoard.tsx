@@ -48,9 +48,7 @@ const paymentPlanStrings: string[] = ["Open", "6 months", "1 year"];
 const paymentType: string[] = ["Full Payment", "2 months advance"];
 
 function ClientBoard() {
-  const [payments, setPayments] = useState<
-    ContractFullDetails[] | undefined | null
-  >([]);
+  const [payments, setPayments] = useState<ContractFullDetails[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

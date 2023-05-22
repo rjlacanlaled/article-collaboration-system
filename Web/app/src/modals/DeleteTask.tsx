@@ -5,10 +5,30 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import DeleteIcon from '../Assets/Images/delete-icon.svg'
+import { ProjectTask } from "../Components/TaskList";
 
-function DeleteUser() {
+interface MyProps {
+  task: ProjectTask;
+  updateHandler: any;
+}
+
+function DeleteUser({ task, updateHandler }: MyProps) {
 
   const [open, setOpen] = useState(false);
+
+  const handleDeleteTaskSubmit = async () => {
+    await fetch(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: task.id
+      }),
+    });
+    await updateHandler();
+    setOpen(false)
+  };
 
   return (
     <>
@@ -36,15 +56,14 @@ function DeleteUser() {
             Are you sure you want to delete this Task?
           </Typography>
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
+            onSubmit={() => {
               setOpen(false);
             }}
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button color="danger" className='w-24' size='sm'>Delete</Button>
+                <Button color="danger" className='w-24' size='sm' onClick={handleDeleteTaskSubmit}>Delete</Button>
               </Stack>
             </Stack>
           </form>

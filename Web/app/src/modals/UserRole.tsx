@@ -18,9 +18,10 @@ export type Role = {
 
 interface MyUserRoleProps {
   user: UserDetail;
+  updateHandler: any;
 }
 
-function UserRole({ user }: MyUserRoleProps) {
+function UserRole({ user, updateHandler}: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
   const [userRoles, setUserRoles] = useState<Role[]>([]);
   const [selectedRole, setSelectedRole] = useState<number>(0);
@@ -29,7 +30,7 @@ function UserRole({ user }: MyUserRoleProps) {
     setSelectedRole(parseInt(e.target.value));
   };
 
-  const handleSubmit = async () => {
+  const handleUserRoleSubmit = async () => {
     await fetch("http://localhost:5143/api/v1/UserRoles", {
       method: "POST",
       headers: {
@@ -40,6 +41,8 @@ function UserRole({ user }: MyUserRoleProps) {
         roleId: selectedRole,
       }),
     });
+    await updateHandler();
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -105,7 +108,7 @@ function UserRole({ user }: MyUserRoleProps) {
                   color="success"
                   className="w-full"
                   size="lg"
-                  onClick={handleSubmit}
+                  onClick={handleUserRoleSubmit}
                 >
                   Approve
                 </Button>

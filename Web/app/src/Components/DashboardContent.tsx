@@ -15,19 +15,23 @@ export type UserDetail = {
   registrationDate: number;
 };
 
-function DashboardContent() {
-  const [userDetails, setUserDetails] = useState<UserDetail[]>([
-    {
-      id: 1,
-      userId: 1,
-      firstName: "bryan",
-      lastName: "saguit",
-      email: "fakerbryan@yahoo.com",
-      role: "member",
-      registrationDate: Date.now(),
-    },
-  ]);
+const initialUserDetails: UserDetail[] = [
+  {
+    id: 1,
+    userId: 1,
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "",
+    registrationDate: Date.now(),
+  },
+];
 
+
+
+function DashboardContent() {
+  const [userDetails, setUserDetails] = useState<UserDetail[]>(initialUserDetails);
+  console.log(userDetails)
   useEffect(() => {
     refreshData();
   }, []);
@@ -42,14 +46,18 @@ function DashboardContent() {
 
   return (
     <DashboardPage>
-      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-content drop-shadow rounded-md m-4">
+      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
           <div className="flex justify-center flex-row text-left bg-white p-7 drop-shadow w-72 rounded-md">
             <div className="flex justify-center flex-col mr-9">
               <h1 className="text-sm font-semibold mb-1">MEMBERS</h1>
+              {userDetails.length > 0 ? (
               <label className="lining-nums font-bold text-4xl">
                 {userDetails.length}
               </label>
+              ) : (
+              <p className="lining-nums font-bold text-4xl">0</p>
+              )}
             </div>
             <img src={MemberLogo} alt="member-logo" className="w-20" />
           </div>
@@ -93,9 +101,10 @@ function DashboardContent() {
                 <th className="px-4 py-3">Action</th>
               </tr>
             </thead>
-            <tbody className="overflow-scroll text-sm">
-              {userDetails.map((userDetail) => (
-                <tr className="hover:bg-slate-300">
+            <tbody className="overflow-scroll text-sm relative">
+            {Array.isArray(userDetails) && userDetails.length > 0 ? (
+              userDetails.map((userDetail) => (
+                <tr className="hover:bg-slate-300" key={userDetail.id}>
                   <td className="border px-4 py-3">{userDetail.userId}</td>
                   <td className="border px-4 py-3">{userDetail.firstName}</td>
                   <td className="border px-4 py-3">{userDetail.lastName}</td>
@@ -106,15 +115,17 @@ function DashboardContent() {
                   </td>
                   <td className="border px-4 py-3 items-center">
                     <div className="flex justify-center">
-                      <UpdateUser
-                        user={userDetail}
-                        updateHandler={refreshData}
-                      />
-                      <DeleteUser />
+                      <UpdateUser user={userDetail} updateHandler={refreshData} />
+                      <DeleteUser user={userDetail} updateHandler={refreshData} />
                     </div>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <div className="absolute top-0 left-0 bottom-0 right-0 mt-5">
+                <h1 className="text-xl text-stone-800">No Approved Users</h1>
+              </div>
+            )}
             </tbody>
           </table>
         </div>
