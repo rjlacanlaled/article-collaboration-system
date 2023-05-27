@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import DashboardPage from '../Pages/DashboardPage'
 import UserData from '../Data/UserData.json'
 import ExportButton from './ExportButton';
@@ -11,6 +11,21 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function Report() {
+
+    const [page, setPage] = useState(1)
+
+    const UserPerPage = 5
+    const totalPages = Math.ceil(UserData.length / UserPerPage);
+
+    const startIndex = (page - 1) * UserPerPage;
+    const endIndex = startIndex + UserPerPage;
+    const displayedUsers = UserData.slice(startIndex, endIndex);
+
+    const handleChange = (e: any, p: number) => {
+        console.log(page)
+        setPage(p)
+    }
+
   return (
     <DashboardPage>
         <ArticleTable/>    
@@ -26,42 +41,46 @@ function Report() {
                     <input type="text" id="table-search" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-slate-500 dark:text-slate-700 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items"/>
                 </div>
             </div>
-            <table className="table-auto border-collapse my-6 text-base w-full">
-            <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
-                <tr>
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">First Name</th>
-                <th className="px-4 py-3">Last Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Role</th>
-                <th className="px-4 py-3">In Progress</th>
-                <th className="px-4 py-3">Completed Task</th>
-                <th className="px-4 py-3">Past EOD</th>
-                <th className="px-4 py-3">Export</th>
-                </tr>
-            </thead>
-            <tbody className='overflow-scroll text-sm'>
-                { UserData.map((UserDatas) => (
+            <div className='w-full h-400'>
+                <table className="table-auto border-collapse my-6 text-base w-full">
+                <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
                     <tr>
-                        <td className="border px-4 py-3">{UserDatas.id}</td>
-                        <td className="border px-4 py-3">{UserDatas.firstname}</td>
-                        <td className="border px-4 py-3">{UserDatas.lastname}</td>
-                        <td className="border px-4 py-3">{UserDatas.email}</td>
-                        <td className="border px-4 py-3">{UserDatas.role}</td>
-                        <td className="border px-4 py-3">{UserDatas.inProgress}</td>
-                        <td className="border px-4 py-3">{UserDatas.completed}</td>
-                        <td className="border px-4 py-3">{UserDatas.pastEod}</td>
-                        <td className="border px-4 py-3 items-center">
-                                <ExportButton label="export"/>
-                        </td>
+                    <th className="px-4 py-3">ID</th>
+                    <th className="px-4 py-3">First Name</th>
+                    <th className="px-4 py-3">Last Name</th>
+                    <th className="px-4 py-3">Email</th>
+                    <th className="px-4 py-3">Role</th>
+                    <th className="px-4 py-3">In Progress</th>
+                    <th className="px-4 py-3">Completed Task</th>
+                    <th className="px-4 py-3">Past EOD</th>
+                    <th className="px-4 py-3">Export</th>
                     </tr>
-                ))}     
-            </tbody>
-            </table>
+                </thead>
+                <tbody className='overflow-scroll text-sm'>
+                    { displayedUsers.map((UserDatas) => (
+                        <tr key={UserDatas.id}>
+                            <td className="border px-4 py-3">{UserDatas.id}</td>
+                            <td className="border px-4 py-3">{UserDatas.firstname}</td>
+                            <td className="border px-4 py-3">{UserDatas.lastname}</td>
+                            <td className="border px-4 py-3">{UserDatas.email}</td>
+                            <td className="border px-4 py-3">{UserDatas.role}</td>
+                            <td className="border px-4 py-3">{UserDatas.inProgress}</td>
+                            <td className="border px-4 py-3">{UserDatas.completed}</td>
+                            <td className="border px-4 py-3">{UserDatas.pastEod}</td>
+                            <td className="border px-4 py-3 items-center">
+                                    <ExportButton label="export"/>
+                            </td>
+                        </tr>
+                    ))}     
+                </tbody>
+                </table>
+            </div>
             <div className='place-self-center mb-5'>
                 <Stack spacing={2}>
                     <Pagination
-                        count={10}
+                        count={totalPages}
+                        page={page}
+                        onChange={handleChange}
                         renderItem={(item) => (
                     <PaginationItem
                         slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}

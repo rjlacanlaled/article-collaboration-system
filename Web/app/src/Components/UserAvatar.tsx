@@ -26,10 +26,10 @@ function UserAvatar() {
       <Box sx={{ flexGrow: 0 }}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} disableRipple>
             <Avatar alt="Remy Sharp" src={Profile}/>
-            <label className='text-sm text-black ml-2 cursor-pointer font-semibold'>Bryan Saguit</label>
+            <label className='text-sm text-black ml-2 cursor-pointer font-semibold tracking-wide'>Bryan Saguit</label>
           </IconButton>
         <Menu
-          sx={{ mt: '45px' }}
+          sx={{ mt: '45px'}}
           id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
@@ -46,9 +46,6 @@ function UserAvatar() {
         >
           <Link to={`/profile`}>
             <MenuItem>Profile</MenuItem> 
-          </Link>
-          <Link to={`/settings`}>
-            <MenuItem>Settings</MenuItem>
           </Link>
           <Link to={`/`}>
             <MenuItem>Logout</MenuItem>

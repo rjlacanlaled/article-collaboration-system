@@ -44,6 +44,13 @@ function Login() {
                     placeholder="Password"
                 />
             </div>
+            <div className="mb-4">
+                <select name="cars" form="userType" placeholder="Select User Type" className='shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500 cursor-pointer'>
+                    <option selected>Select user type</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Member">Member</option>
+                </select>
+            </div>
             <Link to="/dashboard">
             <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 rounded-sm">
                 Continue
