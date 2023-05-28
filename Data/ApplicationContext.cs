@@ -1,21 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using Common.Models.Core;
+using Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Sink.Data;
 
-public class ApplicationContext : DbContext
+public class ApplicationContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<Contract> Contracts => Set<Contract>();
     public DbSet<ContractPayment> ContractPayments => Set<ContractPayment>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<NotificationAssignee> NotificationAssignees => Set<NotificationAssignee>();
-    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Role> ARoles => Set<Role>();
     public DbSet<ProjectTask> ProjectTasks => Set<ProjectTask>();
     public DbSet<ProjectTaskAssignee> ProjectTaskAssignees => Set<ProjectTaskAssignee>();
-    public DbSet<User> Users => Set<User>();
+    public DbSet<User> AUsers => Set<User>();
     public DbSet<UserDetail> UserDetails => Set<UserDetail>();
-    public DbSet<UserRole> UserRoles => Set<UserRole>();
+    public DbSet<UserRole> AUserRoles => Set<UserRole>();
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 

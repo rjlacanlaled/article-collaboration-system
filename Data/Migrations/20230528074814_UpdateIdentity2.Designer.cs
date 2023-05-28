@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sink.Data;
@@ -11,9 +12,11 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230528074814_UpdateIdentity2")]
+    partial class UpdateIdentity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,7 +244,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ARoles");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Common.Models.Core.User", b =>
@@ -272,7 +275,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AUsers");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Common.Models.Core.UserDetail", b =>
@@ -295,13 +298,6 @@ namespace Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("MiddleName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("UserId")
@@ -328,7 +324,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AUserRoles");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Data.ApplicationUser", b =>
