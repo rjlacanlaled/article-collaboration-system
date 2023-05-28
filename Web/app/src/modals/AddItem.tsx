@@ -12,7 +12,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import DatePicker from "../Components/DatePicker";
 
-function AddItem() {
+interface myProps {
+  updateHandler: any;
+}
+
+function AddItem({updateHandler}: myProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState({
@@ -31,9 +35,25 @@ function AddItem() {
     });
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-  };
+  const handleCreateTaskSubmit = async () => {
+    await fetch("http://localhost:5143/api/v1/ProjectTasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: taskData.name,
+        description: taskData.description,
+        status: 0,
+        type: taskData.type,
+        words: taskData.words,
+        timeliness: 0,
+        contractId: -1,
+      }),
+    });
+    await updateHandler();
+    setOpen(false);
+  }
 
   return (
     <>
@@ -56,7 +76,7 @@ function AddItem() {
           <Typography id="basic-modal-dialog-title" component="h2">
             Create new Task
           </Typography>
-          <form onSubmit={handleSubmit}>
+          <form>
             <Stack spacing={2}>
               <FormControl>
                 <FormLabel>Name</FormLabel>
@@ -86,15 +106,15 @@ function AddItem() {
                   type="text"
                   name="type"
                   value={taskData.type}
-                  label="Age"
+                  label="Type"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Blog">Blog</MenuItem>
-                  <MenuItem value="Guest Post">Guest Post</MenuItem>
+                  <MenuItem value={0}>Blog</MenuItem>
+                  <MenuItem value={1}>Guest Post</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
@@ -115,7 +135,7 @@ function AddItem() {
                 <FormLabel>SEO Deadline</FormLabel>
                 <DatePicker />
               </FormControl>
-              <Button>Submit</Button>
+              <Button onClick={handleCreateTaskSubmit}>Submit</Button>
             </Stack>
           </form>
         </ModalDialog>

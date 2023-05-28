@@ -100,6 +100,10 @@ function KanbanBoard() {
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
 
   useEffect(() => {
+    refreshData();
+  }, []);
+
+  const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all");
       const resJson = await res.json();
@@ -128,7 +132,7 @@ function KanbanBoard() {
     };
 
     fetchData();
-  }, []);
+  };
 
   useEffect(() => {
     setColumns({
@@ -241,7 +245,7 @@ function KanbanBoard() {
                         </div>
                         {provided.placeholder}
                         <div className="flex justify-start items-center bg-gray-200 absolute bottom-0 left-0 p-2 w-full">
-                          <AddSwimLaneList />
+                          <AddSwimLaneList updateHandler={refreshData}/>
                         </div>
                       </div>
                     );

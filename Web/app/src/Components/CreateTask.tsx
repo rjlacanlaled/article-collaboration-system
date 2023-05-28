@@ -113,7 +113,7 @@ function CreateTask({updateHandler}: MyProps) {
                   type="text"
                   name="type"
                   value={taskData.type}
-                  label="Age"
+                  label="Type"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
                 >
