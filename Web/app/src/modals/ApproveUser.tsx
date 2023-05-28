@@ -7,12 +7,13 @@ import Typography from "@mui/joy/Typography";
 import UserRole from "./UserRole";
 import { UserDetail } from "../Components/DashboardContent";
 
+
 interface MyProps {
   user: UserDetail;
   updateHandler: any;
 }
 
-function ApproveUser({ user, updateHandler }: MyProps) {
+function ApproveUser({ user, updateHandler}: MyProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -24,7 +25,7 @@ function ApproveUser({ user, updateHandler }: MyProps) {
         className="h-6"
         onClick={() => setOpen(true)}
       >
-        Approve
+        Approve 
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalDialog

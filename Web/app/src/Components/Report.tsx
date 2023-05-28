@@ -68,7 +68,7 @@ function Report() {
                             <td className="border px-4 py-3">{UserDatas.completed}</td>
                             <td className="border px-4 py-3">{UserDatas.pastEod}</td>
                             <td className="border px-4 py-3 items-center">
-                                    <ExportButton label="export"/>
+                                <ExportButton label="export"/>
                             </td>
                         </tr>
                     ))}     

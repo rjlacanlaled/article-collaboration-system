@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '../Assets/Images/add-task.svg'
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
@@ -15,10 +15,25 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+export type Role = {
+  id: number;
+  name: string;
+};
+
+export type UserDetail = {
+  id: number;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  role: string;
+};
 
 function CreateContract() {
   const [open, setOpen] = useState(false);
   const [paymentDate, setPaymentDate] = useState({ paymentAmount: null })
+  const [client, setClient] = useState<UserDetail[]>([])
+  const [seo, setSeo] = useState<UserDetail[]>([])
+  const [userRole, setUserRole] = useState<Role[]>([])
   const [contractData, setContractData] = useState(
     {
       client: "",
@@ -62,6 +77,27 @@ function CreateContract() {
     });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(`http://localhost:5143/api/v1/UserDetails/all`)
+      const user = await res.json();
+      setClient(user)
+    }
+
+    fetchData();
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/Roles/all")
+      const roles = await res.json();
+      setUserRole(roles);
+    };
+
+    fetchData();
+
+  }, [])
+
   return (
     <>
         <div className="rounded-lg p-5 bg-white drop-shadow-md space-y-3 dark:hover:bg-slate-300 cursor-pointer" onClick={() => setOpen(true)}>
@@ -82,25 +118,46 @@ function CreateContract() {
          </Typography>
          <form>
            <Stack spacing={2}>
-             <FormControl>
-               <FormLabel>Client</FormLabel>
-               <Input
+              <FormControl size="md">
+                <FormLabel id="demo-select-small" sx={{color: 'black' }}>Client</FormLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
                   type="text"
                   name="client"
                   value={contractData.client}
+                  label="client"
                   onChange={handleChange}
-                  autoFocus
-               />
+                  sx={{ borderRadius: '7px', color: 'black' }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {
+                  userRole.filter(clients => clients === userRole[4]).map(filteredUserRole => (
+                  <MenuItem value={filteredUserRole.id}>{filteredUserRole.name}</MenuItem>
+                  ))}
+                </Select>
              </FormControl>
-             <FormControl>
-               <FormLabel>SEO</FormLabel>
-               <Input
+             <FormControl sx={{ minWidth: 120}} size="md">
+                <FormLabel id="demo-select-small" sx={{color: 'black' }}>SEO</FormLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
                   type="text"
                   name="seo"
                   value={contractData.seo}
+                  label="seo"
                   onChange={handleChange}
-                  required
-               />
+                  sx={{ borderRadius: '7px', color: 'black' }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {seo.map((userseo) => (
+                    <MenuItem value={userseo.id}>{userseo.firstName} {userseo.lastName}</MenuItem>
+                  ))}
+                </Select>
              </FormControl>
              <FormControl sx={{ m: 1, minWidth: 120}} size="md">
                 <FormLabel id="demo-select-small" sx={{color: 'black' }}>Contract</FormLabel>
@@ -200,7 +257,7 @@ function CreateContract() {
                   <MenuItem value={2}>Client</MenuItem>
                 </Select>
              </FormControl>
-             <Button type="submit" onClick={onSubmitCreateContract}>Submit</Button>
+             <Button onClick={onSubmitCreateContract}>Submit</Button>
            </Stack>
          </form>
        </ModalDialog>

@@ -4,6 +4,7 @@ import { Chip } from "@mui/material";
 import ApproveUser from "../modals/ApproveUser";
 import RejectUser from "../modals/RejectUser";
 
+
 export type UserDetail = {
   id: number;
   userId: number;
