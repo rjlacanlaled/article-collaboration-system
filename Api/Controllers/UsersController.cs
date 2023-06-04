@@ -38,7 +38,7 @@ public class UsersController : ControllerBase
             Email = request.Email,
         };
 
-        await _dbContext.Users.AddAsync(newUsers);
+        await _dbContext.AUsers.AddAsync(newUsers);
         await _dbContext.SaveChangesAsync();
 
         return Created("User", newUsers);
@@ -51,7 +51,7 @@ public class UsersController : ControllerBase
     {
         if (addUsersRequest is null) return BadRequest("Request body is null");
 
-        User? existing = await _dbContext.Users
+        User? existing = await _dbContext.AUsers
             .Where(c => c.Id == id)
             .FirstOrDefaultAsync();
 
@@ -61,7 +61,7 @@ public class UsersController : ControllerBase
         existing.Password = addUsersRequest.Password;
         existing.Email = addUsersRequest.Email;
 
-        _dbContext.Users.Update(existing);
+        _dbContext.AUsers.Update(existing);
         await _dbContext.SaveChangesAsync();
 
         return Ok(existing);
@@ -71,7 +71,7 @@ public class UsersController : ControllerBase
     [HttpGet("username/{username}")]
     public async Task<IActionResult> FetchAsync([FromRoute] string username)
     {
-        User? user = await _dbContext.Users
+        User? user = await _dbContext.AUsers
             .Where(c => c.Username == username)
             .FirstOrDefaultAsync();
 
@@ -83,11 +83,11 @@ public class UsersController : ControllerBase
     [HttpGet("users/approved")]
     public async Task<IActionResult> FetchAllApprovedAsync()
     {
-        var users = await _dbContext.Users
-            .Join(_dbContext.UserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { User = u, UserRoles = ur })
+        var users = await _dbContext.AUsers
+            .Join(_dbContext.AUserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { User = u, UserRoles = ur })
             .Where(g => g.UserRoles != null)
             .Join(_dbContext.UserDetails, g => g.User.Id, ud => ud.UserId, (g, ud) => new { g.User, UserRole = g.UserRoles, UserDetail = ud })
-            .Join(_dbContext.Roles, g => g.UserRole.RoleId, r => r.Id, (g, r) => new { g.User, g.UserRole, g.UserDetail, UserRoleDetail = r })
+            .Join(_dbContext.ARoles, g => g.UserRole.RoleId, r => r.Id, (g, r) => new { g.User, g.UserRole, g.UserDetail, UserRoleDetail = r })
             .Select(g => new UserDetailWithRole()
             {
                 UserId = g.User.Id,
@@ -109,8 +109,8 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> FetchAllUnApprovedAsync()
     {
 
-        var users = await _dbContext.Users
-            .GroupJoin(_dbContext.UserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { User = u, UserRoles = ur })
+        var users = await _dbContext.AUsers
+            .GroupJoin(_dbContext.AUserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { User = u, UserRoles = ur })
             .Where(g => !g.UserRoles.Any())
             .Join(_dbContext.UserDetails, g => g.User.Id, ud => ud.UserId, (g, ud) => new { g.User, UserRole = g.UserRoles, UserDetail = ud })
             .Select(g => new UserDetailWithRole()

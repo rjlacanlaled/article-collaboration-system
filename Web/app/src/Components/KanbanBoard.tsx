@@ -24,7 +24,11 @@ export type Assignee = {
 };
 
 const onDragEnd = async (result: any, columns: any, setColumns: any) => {
-  if (!result.destination) return;
+  if (
+    !result.destination ||
+    result.destination.droppableId === result.source.droppableId
+  )
+    return;
   columns[result.destination.droppableId].items.push(
     columns[result.source.droppableId].items[result.source.index]
   );
@@ -202,8 +206,16 @@ function KanbanBoard() {
                         className="w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative"
                       >
                         <div className="p-1.5 flex justify-between">
-                          <EditableTitle initialValue={column.title} task={column.items} columnId={columnId}/>
-                          <ColumnMenu onDelete={() => deleteBoard} columnId={columnId} columnItems={column.items} />
+                          <EditableTitle
+                            initialValue={column.title}
+                            task={column.items}
+                            columnId={columnId}
+                          />
+                          <ColumnMenu
+                            onDelete={() => deleteBoard}
+                            columnId={columnId}
+                            columnItems={column.items}
+                          />
                         </div>
                         <div className="mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
                           {column.items.map((item, index) => {
@@ -236,7 +248,7 @@ function KanbanBoard() {
                           <AddSwimLaneList updateHandler={refreshData}/>
                         </div>
                       </div>
-                    );  
+                    );
                   }}
                 </Droppable>
               </div>

@@ -34,7 +34,7 @@ public class RolesController : ControllerBase
             Name = request.Name
         };
 
-        await _dbContext.Roles.AddAsync(newRoles);
+        await _dbContext.ARoles.AddAsync(newRoles);
         await _dbContext.SaveChangesAsync();
 
         return Created("Role", newRoles);
@@ -44,7 +44,7 @@ public class RolesController : ControllerBase
     [HttpPut("id/{id}")]
     public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] AddRolesRequest addRolesRequest)
     {
-        Role? existing = await _dbContext.Roles
+        Role? existing = await _dbContext.ARoles
             .Where(c => c.Id == id)
             .FirstOrDefaultAsync();
 
@@ -52,7 +52,7 @@ public class RolesController : ControllerBase
 
         existing.Name = addRolesRequest.Name;
 
-        _dbContext.Roles.Update(existing);
+        _dbContext.ARoles.Update(existing);
         await _dbContext.SaveChangesAsync();
 
         return Ok(existing);
@@ -62,7 +62,7 @@ public class RolesController : ControllerBase
     [HttpDelete("id/{id}")]
     public async Task<IActionResult> DeleteAsync([FromRoute] int id)
     {
-        Role? existing = await _dbContext.Roles
+        Role? existing = await _dbContext.ARoles
             .Where(c => c.Id == id)
             .FirstOrDefaultAsync();
 
@@ -78,7 +78,7 @@ public class RolesController : ControllerBase
     [HttpGet("role/{name}")]
     public async Task<IActionResult> FetchAsync([FromRoute] string name)
     {
-        List<Role> Roles = await _dbContext.Roles
+        List<Role> Roles = await _dbContext.ARoles
             .Where(c => c.Name == name)
             .ToListAsync();
 
@@ -88,7 +88,7 @@ public class RolesController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> FetchAllAsync()
     {
-        List<Role> Roles = await _dbContext.Roles
+        List<Role> Roles = await _dbContext.ARoles
             .OrderBy(r => r.Name)
             .ToListAsync();
 
