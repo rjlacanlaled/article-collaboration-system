@@ -52,7 +52,7 @@ function AdminDashboard() {
 
   return (
     <DashboardPage>
-      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
+      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
         <div className="flex justify-center flex-col items-center bg-white p-7 drop-shadow w-72 h-16 rounded-md">
           <div className="flex justify-center items-center">
             <h1 className="text-sm font-semibold mr-1">Pending Approvals</h1>

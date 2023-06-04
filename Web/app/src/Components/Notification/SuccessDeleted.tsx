@@ -1,10 +1,16 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import React from 'react';
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 export interface State extends SnackbarOrigin {
   open: boolean;
+}
+
+interface notifications {
+  open: any;
+  onClose: any;
+  severity: any;
+  label: string;
 }
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -14,44 +20,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-export default function SuccessDeleted() {
-  const [state, setState] = React.useState<State>({
-    open: false,
-    vertical: 'top',
-    horizontal: 'center',
-  });
-  const { vertical, horizontal, open } = state;
-
-  const handleClick = (newState: SnackbarOrigin) => () => {
-    setState({ open: true, ...newState });
-  };
-
-  const handleClose = () => {
-    setState({ ...state, open: false });
-  };
-
+export default function SuccessDeleted({open, onClose, severity, label}: notifications) {
 
   return (
-    <div>
-      <Button
-        sx={{color: "white"}}
-        onClick={handleClick({
-          vertical: 'bottom',
-          horizontal: 'right',
-        })}
-      >
-        Delete
-      </Button>
+    <div className="fixed bottom-4 right-4">
       <Snackbar
         autoHideDuration={5000}
-        anchorOrigin={{ vertical, horizontal }}
         open={open}
-        onClose={handleClose}
-        message="I love snacks"
-        key={vertical + horizontal}
+        onClose={onClose}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-            Successfully Deleted!
+        <Alert onClose={onClose} severity={severity} sx={{ width: '100%'}}>
+            {label}
         </Alert>
       </Snackbar>
     </div>

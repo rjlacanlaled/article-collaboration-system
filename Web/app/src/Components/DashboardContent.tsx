@@ -46,7 +46,7 @@ function DashboardContent() {
 
   return (
     <DashboardPage>
-      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
+      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
           <div className="flex justify-center flex-row text-left bg-white p-7 drop-shadow w-72 rounded-md">
             <div className="flex justify-center flex-col mr-9">

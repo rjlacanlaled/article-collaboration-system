@@ -76,13 +76,13 @@ const getStatusText = (status:any) => {
 
   return (
     <DashboardPage>
-      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
+      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4">
         <div className="flex justify-start flex-row items-center mb-8">
           <CreateTask updateHandler={refreshData} />
         </div>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-md">
+        <div className="overflow-x-auto shadow-md sm:rounded-md">
           <table className="w-full text-sm text-left dark:text-black">
-            <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800 text-white">
+            <thead className="sticky top-0 z-20 text-xs uppercase bg-gray-50 dark:bg-gray-800 text-white">
               <tr>
                 <th scope="col" className="p-4">
                   <div className="flex items-center">
@@ -182,8 +182,14 @@ const getStatusText = (status:any) => {
                         ).toLocaleString()}
                       </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
-                        <UpdateTask task={task} updateHandler={refreshData} />
-                        <DeleteTask task={task} updateHandler={refreshData}/>
+                        <UpdateTask 
+                          task={task} 
+                          updateHandler={refreshData} 
+                        />
+                        <DeleteTask 
+                          task={task} 
+                          updateHandler={refreshData} 
+                        />
                       </td>
                     </tr>
                   ))}

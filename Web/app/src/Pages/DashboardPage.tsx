@@ -13,11 +13,11 @@ const DashboardPage = ({children}: DashboardPageProps) => {
         <Navigation />
       </div>
       <div className="flex flex-col w-screen h-screen bg-gray-100 overflow-y-auto">  
-        <div className="w-full h-20 shrink-0 bg-white flex justify-end items-center flex-row drop-shadow z-10">
+        <div className="sticky top-0 w-full h-20 shrink-0 bg-white flex justify-end items-center flex-row drop-shadow z-10">
           <Header />
-        </div>
+        </div> 
          {/* DASHBOARD CONTENT */}
-        <div className="h-fit w-full bg-gray-100 flex justify-start items-center flex-col p-6 z-0">
+        <div className="relative w-full h-fit bg-gray-100 flex justify-start items-center flex-col p-6 z-0">
           {children}
         </div>
       </div>
