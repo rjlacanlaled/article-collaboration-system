@@ -41,7 +41,7 @@ function DeleteUser({ task, updateHandler }: MyProps) {
         }),
       });
       setDeleteSuccess(true);
-      updateHandler();
+      await updateHandler();
     } catch (error) {
       console.error(error);
     } finally {

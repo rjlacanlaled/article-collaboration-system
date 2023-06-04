@@ -8,11 +8,21 @@ import AuthPage from '../Pages/AuthPage'
 
 function Signup() {
 
-  const [email, setEmail] = useState('')
+  const [SignupFormData, setSignupFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: ""
+  })
 
-  const handleEmail = (event: any) => {
-    setEmail(event.target.value);
-    }
+  const handleChange = (e: any) => {
+    setSignupFormData((prevSignupFormData) => {
+      return {
+        ...prevSignupFormData,
+        [e.target.name]: e.target.value,
+      }
+    })
+  }
 
   return (
     <AuthPage>
@@ -22,23 +32,43 @@ function Signup() {
             <div className="mb-4">
                 <input 
                 className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
-                type="text" 
-                value={email}
-                onChange={handleEmail}
+                type="email" 
+                name="email"
+                value={SignupFormData.email}
+                onChange={handleChange}
                 placeholder="Email address"/>
+            </div>
+            <div className="mb-4">
+                <input 
+                className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                type="text" 
+                name="username"
+                value={SignupFormData.username}
+                onChange={handleChange}
+                placeholder="Username"/>
+            </div>
+            <div className="mb-4">
+                <input 
+                className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                type="password" 
+                name="password"
+                value={SignupFormData.password}
+                onChange={handleChange}
+                placeholder="Password"/>
+            </div>
+            <div className="mb-4">
+                <input 
+                className="shadow appearance-none border rounded-sm w-80 py-4 px-3 text-gray-800 placeholder-gray-500 leading-tight focus:outline-none focus:shadow-outline focus:border-sky-500" 
+                type="password" 
+                name="confirmPassword"
+                value={SignupFormData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm Password"/>
             </div>
             <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-80 py-4 px-4 rounded-sm">
                 Continue
             </button>
-            <h2 className="text-xs mt-4 text-gray-800">Already have an account?<Link to="/" className='ml-1 text-blue-500'>Log in</Link></h2>
-            <div className="mt-5 grid grid-cols-3 items-center text-gray-400"> 
-                <hr className="border-gray-400 w-24"/>
-                    <p className='text-sm text-center text-gray-800'>OR</p>
-                <hr className="border-gray-400 w-24"/>
-            </div>
-            <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-5 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><GoogleIcon className="w-6 h-full mr-3"/> Continue With Google</button>
-            <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-3 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><FacebookIcon className="w-6 h-full mr-3"/>Continue With Facebook</button>
-            <button className="bg-white text-gray-800 shadow appearance-none border py-4 px-4 w-80 rounded-sm mt-3 text-sm hover:bg-gray-100 transition duration-300 flex justify-start items-center"><LinkedinIcon className="w-6 h-full mr-3"/>Continue With LinkedIn</button>
+            <h2 className="text-xs mt-4 mb-5 text-gray-800">Already have an account?<Link to="/" className='ml-1 text-blue-500 hover:text-blue-600'>Log in</Link></h2>
         </div>
     </AuthPage>
   )

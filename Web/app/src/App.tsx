@@ -19,20 +19,9 @@ import Report from "./Components/Report";
 import ResetPassword from "./Components/ResetPassword";
 import ResetEmail from "./Components/ResetEmail";
 import "./App.css";
-import { gapi } from "gapi-script";
+// import { gapi } from "gapi-script";
 
 function App() {
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId:
-          "710035087649-jes0lm5uk9m05cn8lfj71ihv6c6a4d4g.apps.googleusercontent.com",
-        scope: "",
-      });
-    }
-
-    gapi.load("client:auth2", start);
-  });
 
   return (
     <div className="App">
