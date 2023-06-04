@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import DeleteIcon from '../Assets/Images/delete-icon.svg';
+import React, { useState } from "react";
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import DeleteIcon from "../Assets/Images/delete-icon.svg";
 import { ProjectTask } from "../Components/TaskList";
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 interface MyProps {
   task: ProjectTask;
@@ -20,7 +20,7 @@ export interface State extends SnackbarOrigin {
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
-  ref,
+  ref
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -37,17 +37,16 @@ function DeleteUser({ task, updateHandler }: MyProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: task.id
+          id: task.id,
         }),
       });
       setDeleteSuccess(true);
+      updateHandler();
     } catch (error) {
-      // Handle error if necessary
       console.error(error);
     } finally {
       setOpen(false);
     }
-    //  updateHandler();
   };
 
   const handleClose = () => {
@@ -76,7 +75,10 @@ function DeleteUser({ task, updateHandler }: MyProps) {
           <Typography id="basic-modal-dialog-title" component="h2">
             Delete Task
           </Typography>
-          <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
+          <Typography
+            id="basic-modal-dialog-description"
+            textColor="text.tertiary"
+          >
             Are you sure you want to delete this Task?
           </Typography>
           <form
@@ -86,26 +88,36 @@ function DeleteUser({ task, updateHandler }: MyProps) {
           >
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button color="neutral" className="w-24" size="sm" onClick={() => setOpen(false)}>
+                <Button
+                  color="neutral"
+                  className="w-24"
+                  size="sm"
+                  onClick={() => setOpen(false)}
+                >
                   Cancel
                 </Button>
-                <Button color="danger" className="w-24" size="sm" onClick={handleDeleteTaskSubmit}>
+                <Button
+                  color="danger"
+                  className="w-24"
+                  size="sm"
+                  onClick={handleDeleteTaskSubmit}
+                >
                   Delete
                 </Button>
               </Stack>
             </Stack>
           </form>
-        </ModalDialog> 
+        </ModalDialog>
       </Modal>
       {isDeleteSuccess && (
         <Snackbar
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={isDeleteSuccess}
           onClose={handleClose}
         >
           <Alert onClose={() => {}} severity="success">
-            Successfully Deleted! 
+            Successfully Deleted!
           </Alert>
         </Snackbar>
       )}

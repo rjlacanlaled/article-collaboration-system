@@ -17,6 +17,7 @@ namespace Api.Controllers;
 [ApiController]
 [ApiVersion(1.0)]
 [Route("api/v{versionNumber}/[controller]")]
+[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
 public class UsersController : ControllerBase
 {
 
