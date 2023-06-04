@@ -41,13 +41,14 @@ function DeleteUser({ task, updateHandler }: MyProps) {
         }),
       });
       setDeleteSuccess(true);
+     await updateHandler();
     } catch (error) {
       // Handle error if necessary
       console.error(error);
     } finally {
       setOpen(false);
     }
-    //  updateHandler();
+     
   };
 
   const handleClose = () => {
