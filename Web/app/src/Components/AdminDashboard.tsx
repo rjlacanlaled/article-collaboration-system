@@ -4,27 +4,22 @@ import { Chip } from "@mui/material";
 import ApproveUser from "../modals/ApproveUser";
 import RejectUser from "../modals/RejectUser";
 
-
 export type UserDetail = {
-  id: number;
-  userId: number;
+  username: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: string;
-  registrationDate: number;
+  role: string[];
 };
 
 function AdminDashboard() {
   const [userDetails, setUserDetails] = useState<UserDetail[]>([
     {
-      id: -1,
-      userId: -1,
+      username: "",
       firstName: "",
       lastName: "",
       email: "",
-      role: "",
-      registrationDate: 1,
+      role: [],
     },
   ]);
 
@@ -106,24 +101,28 @@ function AdminDashboard() {
             <tbody className="overflow-scroll text-sm relative">
               {userDetails.length <= 0 ? (
                 <div className="absolute top-0 left-0 bottom-0 right-0 mt-5">
-                  <h1 className="text-xl text-stone-800">No Pending Approvals</h1>
+                  <h1 className="text-xl text-stone-800">
+                    No Pending Approvals
+                  </h1>
                 </div>
               ) : (
                 userDetails.map((userDetail) => (
-                  <tr className="hover:bg-slate-300" key={userDetail.id}>
-                    <td className="border px-4 py-3">{userDetail.userId}</td>
+                  <tr className="hover:bg-slate-300" key={userDetail.email}>
                     <td className="border px-4 py-3">{userDetail.firstName}</td>
                     <td className="border px-4 py-3">{userDetail.lastName}</td>
                     <td className="border px-4 py-3">{userDetail.email}</td>
                     <td className="border px-4 py-3">{userDetail.role}</td>
-                    <td className="border px-4 py-3"><Chip label="For Approval" /></td>
                     <td className="border px-4 py-3">
-                    {new Date(
-                          userDetail.registrationDate
-                        ).toLocaleString()}
+                      <Chip label="For Approval" />
                     </td>
+                    {/* <td className="border px-4 py-3">
+                      {new Date(userDetail.registrationDate).toLocaleString()}
+                    </td> */}
                     <td className="border px-4 py-3 items-center space-x-3">
-                      <ApproveUser user={userDetail} updateHandler={refreshData} />
+                      <ApproveUser
+                        user={userDetail}
+                        updateHandler={refreshData}
+                      />
                       <RejectUser />
                     </td>
                   </tr>

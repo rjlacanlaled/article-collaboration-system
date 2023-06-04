@@ -21,7 +21,7 @@ interface MyUserRoleProps {
   updateHandler: any;
 }
 
-function UserRole({ user, updateHandler}: MyUserRoleProps) {
+function UserRole({ user, updateHandler }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
   const [userRoles, setUserRoles] = useState<Role[]>([]);
   const [selectedRole, setSelectedRole] = useState<number>(0);
@@ -37,7 +37,7 @@ function UserRole({ user, updateHandler}: MyUserRoleProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.userId,
+        userId: 1,
         roleId: selectedRole,
       }),
     });

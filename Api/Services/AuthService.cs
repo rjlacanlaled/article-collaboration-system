@@ -42,7 +42,7 @@ public class AuthService
 
         if (!await _roleManager.RoleExistsAsync(role)) await _roleManager.CreateAsync(new IdentityRole(role));
 
-        if (!await _roleManager.RoleExistsAsync(role)) await _userManager.AddToRoleAsync(user, role);
+        if (await _roleManager.RoleExistsAsync(role)) await _userManager.AddToRoleAsync(user, role);
 
         return (1, "UserCreatedSuccessfully");
     }

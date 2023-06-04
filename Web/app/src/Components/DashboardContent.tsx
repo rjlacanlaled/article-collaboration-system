@@ -6,32 +6,27 @@ import DeleteUser from "../modals/DeleteUser";
 import UpdateUser from "../modals/UpdateUser";
 
 export type UserDetail = {
-  id: number;
-  userId: number;
+  username: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: string;
-  registrationDate: number;
+  role: string[];
 };
 
 const initialUserDetails: UserDetail[] = [
   {
-    id: 1,
-    userId: 1,
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
-    role: "",
-    registrationDate: Date.now(),
+    role: [],
   },
 ];
 
-
-
 function DashboardContent() {
-  const [userDetails, setUserDetails] = useState<UserDetail[]>(initialUserDetails);
-  console.log(userDetails)
+  const [userDetails, setUserDetails] =
+    useState<UserDetail[]>(initialUserDetails);
+  console.log(userDetails);
   useEffect(() => {
     refreshData();
   }, []);
@@ -41,6 +36,7 @@ function DashboardContent() {
       "http://localhost:5143/api/v1/Users/users/approved"
     );
     const userDetails = await res.json();
+    console.log({ userDetails });
     setUserDetails(userDetails);
   };
 
@@ -52,11 +48,11 @@ function DashboardContent() {
             <div className="flex justify-center flex-col mr-9">
               <h1 className="text-sm font-semibold mb-1">MEMBERS</h1>
               {userDetails.length > 0 ? (
-              <label className="lining-nums font-bold text-4xl">
-                {userDetails.length}
-              </label>
+                <label className="lining-nums font-bold text-4xl">
+                  {userDetails.length}
+                </label>
               ) : (
-              <p className="lining-nums font-bold text-4xl">0</p>
+                <p className="lining-nums font-bold text-4xl">0</p>
               )}
             </div>
             <img src={MemberLogo} alt="member-logo" className="w-20" />
@@ -102,30 +98,35 @@ function DashboardContent() {
               </tr>
             </thead>
             <tbody className="overflow-scroll text-sm relative">
-            {Array.isArray(userDetails) && userDetails.length > 0 ? (
-              userDetails.map((userDetail) => (
-                <tr className="hover:bg-slate-300" key={userDetail.id}>
-                  <td className="border px-4 py-3">{userDetail.userId}</td>
-                  <td className="border px-4 py-3">{userDetail.firstName}</td>
-                  <td className="border px-4 py-3">{userDetail.lastName}</td>
-                  <td className="border px-4 py-3">{userDetail.email}</td>
-                  <td className="border px-4 py-3">{userDetail.role}</td>
-                  <td className="border px-4 py-3">
-                    <Chip label="Approved" color="success" />
-                  </td>
-                  <td className="border px-4 py-3 items-center">
-                    <div className="flex justify-center">
-                      <UpdateUser user={userDetail} updateHandler={refreshData} />
-                      <DeleteUser user={userDetail} updateHandler={refreshData} />
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <div className="absolute top-0 left-0 bottom-0 right-0 mt-5">
-                <h1 className="text-xl text-stone-800">No Approved Users</h1>
-              </div>
-            )}
+              {Array.isArray(userDetails) && userDetails.length > 0 ? (
+                userDetails.map((userDetail) => (
+                  <tr className="hover:bg-slate-300" key={userDetail.email}>
+                    <td className="border px-4 py-3">{userDetail.firstName}</td>
+                    <td className="border px-4 py-3">{userDetail.lastName}</td>
+                    <td className="border px-4 py-3">{userDetail.email}</td>
+                    <td className="border px-4 py-3">{userDetail.role}</td>
+                    <td className="border px-4 py-3">
+                      <Chip label="Approved" color="success" />
+                    </td>
+                    <td className="border px-4 py-3 items-center">
+                      <div className="flex justify-center">
+                        <UpdateUser
+                          user={userDetail}
+                          updateHandler={refreshData}
+                        />
+                        <DeleteUser
+                          user={userDetail}
+                          updateHandler={refreshData}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <div className="absolute top-0 left-0 bottom-0 right-0 mt-5">
+                  <h1 className="text-xl text-stone-800">No Approved Users</h1>
+                </div>
+              )}
             </tbody>
           </table>
         </div>

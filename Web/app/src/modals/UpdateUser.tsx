@@ -32,14 +32,14 @@ function UpdateUser({ user, updateHandler }: MyUserRoleProps) {
 
   const handleUserRoleSubmit = async () => {
     console.log({ user });
-    await fetch(`http://localhost:5143/api/v1/UserRoles/id/${user.userId}`, {
+    await fetch(`http://localhost:5143/api/v1/UserRoles/id/1`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         roleId: selectedRole,
-        userId: user.userId,
+        userId: 1,
       }),
     });
 

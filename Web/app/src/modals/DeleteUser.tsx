@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import DeleteIcon from '../Assets/Images/delete-icon.svg'
+import React, { useState } from "react";
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import DeleteIcon from "../Assets/Images/delete-icon.svg";
 import { UserDetail } from "../Components/AdminDashboard";
 
 interface MyUserRoleProps {
@@ -12,22 +12,21 @@ interface MyUserRoleProps {
   updateHandler: any;
 }
 
-function DeleteUser({user, updateHandler}: MyUserRoleProps) {
-
+function DeleteUser({ user, updateHandler }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
 
   const handleDeleteUserSubmit = async () => {
-    await fetch(`http://localhost:5143/api/v1/UserDetails/id/${user.userId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: user.userId
-    }),
-  });
+    await fetch(`http://localhost:5143/api/v1/UserDetails/id/1`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: 1,
+      }),
+    });
     await updateHandler();
-    setOpen(false)
+    setOpen(false);
   };
 
   return (
@@ -36,10 +35,10 @@ function DeleteUser({user, updateHandler}: MyUserRoleProps) {
         variant="solid"
         color="danger"
         size="sm"
-        className='h-6'
+        className="h-6"
         onClick={() => setOpen(true)}
       >
-      <img src={DeleteIcon} alt="delete" className='h-4 w-4 mr-1.5'/>
+        <img src={DeleteIcon} alt="delete" className="h-4 w-4 mr-1.5" />
         Delete
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -52,14 +51,31 @@ function DeleteUser({user, updateHandler}: MyUserRoleProps) {
           <Typography id="basic-modal-dialog-title" component="h2">
             Delete User
           </Typography>
-          <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
+          <Typography
+            id="basic-modal-dialog-description"
+            textColor="text.tertiary"
+          >
             Are you sure you want to delete this user?
           </Typography>
           <form>
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button color="danger" className='w-24' size='sm' onClick={handleDeleteUserSubmit}>Delete</Button>
+                <Button
+                  color="neutral"
+                  className="w-24"
+                  size="sm"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="danger"
+                  className="w-24"
+                  size="sm"
+                  onClick={handleDeleteUserSubmit}
+                >
+                  Delete
+                </Button>
               </Stack>
             </Stack>
           </form>
@@ -69,4 +85,4 @@ function DeleteUser({user, updateHandler}: MyUserRoleProps) {
   );
 }
 
-export default DeleteUser
+export default DeleteUser;
