@@ -24,7 +24,7 @@ function ViewTask() {
   return (
     <DashboardPage>
       {taskData ? (
-        <div className="bg-white h-700 drop-shadow rounded-md mx-auto w-full flex justify-center items-center">
+        <div className="bg-white h-790 drop-shadow rounded-md mx-auto w-full flex justify-center items-center">
           <div className="w-full h-full overflow-y-auto">
             <TaskComment task={taskData} />
           </div>

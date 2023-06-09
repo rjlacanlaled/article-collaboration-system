@@ -8,7 +8,9 @@ import KanbanBoardIcon from '@mui/icons-material/ViewKanbanOutlined';
 import UserIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ClientIcon from '@mui/icons-material/AccountBoxOutlined';
 
+
 function Navigation() {
+
   return (
     <>
       <div className="flex items-center mb-6 px-4 py-6">
@@ -31,7 +33,7 @@ function Navigation() {
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <KanbanBoardIcon className='w-5 mr-3'/>
               <li>
-                <Link to="/board"><a href="/">Board</a></Link>
+                <Link to="/kanbanboard"><a href="/">Board</a></Link>
               </li>   
             </div>  
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
@@ -43,7 +45,7 @@ function Navigation() {
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <ClientIcon className='w-5 mr-3'/>
               <li>
-              <Link to="/client"><a href="/client">Client</a></Link>
+              <Link to="/contract"><a href="/contract">Client</a></Link>
               </li>   
             </div>   
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">

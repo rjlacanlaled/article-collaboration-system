@@ -8,18 +8,22 @@ import UpdateUser from "../modals/UpdateUser";
 export type UserDetail = {
   username: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   email: string;
   role: string[];
+  date: any;
 };
 
 const initialUserDetails: UserDetail[] = [
   {
     username: "",
     firstName: "",
+    middleName: "",
     lastName: "",
     email: "",
     role: [],
+    date: ""
   },
 ];
 
@@ -88,8 +92,8 @@ function DashboardContent() {
           <table className="table-auto border-collapse my-6 text-base w-full">
             <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
               <tr>
-                <th className="px-4 py-3">ID</th>
                 <th className="px-4 py-3">First Name</th>
+                <th className="px-4 py-3">Middle Name</th>
                 <th className="px-4 py-3">Last Name</th>
                 <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Role</th>
@@ -102,6 +106,7 @@ function DashboardContent() {
                 userDetails.map((userDetail) => (
                   <tr className="hover:bg-slate-300" key={userDetail.email}>
                     <td className="border px-4 py-3">{userDetail.firstName}</td>
+                    <td className="border px-4 py-3">{userDetail.middleName}</td>
                     <td className="border px-4 py-3">{userDetail.lastName}</td>
                     <td className="border px-4 py-3">{userDetail.email}</td>
                     <td className="border px-4 py-3">{userDetail.role}</td>

@@ -92,34 +92,13 @@ const BoardMenu = ({ onDelete, columnId, columnItems}: MyComponentProps) => {
               },
             }}
           >
-            <MenuItem onClick={handleDeleteClick}>
-              <p className='text-sm text-slate-500 '> Delete </p>
-            </MenuItem>
             <MenuItem >
                <p className='text-sm text-slate-500' onClick={handleCreateTaskSubmit}>Clear ({columnItems.length}) Done Issue</p> 
             </MenuItem>
           </Menu>
         ) : (     
-          <Menu
-            id="long-menu"
-            MenuListProps={{
-              'aria-labelledby': 'long-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                width: '20ch',
-              },
-            }}
-          >
-            <MenuItem onClick={handleDeleteClick}>
-              <p className='text-sm text-slate-500'> Delete </p>
-            </MenuItem>
-          </Menu>
+            ""
         )}
-
     </div>
   );
 }

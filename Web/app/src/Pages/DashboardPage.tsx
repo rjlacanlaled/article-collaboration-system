@@ -17,8 +17,8 @@ const DashboardPage = ({children}: DashboardPageProps) => {
           <Header />
         </div> 
          {/* DASHBOARD CONTENT */}
-        <div className="relative w-full h-fit bg-gray-100 flex justify-start items-center flex-col p-6 z-0">
-          {children}
+        <div className="w-full h-fit bg-gray-100 flex justify-start items-center flex-col p-6 z-0">
+            {children}
         </div>
       </div>
     </div>

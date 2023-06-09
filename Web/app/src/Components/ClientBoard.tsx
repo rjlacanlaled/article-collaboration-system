@@ -65,7 +65,7 @@ function ClientBoard() {
 
   return (
     <DashboardPage>
-      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
+      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md m-4">
         <div className="flex justify-start flex-row items-center mb-8 w-64">
           <CreateContract />
         </div>

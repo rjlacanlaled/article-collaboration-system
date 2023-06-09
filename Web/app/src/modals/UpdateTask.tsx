@@ -24,6 +24,7 @@ function UpdateTask({ task, updateHandler }: MyProps) {
     id: task.id,
     title: task.title,
     description: task.description,
+    link: task.link,
     words: task.words,
     type: task.type,
     timeliness: task.timeliness,
@@ -52,6 +53,7 @@ function UpdateTask({ task, updateHandler }: MyProps) {
       body: JSON.stringify({
         title: taskData.title,
         description: taskData.description,
+        link: taskData.link,
         status: taskData.status,
         type: taskData.type,
         words: taskData.words,
@@ -111,6 +113,17 @@ function UpdateTask({ task, updateHandler }: MyProps) {
                     name="description"
                     value={taskData.description}
                     placeholder="Description"
+                    onChange={handleChange}
+                    required
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Link</FormLabel>
+                  <Input
+                    type="text"
+                    name="link"
+                    value={taskData.link}
+                    placeholder="Link"
                     onChange={handleChange}
                     required
                   />

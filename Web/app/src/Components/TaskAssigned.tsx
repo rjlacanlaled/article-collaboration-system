@@ -31,9 +31,15 @@ export default function TaskAssigned({ task }: MyProps) {
           <Typography>Details</Typography>
         </AccordionSummary>
             <Slide direction="up" in={detailsExpand} mountOnEnter unmountOnExit>
-            <div className='p-2 flex flex-col items-start h-content relative text-sm text-slate-800'>
+            <div className='p-2 flex flex-col items-start h-content relative text-sm text-slate-800 tracking-wide'>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Assignee:</label>
+                <div className='flex items-center ml-2'>
+                  <SelectUser/>
+                </div>    
+              </div>
+              <div className='flex items-center'>
+                <label className='p-2 ml-2 font-semibold'>Web Developer:</label>
                 <div className='flex items-center ml-2'>
                   <SelectUser/>
                 </div>    
@@ -64,7 +70,7 @@ export default function TaskAssigned({ task }: MyProps) {
                   {task?.timeliness ? "Past EOD" : ""}
                   {task?.timeliness ? "On Time" : ""}
               </div>
-              <div className='absolute bottom-0 right-0 p-3 text-xs text-gray-500'>
+              <div className='absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider'>
                 <p>SEO Deadline: April 04, 2023</p>
                 <p>Prod Date: April 03, 2023 Monday PM</p>
               </div>
@@ -80,7 +86,7 @@ export default function TaskAssigned({ task }: MyProps) {
           <Typography>Contract Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <div className='flex flex-col items-start h-content text-sm text-slate-800'>
+        <div className='flex flex-col items-start h-content text-sm text-slate-800 tracking-wider'>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Client:</label>
                 <div className='flex items-center ml-2'>

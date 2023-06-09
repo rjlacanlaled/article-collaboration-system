@@ -17,6 +17,7 @@ export type ProjectTask = {
   id: number;
   title: string;
   description: string;
+  link: any;
   status: number;
   type: number;
   words: number;
@@ -103,6 +104,9 @@ const getStatusText = (status:any) => {
                   Description
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Link
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Status
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -158,6 +162,16 @@ const getStatusText = (status:any) => {
                       >
                         <Link to={`/viewtask/${task.id}`}>
                           {task.description}
+                        </Link>
+                      </th>
+                      <th
+                        scope="row"
+                        className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-black"
+                      >
+                        <Link to={task?.link} target="_blank">
+                          <button className="py-1.5 px-3.5 text-xs  text-white bg-purple-600 hover:bg-purple-700 rounded-lg">
+                            Link
+                          </button>
                         </Link>
                       </th>
                       <td className="px-6.5 py-4">

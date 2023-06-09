@@ -155,32 +155,6 @@ function KanbanBoard() {
     });
   }, [tasks]);
 
-  // ADD BOARD
-  const addBoard = (newBoardTitle: string) => {
-    // const newColumnId = Object.keys(columns).length + 1;
-    // const newColumn = {
-    //   id: newColumnId,
-    //   title: newBoardTitle,
-    //   items: [],
-    // };
-    // const updatedColumns = {
-    //   ...columns,
-    //   [newColumnId]: newColumn,
-    // };
-    // setColumns(updatedColumns);
-  };
-
-  // // DELETE BOARD
-  const deleteBoard = (boardId: number) => {
-    // const filteredColumns = Object.keys(columns)
-    //   .filter((columnId) => parseInt(columnId) !== boardId)
-    //   .reduce((obj: Columns, columnId) => {
-    //     obj[columnId] = columns[columnId];
-    //     return obj;
-    //   }, {});
-    // setColumns(filteredColumns);
-  };
-
   return (
     <DashboardPage>
       <div className="h-790 w-full flex justify-start flex-row items-center overflow-x-scroll scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth bg-white p-6 h-content drop-shadow rounded-md m-4 mt-4 mb-0.5">
@@ -203,7 +177,7 @@ function KanbanBoard() {
                       <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className="w-72 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative"
+                        className="w-380 h-700 bg-gray-200 shadow flex justify-start flex-col m-2 rounded-md relative"
                       >
                         <div className="p-1.5 flex justify-between">
                           <EditableTitle
@@ -212,11 +186,11 @@ function KanbanBoard() {
                             columnId={columnId}
                           />
                           <ColumnMenu
-                            onDelete={() => deleteBoard}
                             columnId={columnId}
                             columnItems={column.items}
                           />
                         </div>
+                        {/* BOARD ITEMS */}
                         <div className="mb-14 w-content h-full bg-gray-200 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
                           {column.items.map((item, index) => {
                             return (
@@ -254,9 +228,6 @@ function KanbanBoard() {
               </div>
             );
           })}
-          <div className="self-start">
-            <AddBoard onAddBoard={addBoard} initialValue={""} />
-          </div>
         </DragDropContext>
       </div>
     </DashboardPage>

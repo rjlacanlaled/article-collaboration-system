@@ -41,6 +41,7 @@ function DeleteUser({ task, updateHandler }: MyProps) {
         }),
       });
       setDeleteSuccess(true);
+
       setTimeout(() => updateHandler(), 1000);
     } catch (error) {
       console.error(error);
@@ -110,16 +111,16 @@ function DeleteUser({ task, updateHandler }: MyProps) {
         </ModalDialog>
       </Modal>
       {isDeleteSuccess && (
-        <Snackbar
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={isDeleteSuccess}
-          onClose={handleClose}
-        >
-          <Alert onClose={() => {}} severity="success">
-            Successfully Deleted!
-          </Alert>
-        </Snackbar>
+          <Snackbar
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={isDeleteSuccess}
+            onClose={handleClose}
+          >
+            <Alert onClose={() => {}} severity="success">
+              Successfully Deleted!
+            </Alert>
+          </Snackbar>
       )}
     </>
   );

@@ -7,7 +7,6 @@ import TaskComment from "./TaskComment";
 import TaskAssigned from "./TaskAssigned";
 // import MessageIcon from '@mui/icons-material/Message';
 import MessageIcon from '../Assets/Images/message-icon.svg'
-import MessageIcon2 from '../Assets/Images/message-icon2.svg'
 import { ProjectTask } from "./TaskList";
 
 type ListItemProps = {
@@ -45,7 +44,7 @@ function TaskItems({
         onClick={() => setOpen("center")}
       >
         <div className="flex justify-center items-center flex-col tracking-wide w-full relative">
-          <h4 className="text-sm font-semibold m-2 self-start max-w-195">{title}</h4>
+          <h4 className="text-sm font-semibold m-2 self-start max-w-195 tracking-wide">{title}</h4>
           <p className="text-xs mb-1 mx-1 p-1.5 self-start">{description}</p>
           <i className="text-xs my-1.5 mx-1 self-end tracking-wide">
             Production Date:{new Date(prodDate).toLocaleDateString()}
@@ -69,14 +68,14 @@ function TaskItems({
           aria-describedby="layout-modal-description"
         >
           <ModalClose />
-          <div className="bg-black mx-auto sm:w-800 md:w-400 lg:w-1000 xl:w-1200 w-1500 h-700 flex justify-center items-center">
+          <div className="bg-white mx-auto sm:w-800 md:w-400 lg:w-1000 xl:w-1200 w-1500 h-700 flex justify-center items-center">
             <div className="w-full h-full overflow-y-auto">
               <TaskComment task={task} />
             </div>
             <div className="bg-white w-full h-full flex justify-start flex-col items-center">
               <TaskAssigned task={task} />
-              <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-gray-500 ">
-                Created {new Date(createdAt).toLocaleString()}
+              <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-zinc-700 tracking-widest">
+                Task Created: {new Date(createdAt).toLocaleString()}
               </h2>
             </div>
           </div>
