@@ -14,9 +14,10 @@ import DatePicker from "./DatePicker";
 
 interface MyProps {
   updateHandler: any;
+  isNewTaskSuccess: any;
 }
 
-function CreateTask({updateHandler}: MyProps) {
+function CreateTask({updateHandler, isNewTaskSuccess}: MyProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState({
@@ -53,6 +54,7 @@ function CreateTask({updateHandler}: MyProps) {
         contractId: -1,
       }),
     });
+    isNewTaskSuccess(true)
     await updateHandler();
     setOpen(false);
   };

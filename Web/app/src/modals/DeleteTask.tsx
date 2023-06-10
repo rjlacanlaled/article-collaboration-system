@@ -6,28 +6,19 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import DeleteIcon from "../Assets/Images/delete-icon.svg";
 import { ProjectTask } from "../Components/TaskList";
-import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+// import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+// import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 interface MyProps {
   task: ProjectTask;
   updateHandler: any;
+  isDeleteSuccess: any;
 }
 
-export interface State extends SnackbarOrigin {
-  open: boolean;
-}
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-function DeleteUser({ task, updateHandler }: MyProps) {
+function DeleteUser({ task, updateHandler, isDeleteSuccess }: MyProps) {
   const [open, setOpen] = useState(false);
-  const [isDeleteSuccess, setDeleteSuccess] = useState(false);
+
 
   const handleDeleteTaskSubmit = async () => {
     try {
@@ -40,18 +31,14 @@ function DeleteUser({ task, updateHandler }: MyProps) {
           id: task.id,
         }),
       });
-      setDeleteSuccess(true);
-
-      setTimeout(() => updateHandler(), 1000);
+      
+    isDeleteSuccess(true);
+    updateHandler()
     } catch (error) {
       console.error(error);
     } finally {
       setOpen(false);
     }
-  };
-
-  const handleClose = () => {
-    setDeleteSuccess(false);
   };
 
   return (
@@ -110,18 +97,6 @@ function DeleteUser({ task, updateHandler }: MyProps) {
           </form>
         </ModalDialog>
       </Modal>
-      {isDeleteSuccess && (
-          <Snackbar
-            autoHideDuration={3000}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={isDeleteSuccess}
-            onClose={handleClose}
-          >
-            <Alert onClose={() => {}} severity="success">
-              Successfully Deleted!
-            </Alert>
-          </Snackbar>
-      )}
     </>
   );
 }

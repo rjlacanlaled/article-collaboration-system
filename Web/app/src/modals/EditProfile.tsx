@@ -8,7 +8,11 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 
-function EditProfile() {
+interface profileData {
+  isUpdateProfileSuccess: any;
+}
+
+function EditProfile({isUpdateProfileSuccess}: profileData) {
 const [open, setOpen] = useState(false);
 
 const [profileData, setProfileData] = useState({

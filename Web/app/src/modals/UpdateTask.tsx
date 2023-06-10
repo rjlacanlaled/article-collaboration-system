@@ -15,9 +15,10 @@ import { ProjectTask } from "../Components/TaskList";
 interface MyProps {
   task: ProjectTask;
   updateHandler: any;
+  isUpdateSuccess: any;
 }
 
-function UpdateTask({ task, updateHandler }: MyProps) {
+function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState<ProjectTask>({
@@ -61,6 +62,7 @@ function UpdateTask({ task, updateHandler }: MyProps) {
         contractId: taskData.contractId,
       }),
     });
+    isUpdateSuccess(true);
     await updateHandler();
     setOpen(false);
   };

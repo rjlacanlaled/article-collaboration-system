@@ -4,6 +4,8 @@ import DeleteTask from "../modals/DeleteTask";
 import UpdateTask from "../modals/UpdateTask";
 import { Link } from "react-router-dom";
 import CreateTask from "./CreateTask";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 export type Assignee = {
   userId: number;
@@ -28,8 +30,37 @@ export type ProjectTask = {
   assignees: Assignee[];
 };
 
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
+
 function TaskList() {
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
+  const [isDeleteSuccess, setDeleteSuccess] = useState(false);
+  const [isUpdateSuccess, setUpdateSuccess] = useState(false);
+  const [isNewTaskSuccess, setNewTaskSuccess] = useState(false);
+
+  //handle delete close
+  const handleNewTaskClose = () => {
+    setNewTaskSuccess((prevState) => !prevState);
+  };
+
+  //handle delete close
+  const handleDeleteClose = () => {
+    setDeleteSuccess((prevState) => !prevState);
+  };
+
+  //handle Update close
+  const handleUpdateClose = () => {
+    setUpdateSuccess((prevState) => !prevState);
+  };
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   useEffect(() => {
     refreshData();
@@ -79,7 +110,10 @@ const getStatusText = (status:any) => {
     <DashboardPage>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4">
         <div className="flex justify-start flex-row items-center mb-8">
-          <CreateTask updateHandler={refreshData} />
+          <CreateTask 
+            updateHandler={refreshData} 
+            isNewTaskSuccess={setNewTaskSuccess}  
+          />
         </div>
         <div className="overflow-x-auto shadow-md sm:rounded-md">
           <table className="w-full text-sm text-left dark:text-black">
@@ -198,11 +232,13 @@ const getStatusText = (status:any) => {
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateTask 
                           task={task} 
-                          updateHandler={refreshData} 
+                          updateHandler={refreshData}
+                          isUpdateSuccess={setUpdateSuccess} 
                         />
                         <DeleteTask 
                           task={task} 
-                          updateHandler={refreshData} 
+                          updateHandler={refreshData}
+                          isDeleteSuccess={setDeleteSuccess} 
                         />
                       </td>
                     </tr>
@@ -211,6 +247,45 @@ const getStatusText = (status:any) => {
           </table>
         </div>
       </div>
+      {/* NEW TASK NOTIFICATION */}
+      {isNewTaskSuccess && (
+        <Snackbar
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={isNewTaskSuccess}
+          onClose={handleNewTaskClose}
+        >
+          <Alert onClose={handleNewTaskClose} severity="success">
+            Task Successfully Created!
+          </Alert>
+        </Snackbar>
+      )}
+      {/* DELETE NOTIFICATION */}
+      {isDeleteSuccess && (
+        <Snackbar
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={isDeleteSuccess}
+          onClose={handleDeleteClose}
+        >
+          <Alert onClose={handleDeleteClose} severity="success">
+            Successfully Deleted!
+          </Alert>
+        </Snackbar>
+        )}
+        {/* UPDATE NOTIFICATION */}
+        {isUpdateSuccess && (
+          <Snackbar
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={isUpdateSuccess}
+            onClose={handleUpdateClose}
+          >
+            <Alert onClose={handleUpdateClose} severity="info">
+                Successfully Updated!
+            </Alert>
+          </Snackbar>
+        )}
     </DashboardPage>
   );
 }

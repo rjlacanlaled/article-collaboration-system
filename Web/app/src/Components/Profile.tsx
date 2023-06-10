@@ -3,14 +3,31 @@ import UserData from '../Data/UserData.json'
 import DashboardPage from '../Pages/DashboardPage'
 import { Avatar, IconButton } from '@mui/material';
 import EditProfile from '../modals/EditProfile';
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 function Profile() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isUpdateProfileSuccess, setUpdateProfileSuccess] = useState(false)
+
+  const handleProfileUpdateClose = () => {
+    setUpdateProfileSuccess(prevState => !prevState)
+  }
 
   const handleFileChange = (e:any) => {
     setSelectedFile(e.target.files[0]);
   };
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   const handleProfileUploadSubmit = () => {
     if (selectedFile) {
@@ -20,7 +37,6 @@ function Profile() {
       console.log('No file selected.');
     }
   };
-
 
   const filteredUserData = UserData.filter((user) => user.id === 1);
 
@@ -33,7 +49,7 @@ function Profile() {
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               <div className='flex justify-between'>
                 <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-                <EditProfile />
+                <EditProfile isUpdateProfileSuccess={isUpdateProfileSuccess}/>
               </div>
               <div className='flex justify-start items-center w-content mt-4'>
               <input
@@ -87,6 +103,19 @@ function Profile() {
             </div>
           ))}
         </div>
+        {/* UPDATE PROFILE NOTIFICATION */}
+        {isUpdateProfileSuccess && (
+          <Snackbar
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={isUpdateProfileSuccess}
+            onClose={handleProfileUpdateClose}
+          >
+            <Alert onClose={handleProfileUpdateClose} severity="info">
+              Profile Successfully Updated!
+            </Alert>
+          </Snackbar>
+        )}
     </DashboardPage>
   )
 }
