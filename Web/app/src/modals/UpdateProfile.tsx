@@ -12,7 +12,7 @@ interface profileData {
   isUpdateProfileSuccess: any;
 }
 
-function EditProfile({isUpdateProfileSuccess}: profileData) {
+function UpdateProfile({isUpdateProfileSuccess}: profileData) {
 const [open, setOpen] = useState(false);
 
 const [profileData, setProfileData] = useState({
@@ -86,4 +86,4 @@ const handleChange = (e: any) => {
   )
 }
 
-export default EditProfile
+export default UpdateProfile

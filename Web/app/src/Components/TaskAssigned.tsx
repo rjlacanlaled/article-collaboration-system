@@ -21,7 +21,7 @@ export default function TaskAssigned({ task }: MyProps) {
     };
 
   return (
-    <div className='p-2 w-full mt-7'>
+    <div className='p-2 w-full mt-5'>
       <Accordion expanded={detailsExpand} onChange={handleAccordionChange} TransitionProps={{ unmountOnExit: true }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

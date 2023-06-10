@@ -11,6 +11,7 @@ import Select from "@mui/material/Select";
 import Typography from "@mui/joy/Typography";
 import UpdateIcon from "../Assets/Images/edit-icon.svg";
 import { ProjectTask } from "../Components/TaskList";
+import DatePicker from "../Components/DatePicker";
 
 interface MyProps {
   task: ProjectTask;
@@ -130,16 +131,6 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
                     required
                   />
                 </FormControl>
-                <FormControl>
-                  <FormLabel>Client</FormLabel>
-                  <Input
-                    type="text"
-                    name="contractId"
-                    value={taskData.contractId}
-                    onChange={handleChange}
-                    required
-                  />
-                </FormControl>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
                   <FormLabel id="demo-select-small" sx={{ color: "black" }}>
                     Type
@@ -172,6 +163,14 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
                     required
                   />
                 </FormControl>
+                <FormControl>
+                <FormLabel>Production Date</FormLabel>
+                <DatePicker />
+              </FormControl>
+              <FormControl>
+                <FormLabel>SEO Deadline</FormLabel>
+                <DatePicker />
+              </FormControl>
                 <Button onClick={handleUpdateTaskSubmit}>
                   Submit
                 </Button>
