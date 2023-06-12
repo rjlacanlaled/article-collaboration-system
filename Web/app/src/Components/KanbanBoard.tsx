@@ -219,7 +219,7 @@ function KanbanBoard() {
                         </div>
                         {provided.placeholder}
                         <div className="flex justify-start items-center bg-gray-200 absolute bottom-0 left-0 p-2 w-full">
-                          <AddSwimLaneList updateHandler={refreshData}/>
+                          <AddSwimLaneList updateHandler={refreshData} />
                         </div>
                       </div>
                     );
