@@ -31,14 +31,16 @@ namespace Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("roles/all")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public IActionResult GetAllRoles()
         {
-            var roles = _roleManager.Roles.ToList();
+            var roles = _roleManager.Roles.Select(x => x.Name).ToList();
             return Ok(roles);
         }
 
         [HttpGet("users/all")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -46,6 +48,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> CreateRole(string name)
         {
             // Check if role exists
@@ -74,23 +77,33 @@ namespace Api.Controllers
         }
 
         [HttpPost("role/user")]
-        public async Task<IActionResult> AddRole(string email, string roleName)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<IActionResult> AddRole([FromBody] UserRoleUpdate updatedRole)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(updatedRole.Email);
 
             if (user is null)
             {
                 return BadRequest("User does not exist!");
             }
 
-            var role = await _roleManager.FindByNameAsync(roleName);
+            var role = await _roleManager.FindByNameAsync(updatedRole.RoleName);
 
             if (role is null)
             {
                 return BadRequest("Role does not exist");
             }
 
-            var addRoleResult = await _userManager.AddToRoleAsync(user, roleName);
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            foreach (var userRole in userRoles)
+            {
+                _logger.LogInformation(userRole);
+            }
+
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+            var addRoleResult = await _userManager.AddToRoleAsync(user, updatedRole.RoleName);
 
             if (addRoleResult.Succeeded)
             {
@@ -103,6 +116,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("user/role/{email}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetUserRoles(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -118,6 +132,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("role/remove/user/{email}/role/{roleName}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> RemoveRole(string email, string roleName)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -143,62 +158,6 @@ namespace Api.Controllers
             else
             {
                 return BadRequest("Something went wrong");
-            }
-        }
-
-        [HttpPost("login/google")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GoogleLoginAsync([FromBody] string token)
-        {
-            try
-            {
-                var googleUser = await GoogleJsonWebSignature.ValidateAsync(token, new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new[] { "710035087649-jes0lm5uk9m05cn8lfj71ihv6c6a4d4g.apps.googleusercontent.com" }
-                });
-
-                Console.WriteLine(googleUser);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return BadRequest();
-            }
-        }
-
-        [HttpPost("signup/google")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GoogleSignupAsync([FromBody] string token)
-        {
-            _logger.LogInformation("Here");
-            try
-            {
-                var googleUser = await GoogleJsonWebSignature.ValidateAsync(token, new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new[] { "710035087649-jes0lm5uk9m05cn8lfj71ihv6c6a4d4g.apps.googleusercontent.com" }
-                });
-
-                var userExist = await _userManager.FindByEmailAsync(googleUser.Email);
-
-                if (userExist is not null)
-                {
-                    return BadRequest("User already exist!");
-                }
-                else
-                {
-                    var user = new ApplicationUser { UserName = googleUser.Email };
-                    var newUser = await _userManager.CreateAsync(user);
-                    var userDetails = new UserDetail { UserEmail = googleUser.Email, FirstName = googleUser.GivenName, LastName = googleUser.FamilyName, Picture = googleUser.Picture };
-                    var newUserDetails = await _dbContext.UserDetails.AddAsync(userDetails);
-                    await _dbContext.SaveChangesAsync();
-                    return Ok(newUser);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation(e.ToString());
-                return BadRequest(e.ToString());
             }
         }
     }

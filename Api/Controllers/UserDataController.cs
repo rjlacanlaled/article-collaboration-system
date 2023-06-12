@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -24,12 +26,14 @@ public class UserDataController : ControllerBase
     private readonly ApplicationContext _dbContext;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ILogger<UserDataController> _logger;
 
-    public UserDataController(ApplicationContext dbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public UserDataController(ApplicationContext dbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<UserDataController> logger)
     {
         _dbContext = dbContext;
         _userManager = userManager;
         _roleManager = roleManager;
+        _logger = logger;
     }
 
     [HttpPut("details/update/email/{email}")]
@@ -85,11 +89,76 @@ public class UserDataController : ControllerBase
 
         var roles = await _userManager.GetRolesAsync(user);
 
-        return Ok((user, roles));
+        var accessToken = Request.Headers["Authorization"].ToString().Replace("Bearer", "").Trim();
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(accessToken);
+
+        var ownerUsername = token.Claims.ToList().Find(x => x.Type.ToString() == "unique_name")?.Value;
+        var ownerUser = await _userManager.FindByNameAsync(ownerUsername);
+        var ownerRoles = await _userManager.GetRolesAsync(ownerUser);
+
+        if (ownerUser is null) return BadRequest("Token expired! Please relogin...");
+        _logger.LogInformation("Email = " + user.Email);
+        _logger.LogInformation("OwnerEmail = " + ownerUser.Email);
+
+        if (ownerUser.Email.ToLower() == user.Email!.ToLower())
+        {
+            return Ok(new { User = user, Roles = roles });
+        }
+        else
+        {
+            if (ownerRoles.Contains("Admin"))
+            {
+                return Ok(new { User = user, Roles = roles });
+            }
+
+            return Unauthorized();
+        }
+    }
+
+    // Read
+    [HttpPost("email/{email}")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    public async Task<IActionResult> UpdateUserAsync([FromRoute] string email, [FromBody] BasicUserData data)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null) return BadRequest("User does not exist");
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var accessToken = Request.Headers["Authorization"].ToString().Replace("Bearer", "").Trim();
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(accessToken);
+
+        var ownerUsername = token.Claims.ToList().Find(x => x.Type.ToString() == "unique_name")?.Value;
+        var ownerUser = await _userManager.FindByNameAsync(ownerUsername);
+        var ownerRoles = await _userManager.GetRolesAsync(ownerUser);
+
+        if (ownerUser is null) return BadRequest("Token expired! Please relogin...");
+
+        user.FirstName = data.FirstName;
+        user.MiddleName = data.MiddleName;
+        user.LastName = data.LastName;
+
+        if (ownerUser.Email.ToLower() == user.Email!.ToLower())
+        {
+            await _userManager.UpdateAsync(user);
+            return Ok(new { User = user, Roles = roles });
+        }
+        else
+        {
+            if (ownerRoles.Contains("Admin"))
+            {
+                await _userManager.UpdateAsync(user);
+                return Ok(new { User = user, Roles = roles });
+            }
+
+            return Unauthorized();
+        }
     }
 
     [HttpGet("users/approved")]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public async Task<IActionResult> FetchAllApprovedAsync()
     {
         var users = await _userManager.Users
@@ -111,7 +180,7 @@ public class UserDataController : ControllerBase
     }
 
     [HttpGet("users/unapproved")]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public async Task<IActionResult> FetchAllUnApprovedAsync()
     {
         var users = await _userManager.Users

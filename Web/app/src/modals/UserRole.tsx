@@ -11,11 +11,6 @@ import UpdateIcon from "../Assets/Images/edit-icon.svg";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { UserDetail } from "../Components/AdminDashboard";
 
-export type Role = {
-  id: number;
-  name: string;
-};
-
 interface MyUserRoleProps {
   user: UserDetail;
   updateHandler: any;
@@ -23,22 +18,23 @@ interface MyUserRoleProps {
 
 function UserRole({ user, updateHandler }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
-  const [userRoles, setUserRoles] = useState<Role[]>([]);
+  const [userRoles, setUserRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState<number>(0);
 
-  const handleUserRole = (e: SelectChangeEvent) => {
-    setSelectedRole(parseInt(e.target.value));
+  const handleUserRole = (e: any) => {
+    setSelectedRole(e.target.value);
   };
 
   const handleUserRoleSubmit = async () => {
-    await fetch("http://localhost:5143/api/v1/UserRoles", {
+    await fetch(`http://localhost:5143/api/v1/Setup/role/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        userId: 1,
-        roleId: selectedRole,
+        email: user.email,
+        roleName: selectedRole,
       }),
     });
     await updateHandler();
@@ -47,8 +43,13 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Roles/all");
+      const res = await fetch("http://localhost:5143/api/v1/Setup/roles/all", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const roles = await res.json();
+      console.log({ roles });
       setUserRoles(roles);
     };
 
@@ -99,7 +100,7 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
                       <em>None</em>
                     </MenuItem>
                     {userRoles.map((r) => (
-                      <MenuItem value={r.id}>{r.name}</MenuItem>
+                      <MenuItem value={r}>{r}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>

@@ -1,3 +1,5 @@
+using Common.Models.Enums;
+
 namespace Common.Models.Core;
 
 public class ProjectTaskDetails
@@ -6,7 +8,7 @@ public class ProjectTaskDetails
     public int ProjectTaskId { get; set; }
     public string Title { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
-    public int Status { get; init; }
+    public ProjectTaskStatus Status { get; init; }
     public int Type { get; init; }
     public int Words { get; init; }
     public int Timeliness { get; init; }

@@ -1,6 +1,6 @@
 namespace Common.Models.Enums;
 
-public enum TaskStatus
+public enum ProjectTaskStatus
 {
     Todo = 0,
     InProgress = 1,

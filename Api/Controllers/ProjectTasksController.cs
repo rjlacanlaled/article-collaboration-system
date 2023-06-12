@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using Common.Models.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Common.Models.Request;
+using Common.Models.Enums;
 
 namespace Api.Controllers;
 
@@ -152,5 +152,29 @@ public class ProjectTasksController : ControllerBase
             .ToListAsync();
 
         return Ok(tasks);
+    }
+
+    [HttpPost("done")]
+    public async Task<IActionResult> ClearDoneAsync([FromBody] List<int> taskIds)
+    {
+        var tasks = await _dbContext.ProjectTasks.Where(x => taskIds.Contains(x.Id)).ToListAsync();
+
+        foreach (var task in tasks)
+        {
+            task.Status = ProjectTaskStatus.Done;
+            task.DateUpdated = DateTime.UtcNow;
+        }
+
+        _dbContext.ProjectTasks.UpdateRange(tasks);
+        await _dbContext.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpGet("done")]
+    public async Task<IActionResult> GetDone()
+    {
+        var doneTasks = await _dbContext.ProjectTasks.Where(x => x.Status == ProjectTaskStatus.Done).OrderByDescending(x => x.DateUpdated).ToListAsync();
+        return Ok(doneTasks);
     }
 }

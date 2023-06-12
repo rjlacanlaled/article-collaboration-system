@@ -23,7 +23,7 @@ function AdminDashboard() {
       lastName: "",
       email: "",
       role: [],
-      date: ""
+      date: "",
     },
   ]);
 
@@ -34,10 +34,16 @@ function AdminDashboard() {
   const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/Users/users/unapproved"
+        "http://localhost:5143/api/v1/UserData/users/unapproved",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       const userDetails = await res.json();
+      console.log({ userDetails });
       setUserDetails(res.ok ? userDetails : []);
     };
 
@@ -84,7 +90,9 @@ function AdminDashboard() {
                 userDetails.map((userDetail) => (
                   <tr className="hover:bg-slate-300" key={userDetail.email}>
                     <td className="border px-4 py-3">{userDetail.firstName}</td>
-                    <td className="border px-4 py-3">{userDetail.middleName}</td>
+                    <td className="border px-4 py-3">
+                      {userDetail.middleName}
+                    </td>
                     <td className="border px-4 py-3">{userDetail.lastName}</td>
                     <td className="border px-4 py-3">{userDetail.email}</td>
                     <td className="border px-4 py-3">{userDetail.role}</td>

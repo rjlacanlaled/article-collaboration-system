@@ -1,6 +1,6 @@
 namespace Common.Models.Enums;
 
-public enum TaskType
+public enum ProjectTaskType
 {
     GuestPost = 0,
     Blog = 1
