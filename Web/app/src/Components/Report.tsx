@@ -30,7 +30,7 @@ function Report() {
     <DashboardPage>
         <ArticleTable/>    
         <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-650 drop-shadow rounded-md m-4">
-            <h2 className='text-gray-900 lining-nums font-bold'> USERS TASK SUMMARY</h2>
+            <h2 className='text-zinc-800 lining-nums font-bold tracking-wider'> USERS TASK SUMMARY</h2>
             <div className="bg-white flex justify-between items-center">
                 <TimeFrame />
                 <label htmlFor="table-search" className="sr-only">Search</label>
@@ -43,7 +43,7 @@ function Report() {
             </div>
             <div className='w-full h-400'>
                 <table className="table-auto border-collapse my-6 text-base w-full">
-                <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
+                <thead className="font-semibold bg-gray-800 text-white text-sm uppercase tracking-wider">
                     <tr>
                     <th className="px-4 py-3">ID</th>
                     <th className="px-4 py-3">First Name</th>
@@ -56,7 +56,7 @@ function Report() {
                     <th className="px-4 py-3">Export</th>
                     </tr>
                 </thead>
-                <tbody className='overflow-scroll text-sm'>
+                <tbody className='overflow-scroll text-sm text-zinc-700 font-medium tracking-wide'>
                     { displayedUsers.map((UserDatas) => (
                         <tr key={UserDatas.id}>
                             <td className="border px-4 py-3">{UserDatas.id}</td>

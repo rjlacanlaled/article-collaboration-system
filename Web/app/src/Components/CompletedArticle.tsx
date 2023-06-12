@@ -35,7 +35,7 @@ function CompletedArticle() {
           />
         ))}
         <div className="flex justify-start flex-col w-full h-fit bg-white p-6 text-center drop-shadow rounded-md m-4">
-            <h2 className='text-gray-900 lining-nums font-bold'> Task Completed</h2>
+            <h2 className='text-gray-900 lining-nums font-bold uppercase tracking-wider'> Task Completed</h2>
             <div className="bg-white flex justify-between items-center">
                 <DatePickerViews />
                 <label htmlFor="table-search" className="sr-only">Search</label>
@@ -48,7 +48,7 @@ function CompletedArticle() {
             </div>
             <div className='w-full h-400 overflow-x-auto'>
                 <table className="table-auto border-collapse my-6 text-base w-full">
-                <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
+                <thead className="font-semibold bg-gray-800 text-white text-sm uppercase tracking-wider">
                     <tr>
                     <th className="px-4 py-3">ID</th>
                     <th className="px-4 py-3">Title</th>
@@ -60,7 +60,7 @@ function CompletedArticle() {
                     <th className="px-4 py-3">Export</th>
                     </tr>
                 </thead>
-                <tbody className='overflow-scroll text-sm'>
+                <tbody className='overflow-scroll text-sm text-zinc-700 tracking-wide'>
                     { displayedTasks.map((TaskDatas) => (
                         <tr key={TaskDatas.id}>
                             <td className="border px-4 py-3">{TaskDatas.id}</td>

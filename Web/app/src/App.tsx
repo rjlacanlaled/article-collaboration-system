@@ -16,6 +16,7 @@ import Report from "./Components/Report";
 import ResetEmail from "./Components/ResetEmail";
 import NotFoundPage from "./Components/NotFound";
 import NewPassword from "./Components/ResetPassword"
+import SuccessReset from "./Components/SuccessReset";
 import "./App.css";
 
 function App() {
@@ -26,7 +27,6 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/resetemail" element={<ResetEmail />} />
         <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/*" element={<NotFoundPage/>} />
         <Route path="/404" element={<NotFoundPage/>} />
@@ -42,6 +42,8 @@ function App() {
         <Route path="/task" element={<TaskList />} />
         {/* <Route path="/dashboard" element={<DashboardPage children={undefined} />}/> */}
         <Route path="/success" element={<SignupSuccess />} />
+        <Route path="/successreset" element={<SuccessReset />} />
+        <Route path="/resetemail" element={<ResetEmail />} />
       </Routes>
     </div>
   );
