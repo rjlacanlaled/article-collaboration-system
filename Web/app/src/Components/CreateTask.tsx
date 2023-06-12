@@ -68,11 +68,11 @@ function CreateTask({updateHandler, isNewTaskSuccess}: MyProps) {
         >
           <div className="flex items-center space-x-3">
             <img src={AddIcon} alt="add-task" className="h-6 w-6" />
-            <h3 className="text-slate-900 group-hover:text-white text-sm font-semibold">
+            <h3 className="text-zinc-800 group-hover:text-white text-sm font-semibold tracking-wider">
               New Task
             </h3>
           </div>
-          <p className="text-slate-500 group-hover:text-white text-sm">
+          <p className="text-zinc-600 group-hover:text-white text-sm tracking-wide">
             Create a new project from a variety of starting templates.
           </p>
         </p>

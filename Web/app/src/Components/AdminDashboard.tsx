@@ -3,6 +3,13 @@ import DashboardPage from "../Pages/DashboardPage";
 import { Chip } from "@mui/material";
 import ApproveUser from "../modals/ApproveUser";
 import RejectUser from "../modals/RejectUser";
+import AddRole from "../modals/AddRole";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 export type UserDetail = {
   username: string;
@@ -15,6 +22,7 @@ export type UserDetail = {
 };
 
 function AdminDashboard() {
+  const [isRoleSuccess, setRoleSuccess] = useState(false)
   const [userDetails, setUserDetails] = useState<UserDetail[]>([
     {
       username: "",
@@ -26,6 +34,17 @@ function AdminDashboard() {
       date: "",
     },
   ]);
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleUserRoleClose = () => {
+    setRoleSuccess(prevState => !prevState)
+  }
 
   useEffect(() => {
     refreshData();
@@ -56,10 +75,10 @@ function AdminDashboard() {
 
   return (
     <DashboardPage>
-      <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
+      <div className="relative flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
         <div className="flex justify-center flex-col items-center bg-white p-7 drop-shadow w-72 h-16 rounded-md">
           <div className="flex justify-center items-center">
-            <h1 className="text-sm font-semibold mr-1">Pending Approvals</h1>
+            <h1 className="text-sm font-semibold text-zinc-800 mr-1 tracking-wider">Pending Approvals</h1>
             <label className="lining-nums font-bold text-sm bg-gray-300 rounded-full px-3">
               {userDetails.length}
             </label>
@@ -67,7 +86,7 @@ function AdminDashboard() {
         </div>
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
           <table className="table-auto border-collapse my-6 text-base w-full">
-            <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
+            <thead className="font-semibold bg-gray-800 text-white text-sm uppercase tracking-wider">
               <tr>
                 <th className="px-4 py-3">First Name</th>
                 <th className="px-4 py-3">Middle Name</th>
@@ -88,7 +107,7 @@ function AdminDashboard() {
                 </div>
               ) : (
                 userDetails.map((userDetail) => (
-                  <tr className="hover:bg-slate-300" key={userDetail.email}>
+                  <tr className="hover:bg-slate-300 text-zinc-700 tracking-wide" key={userDetail.email}>
                     <td className="border px-4 py-3">{userDetail.firstName}</td>
                     <td className="border px-4 py-3">
                       {userDetail.middleName}
@@ -97,7 +116,7 @@ function AdminDashboard() {
                     <td className="border px-4 py-3">{userDetail.email}</td>
                     <td className="border px-4 py-3">{userDetail.role}</td>
                     <td className="border px-4 py-3">
-                      <Chip label="For Approval" />
+                      <Chip label="For Approval" className="font-semibold"/>
                     </td>
                     <td className="border px-4 py-3">
                       {new Date(userDetail.date).toLocaleString()}
@@ -115,7 +134,24 @@ function AdminDashboard() {
             </tbody>
           </table>
         </div>
+        {/* ADD ROLE BUTTON */}
+        <div className="absolute top-0 right-0 p-0 m-3">
+          <AddRole isAddRoleSuccess={isRoleSuccess}/>
+        </div>
       </div>
+        {/* ADD USER ROLE NOTIFICATION */}
+        {isRoleSuccess && (
+          <Snackbar
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={isRoleSuccess}
+            onClose={handleUserRoleClose}
+          >
+            <Alert onClose={handleUserRoleClose} severity="info">
+              User Successfully Added!
+            </Alert>
+          </Snackbar>
+        )}
     </DashboardPage>
   );
 }

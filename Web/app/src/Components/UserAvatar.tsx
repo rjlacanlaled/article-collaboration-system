@@ -7,8 +7,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Profile from '../Assets/Images/profile.jpg'
 import { Link } from 'react-router-dom';
 
-const settings = ['Profile', 'Account', 'Logout'];
-
 function UserAvatar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -26,7 +24,7 @@ function UserAvatar() {
       <Box sx={{ flexGrow: 0 }}>
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} disableRipple>
             <Avatar alt="Remy Sharp" src={Profile}/>
-            <label className='text-sm text-black ml-2 cursor-pointer font-semibold tracking-wide'>Bryan Saguit</label>
+            <label className='text-sm text-zinc-700 ml-2 cursor-pointer font-semibold tracking-wider'>Bryan Saguit</label>
           </IconButton>
         <Menu
           sx={{ mt: '45px'}}

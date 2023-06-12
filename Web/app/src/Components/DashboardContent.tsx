@@ -50,7 +50,7 @@ function DashboardContent() {
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
           <div className="flex justify-center flex-row text-left bg-white p-7 drop-shadow w-72 rounded-md">
             <div className="flex justify-center flex-col mr-9">
-              <h1 className="text-sm font-semibold mb-1">MEMBERS</h1>
+              <h1 className="text-sm font-semibold mb-1 tracking-widest text-zinc-800">MEMBERS</h1>
               {userDetails.length > 0 ? (
                 <label className="lining-nums font-bold text-4xl">
                   {userDetails.length}
@@ -90,7 +90,7 @@ function DashboardContent() {
             </div>
           </div>
           <table className="table-auto border-collapse my-6 text-base w-full">
-            <thead className="font-semibold bg-gray-800 text-white text-sm uppercase">
+            <thead className="font-semibold bg-gray-800 text-white text-sm uppercase tracking-wider">
               <tr>
                 <th className="px-4 py-3">First Name</th>
                 <th className="px-4 py-3">Middle Name</th>
@@ -101,7 +101,7 @@ function DashboardContent() {
                 <th className="px-4 py-3">Action</th>
               </tr>
             </thead>
-            <tbody className="overflow-scroll text-sm relative">
+            <tbody className="overflow-scroll text-sm relative tracking-wider">
               {Array.isArray(userDetails) && userDetails.length > 0 ? (
                 userDetails.map((userDetail) => (
                   <tr className="hover:bg-slate-300" key={userDetail.email}>
