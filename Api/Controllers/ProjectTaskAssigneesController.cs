@@ -84,7 +84,7 @@ public class ProjectTaskAssigneesController : ControllerBase
 
     // Read
     [HttpGet("user/{userId}")]
-    public async Task<IActionResult> FetchAsync([FromRoute] int userId)
+    public async Task<IActionResult> FetchAsync([FromRoute] string userId)
     {
         List<ProjectTaskAssignee> tasks = await _dbContext.ProjectTaskAssignees
             .Where(c => c.UserId == userId)

@@ -200,4 +200,18 @@ public class UserDataController : ControllerBase
 
         return Ok(users);
     }
+
+    [HttpGet("users/{userId}")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    public async Task<IActionResult> FetchUserByIdAsync([FromRoute] string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null) return BadRequest("User does not exist");
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        if (user is null) return BadRequest("User not found!");
+
+        return Ok(new { User = user, Roles = roles });
+    }
 }

@@ -17,12 +17,12 @@ export type UserDetail = {
   middleName: string;
   lastName: string;
   email: string;
-  role: string[];
+  roles: string[];
   date: any;
 };
 
 function AdminDashboard() {
-  const [isRoleSuccess, setRoleSuccess] = useState(false)
+  const [isRoleSuccess, setRoleSuccess] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetail[]>([
     {
       username: "",
@@ -30,7 +30,7 @@ function AdminDashboard() {
       middleName: "",
       lastName: "",
       email: "",
-      role: [],
+      roles: [],
       date: "",
     },
   ]);
@@ -43,8 +43,8 @@ function AdminDashboard() {
   });
 
   const handleUserRoleClose = () => {
-    setRoleSuccess(prevState => !prevState)
-  }
+    setRoleSuccess((prevState) => !prevState);
+  };
 
   useEffect(() => {
     refreshData();
@@ -78,7 +78,9 @@ function AdminDashboard() {
       <div className="relative flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
         <div className="flex justify-center flex-col items-center bg-white p-7 drop-shadow w-72 h-16 rounded-md">
           <div className="flex justify-center items-center">
-            <h1 className="text-sm font-semibold text-zinc-800 mr-1 tracking-wider">Pending Approvals</h1>
+            <h1 className="text-sm font-semibold text-zinc-800 mr-1 tracking-wider">
+              Pending Approvals
+            </h1>
             <label className="lining-nums font-bold text-sm bg-gray-300 rounded-full px-3">
               {userDetails.length}
             </label>
@@ -107,16 +109,19 @@ function AdminDashboard() {
                 </div>
               ) : (
                 userDetails.map((userDetail) => (
-                  <tr className="hover:bg-slate-300 text-zinc-700 tracking-wide" key={userDetail.email}>
+                  <tr
+                    className="hover:bg-slate-300 text-zinc-700 tracking-wide"
+                    key={userDetail.email}
+                  >
                     <td className="border px-4 py-3">{userDetail.firstName}</td>
                     <td className="border px-4 py-3">
                       {userDetail.middleName}
                     </td>
                     <td className="border px-4 py-3">{userDetail.lastName}</td>
                     <td className="border px-4 py-3">{userDetail.email}</td>
-                    <td className="border px-4 py-3">{userDetail.role}</td>
+                    <td className="border px-4 py-3">{userDetail.roles[0]}</td>
                     <td className="border px-4 py-3">
-                      <Chip label="For Approval" className="font-semibold"/>
+                      <Chip label="For Approval" className="font-semibold" />
                     </td>
                     <td className="border px-4 py-3">
                       {new Date(userDetail.date).toLocaleString()}
@@ -136,22 +141,22 @@ function AdminDashboard() {
         </div>
         {/* ADD ROLE BUTTON */}
         <div className="absolute top-0 right-0 p-0 m-3">
-          <AddRole isAddRoleSuccess={isRoleSuccess}/>
+          <AddRole isAddRoleSuccess={isRoleSuccess} />
         </div>
       </div>
-        {/* ADD USER ROLE NOTIFICATION */}
-        {isRoleSuccess && (
-          <Snackbar
-            autoHideDuration={3000}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={isRoleSuccess}
-            onClose={handleUserRoleClose}
-          >
-            <Alert onClose={handleUserRoleClose} severity="info">
-              User Successfully Added!
-            </Alert>
-          </Snackbar>
-        )}
+      {/* ADD USER ROLE NOTIFICATION */}
+      {isRoleSuccess && (
+        <Snackbar
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={isRoleSuccess}
+          onClose={handleUserRoleClose}
+        >
+          <Alert onClose={handleUserRoleClose} severity="info">
+            User Successfully Added!
+          </Alert>
+        </Snackbar>
+      )}
     </DashboardPage>
   );
 }

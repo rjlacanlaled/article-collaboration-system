@@ -11,4 +11,7 @@ public record AddProjectTaskRequest
     public int Words { get; init; }
     public int Timeliness { get; init; }
     public int ContractId { get; init; }
+    public string? Link { get; init; }
+    public DateTime ProductionDate { get; init; }
+    public DateTime SeoDeadline { get; init; }
 }

@@ -11,7 +11,7 @@ export type UserDetail = {
   middleName: string;
   lastName: string;
   email: string;
-  role: string[];
+  roles: string[];
   date: any;
 };
 
@@ -22,8 +22,8 @@ const initialUserDetails: UserDetail[] = [
     middleName: "",
     lastName: "",
     email: "",
-    role: [],
-    date: ""
+    roles: [],
+    date: "",
   },
 ];
 
@@ -37,7 +37,12 @@ function DashboardContent() {
 
   const refreshData = async () => {
     const res = await fetch(
-      "http://localhost:5143/api/v1/Users/users/approved"
+      "http://localhost:5143/api/v1/UserData/users/approved",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     const userDetails = await res.json();
     console.log({ userDetails });
@@ -50,7 +55,9 @@ function DashboardContent() {
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
           <div className="flex justify-center flex-row text-left bg-white p-7 drop-shadow w-72 rounded-md">
             <div className="flex justify-center flex-col mr-9">
-              <h1 className="text-sm font-semibold mb-1 tracking-widest text-zinc-800">MEMBERS</h1>
+              <h1 className="text-sm font-semibold mb-1 tracking-widest text-zinc-800">
+                MEMBERS
+              </h1>
               {userDetails.length > 0 ? (
                 <label className="lining-nums font-bold text-4xl">
                   {userDetails.length}
@@ -106,10 +113,12 @@ function DashboardContent() {
                 userDetails.map((userDetail) => (
                   <tr className="hover:bg-slate-300" key={userDetail.email}>
                     <td className="border px-4 py-3">{userDetail.firstName}</td>
-                    <td className="border px-4 py-3">{userDetail.middleName}</td>
+                    <td className="border px-4 py-3">
+                      {userDetail.middleName}
+                    </td>
                     <td className="border px-4 py-3">{userDetail.lastName}</td>
                     <td className="border px-4 py-3">{userDetail.email}</td>
-                    <td className="border px-4 py-3">{userDetail.role}</td>
+                    <td className="border px-4 py-3">{userDetail.roles[0]}</td>
                     <td className="border px-4 py-3">
                       <Chip label="Approved" color="success" />
                     </td>

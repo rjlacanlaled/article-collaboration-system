@@ -12,8 +12,9 @@ public class ProjectTask
     public int Words { get; set; }
     public int Timeliness { get; set; }
     public int ContractId { get; set; }
-    // public DateTime ProductionDate { get; set; }
-    // public DateTime SeoDeadline { get; set; }
+    public string? Link { get; set; }
+    public DateTime ProductionDate { get; set; }
+    public DateTime SeoDeadline { get; set; }
     public DateTime DateCreated { get; set; }
     public DateTime DateUpdated { get; set; }
 }

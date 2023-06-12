@@ -39,6 +39,9 @@ public class ProjectTasksController : ControllerBase
             Words = request.Words,
             Timeliness = request.Timeliness,
             ContractId = request.ContractId,
+            SeoDeadline = request.SeoDeadline,
+            ProductionDate = request.ProductionDate,
+            Link = request.Link,
             DateCreated = DateTime.UtcNow,
             DateUpdated = DateTime.UtcNow
         };
@@ -69,6 +72,9 @@ public class ProjectTasksController : ControllerBase
         existing.Timeliness = request.Timeliness;
         existing.ContractId = request.ContractId;
         existing.DateUpdated = DateTime.UtcNow;
+        existing.SeoDeadline = request.SeoDeadline;
+        existing.ProductionDate = request.ProductionDate;
+        existing.Link = request.Link;
 
         _dbContext.ProjectTasks.Update(existing);
         await _dbContext.SaveChangesAsync();
@@ -94,7 +100,7 @@ public class ProjectTasksController : ControllerBase
 
     // Read
     [HttpGet("user/{userId}")]
-    public async Task<IActionResult> FetchAsync([FromRoute] int userId)
+    public async Task<IActionResult> FetchAsync([FromRoute] string userId)
     {
         // @TODO: join with project assignees
         List<ProjectTaskAssigneeDetails> tasks = await _dbContext.ProjectTasks
@@ -144,7 +150,7 @@ public class ProjectTasksController : ControllerBase
                     UserId = a.UserId,
                     FirstName = "",
                     LastName = "",
-                    RoleId = a.Id,
+                    RoleId = a.RoleId,
                     Role = ""
                 })
                 .ToList()

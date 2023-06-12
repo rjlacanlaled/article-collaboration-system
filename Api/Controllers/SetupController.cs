@@ -39,11 +39,27 @@ namespace Api.Controllers
             return Ok(roles);
         }
 
+        [HttpGet("roles/{roleName}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetRole([FromRoute] string roleName)
+        {
+            var role = await _roleManager.FindByNameAsync(roleName);
+            return Ok(role);
+        }
+
         [HttpGet("users/all")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
+            return Ok(users);
+        }
+
+        [HttpGet("users/{roleName}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAllUsers([FromRoute] string roleName)
+        {
+            var users = await _userManager.GetUsersInRoleAsync(roleName);
             return Ok(users);
         }
 
@@ -72,8 +88,6 @@ namespace Api.Controllers
             {
                 return BadRequest(new { error = "Role already exist!" });
             }
-
-            // Check if added successfully
         }
 
         [HttpPost("role/user")]
