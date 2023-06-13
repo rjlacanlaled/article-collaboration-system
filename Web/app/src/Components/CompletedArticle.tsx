@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ExportButton from './ExportButton'
 import TaskData from '../Data/TaskData.json'
 import TaskTotalStatus from '../Data/TaskTotalStatus.json'
@@ -10,27 +10,52 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; 
 
-function CompletedArticle() {
+export type ProjectTask = {
+    id: number;
+    title: string;
+    description: string;
+    link: any;
+    status: number;
+    type: number;
+    words: number;
+    timeliness: number;
+    contractId: number;
+    dateCreate: number;
+    dateUpdated: number;
+    productionDate: number;
+    seoDeadline: number;
+  };
 
+function CompletedArticle() {
+    const [doneTask, setDoneTask] = useState<ProjectTask[]>([])
     const [page, setPage] = useState(1)
 
     const tasksPerPage = 5
-    const totalPages = Math.ceil(TaskData.length / tasksPerPage);
+    const totalPages = Math.ceil(doneTask?.length / tasksPerPage);
 
     const startIndex = (page - 1) * tasksPerPage;
     const endIndex = startIndex + tasksPerPage;
-    const displayedTasks = TaskData.slice(startIndex, endIndex);
+    const DoneTasks = doneTask?.slice(startIndex, endIndex);
 
     const handleChange = (e: any, p: number) => {
         setPage(p)
     }
+    
+    useEffect (() => {
+        const fetchData = async () => {
+            const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done");
+            const doneTask = await res.json();
+            setDoneTask(doneTask)
+        };
+        fetchData();
+    }, [])
 
   return (
     <>  
         {TaskTotalStatus.map((Task) => (
           <ReportTaskStatus
             openTask={Task.openTask}
-            completedTask={Task.completedTask}
+            completedTask={TaskData.length}
             pastEod={Task.past_eod}
           />
         ))}
@@ -50,7 +75,6 @@ function CompletedArticle() {
                 <table className="table-auto border-collapse my-6 text-base w-full">
                 <thead className="font-semibold bg-gray-800 text-white text-sm uppercase tracking-wider">
                     <tr>
-                    <th className="px-4 py-3">ID</th>
                     <th className="px-4 py-3">Title</th>
                     <th className="px-4 py-3">Description</th>
                     <th className="px-4 py-3">client</th>
@@ -61,15 +85,21 @@ function CompletedArticle() {
                     </tr>
                 </thead>
                 <tbody className='overflow-scroll text-sm text-zinc-700 tracking-wide'>
-                    { displayedTasks.map((TaskDatas) => (
+                    { DoneTasks?.map((TaskDatas) => (
                         <tr key={TaskDatas.id}>
-                            <td className="border px-4 py-3">{TaskDatas.id}</td>
                             <td className="border px-4 py-3">{TaskDatas.title}</td>
                             <td className="border px-4 py-3">{TaskDatas.description}</td>
-                            <td className="border px-4 py-3">{TaskDatas.client}</td>
-                            <td className="border px-4 py-3">{TaskDatas.type}</td>
+                            <td className="border px-4 py-3">client</td>
+                            <td className="border px-4 py-3">
+                                {TaskDatas.type === 0 ? "Guest Post" : ""}
+                                {TaskDatas.type === 1 ? "Blog" : ""}
+                            </td>
                             <td className="border px-4 py-3">{TaskDatas.words}</td>
-                            <td className="border px-4 py-3">{TaskDatas.timeliness ? "Pending" : "On-Time"}</td>
+                            <td className="border px-4 py-3">
+                                {TaskDatas.timeliness === 0 ? "Pending" : ""}
+                                {TaskDatas.timeliness === 1 ? "Past EOD" : ""}
+                                {TaskDatas.timeliness === 2 ? "On Time" : ""}
+                            </td>
                             <td className="border px-4 py-3 items-center">
                                     <ExportButton label="export" />
                             </td>

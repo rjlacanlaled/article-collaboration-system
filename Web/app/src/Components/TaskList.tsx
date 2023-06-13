@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import CreateTask from "./CreateTask";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import CheckIcon from '../Assets/Images/done-check.svg'
 
 export type Assignee = {
   userId: number;
@@ -27,6 +28,8 @@ export type ProjectTask = {
   contractId: number;
   dateCreate: number;
   dateUpdated: number;
+  productionDate: number;
+  seoDeadline: number;
   assignees: Assignee[];
 };
 
@@ -87,7 +90,7 @@ function TaskList() {
     case 3:
       return 'bg-green-500';
     default:
-      return '';
+      return 'bg-green-500';
   }
 }
 
@@ -102,7 +105,12 @@ const getStatusText = (status:any) => {
     case 3:
       return 'Completed';
     default:
-      return '';
+      return (
+      <div className="flex justify-center items-center">
+        <div className="mr-1">Done</div>
+      <img src={CheckIcon} alt="Done" className="w-4 h-4" />
+      </div>
+    )
   }
 }
 
@@ -202,11 +210,14 @@ const getStatusText = (status:any) => {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-black"
                       >
-                        <Link to={task?.link} target="_blank">
-                          <button className="py-1.5 px-3.5 text-xs  text-white bg-purple-600 hover:bg-purple-700 rounded-lg">
-                            Link
-                          </button>
-                        </Link>
+                        <button 
+                          className="py-1.5 px-3.5 text-xs  text-white bg-purple-600 hover:bg-purple-700 rounded-lg"
+                          onClick={() => {
+                            window.open(task.link, "_blank");
+                          }}
+                        >
+                          Link
+                        </button>
                       </th>
                       <td className="px-6.5 py-4">
                         <p className={`${getStatus(task.status)} rounded-lg py-1 w-24 text-center text-zinc-50`}>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import DashboardPage from "../Pages/DashboardPage";
 import EditableTitle from "./EditableTitle";
-import AddBoard from "./AddBoard";
 import ColumnMenu from "./BoardMenu";
 import TaskItems from "./TaskItems";
 import AddSwimLaneList from "../modals/AddItem";
@@ -188,6 +187,7 @@ function KanbanBoard() {
                           <ColumnMenu
                             columnId={columnId}
                             columnItems={column.items}
+                            updateHandler={refreshData}
                           />
                         </div>
                         {/* BOARD ITEMS */}

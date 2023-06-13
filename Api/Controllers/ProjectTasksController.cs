@@ -34,6 +34,7 @@ public class ProjectTasksController : ControllerBase
         {
             Title = request.Title,
             Description = request.Description,
+            Link = request.Link,
             Status = request.Status,
             Type = request.Type,
             Words = request.Words,
@@ -41,7 +42,6 @@ public class ProjectTasksController : ControllerBase
             ContractId = request.ContractId,
             SeoDeadline = request.SeoDeadline,
             ProductionDate = request.ProductionDate,
-            Link = request.Link,
             DateCreated = DateTime.UtcNow,
             DateUpdated = DateTime.UtcNow
         };
@@ -66,6 +66,7 @@ public class ProjectTasksController : ControllerBase
 
         existing.Title = request.Title;
         existing.Description = request.Description;
+        existing.Link = request.Link;
         existing.Status = request.Status;
         existing.Type = request.Type;
         existing.Words = request.Words;
@@ -138,6 +139,7 @@ public class ProjectTasksController : ControllerBase
                 Id = g.ProjectTask.Id,
                 Title = g.ProjectTask.Title,
                 Description = g.ProjectTask.Description,
+                Link = g.ProjectTask.Link,
                 Status = g.ProjectTask.Status,
                 Type = g.ProjectTask.Type,
                 Words = g.ProjectTask.Words,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,9 +9,10 @@ interface MyComponentProps {
   onDelete?: () => void;
   columnId: any;
   columnItems: ProjectTask[];
+  updateHandler: any;
 }
 
-const BoardMenu = ({ onDelete, columnId, columnItems }: MyComponentProps) => {
+const BoardMenu = ({ onDelete, columnId, columnItems, updateHandler }: MyComponentProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [taskData, setTaskData] = useState({
     name: "",
@@ -46,6 +47,7 @@ const BoardMenu = ({ onDelete, columnId, columnItems }: MyComponentProps) => {
       },
       body: JSON.stringify(ids),
     });
+    await updateHandler();
   };
 
   return (

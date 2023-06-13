@@ -1,24 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Slide from '@mui/material/Slide';
-import SelectUser from './SelectUser';
 import { ProjectTask } from "./TaskList";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/joy/FormControl";
 
 interface MyProps {
   task: ProjectTask | null;
 }
 
+export type UserDetail = {
+  id: number;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  role: string;
+};
+
 export default function TaskAssigned({ task }: MyProps) {
+  const [client, setClient] = useState<UserDetail[]>([])
+  const [detailsExpand, setDetailsExpanded] = useState(true);
+  const [contractData, setContractData] = useState({
+    client: "",
+    seo: "",
+    contract: "",
+    payment: "",
+    paymentStatus: "",
+    paymentAmount: "",
+    manageBy: "",
+  });
 
-    const [detailsExpand, setDetailsExpanded] = useState(true);
+  const handleAccordionChange = () => {
+    setDetailsExpanded(!detailsExpand);
+  };
 
-    const handleAccordionChange = () => {
-      setDetailsExpanded(!detailsExpand);
+    
+  const handleChange = (e: any) => {
+    setContractData((prevTaskData) => {
+      return {
+        ...prevTaskData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/Setup/users/client", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const roles = await res.json();
+      setClient(roles);
     };
+
+    fetchData();
+  }, []);
 
   return (
     <div className='p-2 w-full mt-5'>
@@ -35,13 +78,45 @@ export default function TaskAssigned({ task }: MyProps) {
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Assignee:</label>
                 <div className='flex items-center ml-2'>
-                  <SelectUser/>
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    type="text"
+                    name="type"
+                    value={client}
+                    label="Type"
+                    onChange={handleChange}
+                    sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={0}>Guest Post</MenuItem>
+                  </Select>
+                </FormControl>
                 </div>    
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Web Developer:</label>
                 <div className='flex items-center ml-2'>
-                  <SelectUser/>
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  type="text"
+                  name="client"
+                  value={client}
+                  label="Type"
+                  onChange={handleChange}
+                  sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={0}>Guest Post</MenuItem>
+                </Select>
+              </FormControl>
                 </div>    
               </div>
               <div className='flex items-center'>
@@ -66,13 +141,13 @@ export default function TaskAssigned({ task }: MyProps) {
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Timeliness:</label>
-                  {task?.timeliness ? "Pending" : ""}
-                  {task?.timeliness ? "Past EOD" : ""}
-                  {task?.timeliness ? "On Time" : ""}
+                  {task?.timeliness === 0 ? "Pending" : ""}
+                  {task?.timeliness === 1 ? "Past EOD" : ""}
+                  {task?.timeliness === 2 ? "On Time" : ""}
               </div>
               <div className='absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider'>
-                <p>SEO Deadline: April 04, 2023</p>
-                <p>Prod Date: April 03, 2023 Monday PM</p>
+                <p>SEO Deadline: {task?.seoDeadline}</p>
+                <p>Prod Date: {task?.productionDate}</p>
               </div>
             </div>
             </Slide>
@@ -90,7 +165,27 @@ export default function TaskAssigned({ task }: MyProps) {
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Client:</label>
                 <div className='flex items-center ml-2'>
-                    <SelectUser />
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    type="text"
+                    name="client"
+                    value={contractData.client}
+                    label="Type"
+                    onChange={handleChange}
+                    sx={{ borderRadius: "2px", height: "30px", width: "200px"}}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {client.map((clients) => (
+                      <MenuItem value={clients.id}>
+                        {clients.firstName} {clients.lastName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 </div>    
               </div>
               <div className='flex items-center'>
@@ -106,21 +201,21 @@ export default function TaskAssigned({ task }: MyProps) {
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Contract Type:</label>
-                <p>6 months</p>
+                <p>{contractData.contract}</p>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Payment Plan:</label>
                 <div className='flex items-center ml-2'>
-                  <p>2 Months</p>
+                  <p>{contractData.payment}</p>
                 </div>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Payment Status:</label>
-                <p className='bg-green-500 text-white rounded-lg px-3 py-0.5 text-center'>Paid</p>
+                <p className='bg-green-500 text-white rounded-lg px-3 py-0.5 text-center'>{contractData.paymentStatus}</p>
               </div>
               <div className='flex items-center'>
                 <label className='p-2 ml-2 font-semibold'>Managed By:</label>
-                <p>SearchWork</p>
+                <p>{contractData.manageBy}</p>
               </div>
             </div>
         </AccordionDetails>

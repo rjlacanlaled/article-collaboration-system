@@ -1,6 +1,5 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import DashboardPage from '../Pages/DashboardPage'
-import UserData from '../Data/UserData.json'
 import ExportButton from './ExportButton';
 import TimeFrame from './DatePickerViews';
 import ArticleTable from './CompletedArticle';
@@ -10,21 +9,47 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-function Report() {
+export type UserDetail = {
+    id: any;
+    username: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    email: string;
+    roles: string[];
+    date: any;
+  };
 
+function Report() {
+    const [userData, setUserData] = useState<UserDetail[]>([])
     const [page, setPage] = useState(1)
 
     const UserPerPage = 5
-    const totalPages = Math.ceil(UserData.length / UserPerPage);
+    const totalPages = Math.ceil(userData.length / UserPerPage);
 
     const startIndex = (page - 1) * UserPerPage;
     const endIndex = startIndex + UserPerPage;
-    const displayedUsers = UserData.slice(startIndex, endIndex);
+    const displayedUsers = userData?.slice(startIndex, endIndex);
 
     const handleChange = (e: any, p: number) => {
         console.log(page)
         setPage(p)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch("http://localhost:5143/api/v1/UserData/users/approved", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            const userData = await res.json();
+            setUserData(userData);
+        };
+    
+        fetchData();
+    }, []);
+    
 
   return (
     <DashboardPage>
@@ -45,7 +70,6 @@ function Report() {
                 <table className="table-auto border-collapse my-6 text-base w-full">
                 <thead className="font-semibold bg-gray-800 text-white text-sm uppercase tracking-wider">
                     <tr>
-                    <th className="px-4 py-3">ID</th>
                     <th className="px-4 py-3">First Name</th>
                     <th className="px-4 py-3">Last Name</th>
                     <th className="px-4 py-3">Email</th>
@@ -59,14 +83,13 @@ function Report() {
                 <tbody className='overflow-scroll text-sm text-zinc-700 font-medium tracking-wide'>
                     { displayedUsers.map((UserDatas) => (
                         <tr key={UserDatas.id}>
-                            <td className="border px-4 py-3">{UserDatas.id}</td>
-                            <td className="border px-4 py-3">{UserDatas.firstname}</td>
-                            <td className="border px-4 py-3">{UserDatas.lastname}</td>
+                            <td className="border px-4 py-3">{UserDatas.firstName}</td>
+                            <td className="border px-4 py-3">{UserDatas.lastName}</td>
                             <td className="border px-4 py-3">{UserDatas.email}</td>
-                            <td className="border px-4 py-3">{UserDatas.role}</td>
-                            <td className="border px-4 py-3">{UserDatas.inProgress}</td>
-                            <td className="border px-4 py-3">{UserDatas.completed}</td>
-                            <td className="border px-4 py-3">{UserDatas.pastEod}</td>
+                            <td className="border px-4 py-3">{UserDatas.roles}</td>
+                            <td className="border px-4 py-3">1</td>
+                            <td className="border px-4 py-3">2</td>
+                            <td className="border px-4 py-3">3</td>
                             <td className="border px-4 py-3 items-center">
                                 <ExportButton label="export"/>
                             </td>

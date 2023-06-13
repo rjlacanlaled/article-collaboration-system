@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ProjectTask } from "./TaskList";
 import { Link } from 'react-router-dom';
+import CheckIcon from '../Assets/Images/done-check.svg'
 
 interface MyProps {
   task: ProjectTask | null;
@@ -25,7 +26,7 @@ function TaskComment({ task }: MyProps) {
       case 3:
         return 'bg-green-500';
       default:
-        return '';
+        return 'bg-green-500';
     }
   }
   
@@ -40,7 +41,12 @@ function TaskComment({ task }: MyProps) {
       case 3:
         return 'Completed';
       default:
-        return '';
+        return (
+          <div className="flex justify-center items-center">
+            <div className="mr-1">Done</div>
+          <img src={CheckIcon} alt="Done" className="w-4 h-4" />
+          </div>
+        )
     }
   }
 
@@ -117,13 +123,7 @@ function TaskComment({ task }: MyProps) {
               Very straight-to-point article. Really worth time reading. Thank
               you! But tools are just the instruments for the UX designers. 
             </p>
-            <div className="flex justify-start items-center flex-row mt-4 space-x-2">
-              <button
-                type="button"
-                className="text-sm text-zinc-700 font-bold hover:underline"
-              >
-                Edit
-              </button>
+            <div className="flex justify-end items-center flex-row mt-4 space-x-2">
               <button
                 type="button"
                 className="text-sm text-zinc-700 font-bold hover:underline"

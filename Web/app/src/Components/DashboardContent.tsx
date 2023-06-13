@@ -28,8 +28,7 @@ const initialUserDetails: UserDetail[] = [
 ];
 
 function DashboardContent() {
-  const [userDetails, setUserDetails] =
-    useState<UserDetail[]>(initialUserDetails);
+  const [userDetails, setUserDetails] = useState<UserDetail[]>(initialUserDetails);
   console.log(userDetails);
   useEffect(() => {
     refreshData();

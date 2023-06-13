@@ -13,6 +13,9 @@ type TaskProps = {
     prodDate: string,
     index: any
     provided: any;
+    type: any;
+    Words: any;
+    timeliness: any;
 }
 
 function Task({task, title, description, prodDate, provided}: TaskProps) {
@@ -39,6 +42,7 @@ const [open, setOpen] = React.useState("");
               <AvatarGroup>
                 <Avatar alt="Avatar 1" src={"https://joesch.moe/api/v1/random?key="} sx={{ width: 20, height: 20 }} />
                 <Avatar alt="Avatar 1" src={"https://joesch.moe/api/v1/random?key="} sx={{ width: 20, height: 20 }} />
+                <Avatar alt="Avatar 1" src={"https://joesch.moe/api/v1/random?key="} sx={{ width: 20, height: 20 }} />
               </AvatarGroup>
             </div>
             <Modal open={!!open} onClose={() => setOpen("")}>
@@ -52,9 +56,9 @@ const [open, setOpen] = React.useState("");
                       <TaskComment task={task.status} />
                     </div>
                     <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-                      <TaskAssigned task={task}/>
+                      <TaskAssigned task={task.status}/>
                       <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-gray-500">
-                        Created March 28, 2023 at 2:49 PM
+                          {task=task.status}
                       </h2>
                     </div>
                   </div>

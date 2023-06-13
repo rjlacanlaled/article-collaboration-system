@@ -17,6 +17,7 @@ import ResetEmail from "./Components/ResetEmail";
 import NotFoundPage from "./Components/NotFound";
 import NewPassword from "./Components/ResetPassword"
 import SuccessReset from "./Components/SuccessReset";
+import PrivateRoutes from "./utils/PrivateRoutes";
 import "./App.css";
 
 function App() {
@@ -27,23 +28,28 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/newpassword" element={<NewPassword />} />
+
+
+        {/* Protected Routes */}
+        <Route element={<PrivateRoutes/>} path="/">
+          <Route path="/pending" element={<AdminDashboard />} />
+          <Route path="/user" element={<DashboardContent />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/report" element={<Report />} />
+          <Route path="/clientmain" element={<ClientDashboard />} />
+          <Route path="/contract" element={<ClientBoard />} />
+          <Route path="/viewTask/:id" element={<ViewTask />} />
+          <Route path="/kanbanboard" element={<ProjectBoard />} />
+          <Route path="/task" element={<TaskList />} />
+          <Route path="/success" element={<SignupSuccess />} />
+          <Route path="/successreset" element={<SuccessReset />} />
+          <Route path="/resetemail" element={<ResetEmail />} />
+          <Route path="/newpassword" element={<NewPassword />} />
+        </Route>
+
+        {/* error page */}
         <Route path="/*" element={<NotFoundPage/>} />
         <Route path="/404" element={<NotFoundPage/>} />
-        {/* Protected Routes */}
-        <Route path="/pending" element={<AdminDashboard />} />
-        <Route path="/user" element={<DashboardContent />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/report" element={<Report />} />
-        <Route path="/clientmain" element={<ClientDashboard />} />
-        <Route path="/contract" element={<ClientBoard />} />
-        <Route path="/viewTask/:id" element={<ViewTask />} />
-        <Route path="/kanbanboard" element={<ProjectBoard />} />
-        <Route path="/task" element={<TaskList />} />
-        {/* <Route path="/dashboard" element={<DashboardPage children={undefined} />}/> */}
-        <Route path="/success" element={<SignupSuccess />} />
-        <Route path="/successreset" element={<SuccessReset />} />
-        <Route path="/resetemail" element={<ResetEmail />} />
       </Routes>
     </div>
   );

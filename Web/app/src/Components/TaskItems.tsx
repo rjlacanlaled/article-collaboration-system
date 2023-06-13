@@ -73,7 +73,7 @@ function TaskItems({
               <TaskComment task={task} />
             </div>
             <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-              <TaskAssigned task={task} />
+              <TaskAssigned task={task}/>
               <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-zinc-700 tracking-widest">
                 Task Created: {new Date(createdAt).toLocaleString()}
               </h2>

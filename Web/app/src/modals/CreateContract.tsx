@@ -33,7 +33,6 @@ function CreateContract() {
   const [paymentDate, setPaymentDate] = useState({ paymentAmount: null });
   const [client, setClient] = useState<UserDetail[]>([]);
   const [seo, setSeo] = useState<UserDetail[]>([]);
-  const [userRole, setUserRole] = useState<Role[]>([]);
   const [contractData, setContractData] = useState({
     client: "",
     seo: "",
@@ -58,7 +57,7 @@ function CreateContract() {
   };
 
   const onSubmitCreateContract = async () => {
-    await fetch("http://localhost:5143/api/v1/ContractPayments", {
+    await fetch("http://localhost:5143/api/v1/Contracts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,9 +86,27 @@ function CreateContract() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Roles/all");
+      const res = await fetch("http://localhost:5143/api/v1/Setup/users/client", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const roles = await res.json();
-      setUserRole(roles);
+      setClient(roles);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("http://localhost:5143/api/v1/Setup/users/seo%20manager", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const roles = await res.json();
+      setSeo(roles);
     };
 
     fetchData();
@@ -137,11 +154,9 @@ function CreateContract() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {userRole
-                    .filter((clients) => clients === userRole[4])
-                    .map((filteredUserRole) => (
-                      <MenuItem value={filteredUserRole.id}>
-                        {filteredUserRole.name}
+                  {client.map((clientRole) => (
+                      <MenuItem value={clientRole.id}>
+                        {clientRole.firstName} {clientRole.lastName}
                       </MenuItem>
                     ))}
                 </Select>
