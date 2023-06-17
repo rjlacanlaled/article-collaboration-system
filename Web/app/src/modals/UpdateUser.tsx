@@ -9,7 +9,8 @@ import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import UpdateIcon from "../Assets/Images/edit-icon.svg";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { UserDetail } from "../Components/AdminDashboard";
+import { UserDetail } from "../Types/UserDetails";
+import { UserDetailList } from "../Types/UserDetailList";
 
 export type Role = {
   id: number;
@@ -17,7 +18,7 @@ export type Role = {
 };
 
 interface MyUserRoleProps {
-  user: UserDetail;
+  user: UserDetailList;
   updateHandler: any;
 }
 

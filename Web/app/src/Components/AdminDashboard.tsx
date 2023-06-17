@@ -6,34 +6,15 @@ import RejectUser from "../modals/RejectUser";
 import AddRole from "../modals/AddRole";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { UserDetail } from "../Types/UserDetails";
+import { UserLogin } from "../Types/UserLogin";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
-
-export type UserDetail = {
-  username: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  email: string;
-  roles: string[];
-  date: any;
-};
-
-function AdminDashboard() {
+function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [isRoleSuccess, setRoleSuccess] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetail[]>([
-    {
-      username: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      email: "",
-      roles: [],
-      date: "",
-    },
-  ]);
+  const [userDetails, setUserDetails] = useState<UserDetail[]>();
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -74,7 +55,7 @@ function AdminDashboard() {
   }, [userDetails]);
 
   return (
-    <DashboardPage>
+    <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="relative flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
         <div className="flex justify-center flex-col items-center bg-white p-7 drop-shadow w-72 h-16 rounded-md">
           <div className="flex justify-center items-center">
@@ -82,7 +63,7 @@ function AdminDashboard() {
               Pending Approvals
             </h1>
             <label className="lining-nums font-bold text-sm bg-gray-300 rounded-full px-3">
-              {userDetails.length}
+              {userDetails && userDetails.length}
             </label>
           </div>
         </div>
@@ -101,30 +82,37 @@ function AdminDashboard() {
               </tr>
             </thead>
             <tbody className="overflow-scroll text-sm relative">
-              {userDetails.length <= 0 ? (
+              {userDetails && userDetails.length <= 0 ? (
                 <div className="absolute top-0 left-0 bottom-0 right-0 mt-5">
                   <h1 className="text-xl text-stone-800">
                     No Pending Approvals
                   </h1>
                 </div>
               ) : (
+                userDetails &&
                 userDetails.map((userDetail) => (
                   <tr
                     className="hover:bg-slate-300 text-zinc-700 tracking-wide"
-                    key={userDetail.email}
+                    key={userDetail.user.email}
                   >
-                    <td className="border px-4 py-3">{userDetail.firstName}</td>
                     <td className="border px-4 py-3">
-                      {userDetail.middleName}
+                      {userDetail.user.firstName}
                     </td>
-                    <td className="border px-4 py-3">{userDetail.lastName}</td>
-                    <td className="border px-4 py-3">{userDetail.email}</td>
+                    <td className="border px-4 py-3">
+                      {userDetail.user.middleName}
+                    </td>
+                    <td className="border px-4 py-3">
+                      {userDetail.user.lastName}
+                    </td>
+                    <td className="border px-4 py-3">
+                      {userDetail.user.email}
+                    </td>
                     <td className="border px-4 py-3">{userDetail.roles[0]}</td>
                     <td className="border px-4 py-3">
                       <Chip label="For Approval" className="font-semibold" />
                     </td>
                     <td className="border px-4 py-3">
-                      {new Date(userDetail.date).toLocaleString()}
+                      {new Date(userDetail.user.date).toLocaleString()}
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
                       <ApproveUser

@@ -9,7 +9,7 @@ import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import UpdateIcon from "../Assets/Images/edit-icon.svg";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { UserDetail } from "../Components/AdminDashboard";
+import { UserDetail } from "../Types/UserDetails";
 
 interface MyUserRoleProps {
   user: UserDetail;
@@ -33,7 +33,7 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        email: user.email,
+        email: user.user.email,
         roleName: selectedRole,
       }),
     });

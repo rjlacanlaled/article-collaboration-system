@@ -4,9 +4,9 @@ import DashboardPage from "../Pages/DashboardPage";
 import TaskAssigned from "./TaskAssigned";
 import TaskComment from "./TaskComment";
 import { ProjectTask } from "./TaskList";
+import { UserLogin } from "../Types/UserLogin";
 
-
-function ViewTask() {
+function ViewTask({ userDetail, isSignedIn }: UserLogin) {
   const { id } = useParams();
   const [taskData, setTaskData] = useState<ProjectTask>();
 
@@ -23,14 +23,14 @@ function ViewTask() {
   }, [id]);
 
   return (
-    <DashboardPage>
+    <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       {taskData ? (
         <div className="bg-white h-790 drop-shadow rounded-md mx-auto w-full flex justify-center items-center">
           <div className="w-full h-full overflow-y-auto">
             <TaskComment task={taskData} />
           </div>
           <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-            <TaskAssigned task={taskData}/>
+            <TaskAssigned task={taskData} />
             <h2 className="absolute bottom-0 right-0 p-4 font-medium text-sm text-gray-500">
               Task Created: {new Date(taskData.dateCreate).toLocaleString()}
             </h2>

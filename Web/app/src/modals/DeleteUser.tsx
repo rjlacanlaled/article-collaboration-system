@@ -5,10 +5,11 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import DeleteIcon from "../Assets/Images/delete-icon.svg";
-import { UserDetail } from "../Components/AdminDashboard";
+import { UserDetail } from "../Types/UserDetails";
+import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyUserRoleProps {
-  user: UserDetail;
+  user: UserDetailList;
   updateHandler: any;
 }
 

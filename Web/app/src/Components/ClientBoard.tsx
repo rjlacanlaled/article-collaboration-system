@@ -3,6 +3,7 @@ import DashboardPage from "../Pages/DashboardPage";
 import UpdateContract from "../modals/UpdateContract";
 import DeleteClient from "../modals/DeleteClient";
 import CreateContract from "../modals/CreateContract";
+import { UserLogin } from "../Types/UserLogin";
 
 export type Plan = {
   title: string;
@@ -47,7 +48,7 @@ export type ContractFullDetails = {
 const paymentPlanStrings: string[] = ["Open", "6 months", "1 year"];
 const paymentType: string[] = ["Full Payment", "2 months advance"];
 
-function ClientBoard() {
+function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
   const [payments, setPayments] = useState<ContractFullDetails[]>([]);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ function ClientBoard() {
   }, []);
 
   return (
-    <DashboardPage>
+    <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md m-4">
         <div className="flex justify-start flex-row items-center mb-8 w-64">
           <CreateContract />

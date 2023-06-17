@@ -6,13 +6,14 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import FeedbackComment from "./FeedbackComment";
 import { Assignee, ProjectTask } from "./TaskList";
+import { UserLogin } from "../Types/UserLogin";
 
 export type ProjectAssigneeDetails = {
   projectTask: ProjectTask;
   projectTaskAssignee: Assignee;
 };
 
-function ClientDashboard() {
+function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [open, setOpen] = React.useState("");
   const [projectDetails, setProjectDetails] = useState<
     ProjectAssigneeDetails[] | null
@@ -31,9 +32,10 @@ function ClientDashboard() {
   }, []);
 
   return (
-    <DashboardPage>
+    <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <h2 className="self-start text-2xl font-bold text-gray-800 p-1">
-        Welcome Back Bryan!
+        {" "}
+        mnxcxvcvcvcv0- Welcome Back Bryan!
       </h2>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
         <div className="relative overflow-x-auto shadow-md sm:rounded-md">

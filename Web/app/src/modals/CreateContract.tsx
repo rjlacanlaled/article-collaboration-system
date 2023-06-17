@@ -14,25 +14,19 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { UserDetail } from "../Types/UserDetails";
+import { UserDetailList } from "../Types/UserDetailList";
 
 export type Role = {
   id: number;
   name: string;
 };
 
-export type UserDetail = {
-  id: number;
-  userId: number;
-  firstName: string;
-  lastName: string;
-  role: string;
-};
-
 function CreateContract() {
   const [open, setOpen] = useState(false);
   const [paymentDate, setPaymentDate] = useState({ paymentAmount: null });
-  const [client, setClient] = useState<UserDetail[]>([]);
-  const [seo, setSeo] = useState<UserDetail[]>([]);
+  const [client, setClient] = useState<UserDetailList[]>([]);
+  const [seo, setSeo] = useState<UserDetailList[]>([]);
   const [contractData, setContractData] = useState({
     client: "",
     seo: "",
@@ -86,11 +80,14 @@ function CreateContract() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Setup/users/client", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        "http://localhost:5143/api/v1/Setup/users/client",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const roles = await res.json();
       setClient(roles);
     };
@@ -100,11 +97,14 @@ function CreateContract() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Setup/users/seo%20manager", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        "http://localhost:5143/api/v1/Setup/users/seo%20manager",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const roles = await res.json();
       setSeo(roles);
     };
@@ -155,10 +155,10 @@ function CreateContract() {
                     <em>None</em>
                   </MenuItem>
                   {client.map((clientRole) => (
-                      <MenuItem value={clientRole.id}>
-                        {clientRole.firstName} {clientRole.lastName}
-                      </MenuItem>
-                    ))}
+                    <MenuItem value={clientRole.email}>
+                      {clientRole.firstName} {clientRole.lastName}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl sx={{ minWidth: 120 }} size="md">
@@ -179,7 +179,7 @@ function CreateContract() {
                     <em>None</em>
                   </MenuItem>
                   {seo.map((userseo) => (
-                    <MenuItem value={userseo.id}>
+                    <MenuItem value={userseo.email}>
                       {userseo.firstName} {userseo.lastName}
                     </MenuItem>
                   ))}

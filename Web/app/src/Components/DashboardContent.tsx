@@ -4,31 +4,12 @@ import MemberLogo from "../Assets/Images/member-logo.svg";
 import DashboardPage from "../Pages/DashboardPage";
 import DeleteUser from "../modals/DeleteUser";
 import UpdateUser from "../modals/UpdateUser";
+import { UserDetail } from "../Types/UserDetails";
+import { UserLogin } from "../Types/UserLogin";
+import { UserDetailList } from "../Types/UserDetailList";
 
-export type UserDetail = {
-  username: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  email: string;
-  roles: string[];
-  date: any;
-};
-
-const initialUserDetails: UserDetail[] = [
-  {
-    username: "",
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    email: "",
-    roles: [],
-    date: "",
-  },
-];
-
-function DashboardContent() {
-  const [userDetails, setUserDetails] = useState<UserDetail[]>(initialUserDetails);
+function DashboardContent({ userDetail, isSignedIn }: UserLogin) {
+  const [userDetails, setUserDetails] = useState<UserDetailList[]>();
   console.log(userDetails);
   useEffect(() => {
     refreshData();
@@ -45,11 +26,12 @@ function DashboardContent() {
     );
     const userDetails = await res.json();
     console.log({ userDetails });
+
     setUserDetails(userDetails);
   };
 
   return (
-    <DashboardPage>
+    <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4 mb-0.5">
         <div className="bg-white p-7 w-full scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-400 scrollbar-thin scroll-smooth">
           <div className="flex justify-center flex-row text-left bg-white p-7 drop-shadow w-72 rounded-md">
@@ -57,7 +39,7 @@ function DashboardContent() {
               <h1 className="text-sm font-semibold mb-1 tracking-widest text-zinc-800">
                 MEMBERS
               </h1>
-              {userDetails.length > 0 ? (
+              {userDetails && userDetails.length > 0 ? (
                 <label className="lining-nums font-bold text-4xl">
                   {userDetails.length}
                 </label>
@@ -108,29 +90,21 @@ function DashboardContent() {
               </tr>
             </thead>
             <tbody className="overflow-scroll text-sm relative tracking-wider">
-              {Array.isArray(userDetails) && userDetails.length > 0 ? (
-                userDetails.map((userDetail) => (
-                  <tr className="hover:bg-slate-300" key={userDetail.email}>
-                    <td className="border px-4 py-3">{userDetail.firstName}</td>
-                    <td className="border px-4 py-3">
-                      {userDetail.middleName}
-                    </td>
-                    <td className="border px-4 py-3">{userDetail.lastName}</td>
-                    <td className="border px-4 py-3">{userDetail.email}</td>
-                    <td className="border px-4 py-3">{userDetail.roles[0]}</td>
+              {userDetails && userDetails.length > 0 ? (
+                userDetails.map((userD) => (
+                  <tr className="hover:bg-slate-300" key={userD.email}>
+                    <td className="border px-4 py-3">{userD.firstName}</td>
+                    <td className="border px-4 py-3">{userD.middleName}</td>
+                    <td className="border px-4 py-3">{userD.lastName}</td>
+                    <td className="border px-4 py-3">{userD.email}</td>
+                    <td className="border px-4 py-3">{userD.roles[0]}</td>
                     <td className="border px-4 py-3">
                       <Chip label="Approved" color="success" />
                     </td>
                     <td className="border px-4 py-3 items-center">
                       <div className="flex justify-center">
-                        <UpdateUser
-                          user={userDetail}
-                          updateHandler={refreshData}
-                        />
-                        <DeleteUser
-                          user={userDetail}
-                          updateHandler={refreshData}
-                        />
+                        <UpdateUser user={userD} updateHandler={refreshData} />
+                        <DeleteUser user={userD} updateHandler={refreshData} />
                       </div>
                     </td>
                   </tr>
