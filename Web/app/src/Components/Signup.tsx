@@ -21,6 +21,7 @@ function Signup() {
   const [tooltip, setTooltip] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [errors, setErrors] = useState<Partial<SignupData>>({});
+  const [errorMessage, setErrorMessage] = useState("");
   const [signupFormData, setSignupFormData] = useState<SignupData>({
     email: "",
     username: "",
@@ -157,6 +158,7 @@ function Signup() {
           Navigate("/success")
         } else {
           console.log(result);
+          setErrorMessage("Email Address already exists. Please try with another one")
         }
       } catch (err: any) {
         console.log(err.message);
@@ -289,6 +291,9 @@ function Signup() {
             onChange={handleChange}
             placeholder="Confirm Password"
           />
+          {errorMessage && (
+            <p className="text-red-500 text-xs mt-2 ml-0.5">{errorMessage}</p>
+          )}
         </div>
         <button
           className="bg-blue-500 hover:bg-blue-600 self-center transition duration-300 text-white w-full py-4 px-4 rounded-sm tracking-wider"

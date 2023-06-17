@@ -31,6 +31,7 @@ export type ProjectTask = {
   productionDate: number;
   seoDeadline: number;
   assignees: Assignee[];
+  reporter: string;
 };
 
 export interface State extends SnackbarOrigin {
@@ -108,7 +109,7 @@ const getStatusText = (status:any) => {
       return (
       <div className="flex justify-center items-center">
         <div className="mr-1">Done</div>
-      <img src={CheckIcon} alt="Done" className="w-4 h-4" />
+        <img src={CheckIcon} alt="Done" className="w-4 h-4" />
       </div>
     )
   }
@@ -196,7 +197,9 @@ const getStatusText = (status:any) => {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-black"
                       >
-                        <Link to={`/viewtask/${task.id}`}>{task.title}</Link>
+                        <Link to={`/viewtask/${task.id}`}>
+                          {task.title}
+                        </Link>
                       </th>
                       <th
                         scope="row"
@@ -210,14 +213,17 @@ const getStatusText = (status:any) => {
                         scope="row"
                         className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-black"
                       >
-                        <button 
-                          className="py-1.5 px-3.5 text-xs  text-white bg-purple-600 hover:bg-purple-700 rounded-lg"
-                          onClick={() => {
-                            window.open(task.link, "_blank");
-                          }}
-                        >
+                      {task?.link ? (
+                        <Link to={task.link} target="_blank">
+                          <button className="inline-flex items-center py-0.5 px-5 text-xs font-medium text-center text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 tracking-wider">
+                            Link
+                          </button>
+                        </Link>
+                      ) : (
+                        <button disabled className="inline-flex items-center py-0.5 px-5 text-xs font-medium text-center text-white bg-gray-400 rounded-lg tracking-wider">
                           Link
                         </button>
+                      )}
                       </th>
                       <td className="px-6.5 py-4">
                         <p className={`${getStatus(task.status)} rounded-lg py-1 w-24 text-center text-zinc-50`}>

@@ -37,6 +37,7 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
     dateCreate: 0,
     dateUpdated: Date.now(),
     assignees: [],
+    reporter: task.reporter,
   });
 
   const handleChange = (e: any) => {

@@ -20,7 +20,7 @@ function Login() {
   const [errors, setErrors] = useState<Partial<LoginData>>({});
   const [loginFormData, setLoginFormData] = useState<LoginData>({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Handle change
   const handleChange = (e: any) => {
@@ -84,12 +84,12 @@ function Login() {
         var result = await res.text();
         
         if (res.ok) {
+          navigate("/pending"); // Redirect to admin page for admin role
           console.log("success");
-          Navigate("/pending")
           localStorage.setItem("token", result);
           console.log(localStorage)
         } else if (res.status === 401) {
-          Navigate('/')
+          navigate('/signup')
         } else {
           console.log(result);
           setErrorMessage("The password you’ve entered is incorrect.");

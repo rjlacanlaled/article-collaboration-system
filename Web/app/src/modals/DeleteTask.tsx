@@ -16,7 +16,7 @@ interface MyProps {
 }
 
 
-function DeleteUser({ task, updateHandler, isDeleteSuccess }: MyProps) {
+function DeleteUser({ task, updateHandler}: MyProps) {
   const [open, setOpen] = useState(false);
 
 
@@ -31,8 +31,6 @@ function DeleteUser({ task, updateHandler, isDeleteSuccess }: MyProps) {
           id: task.id,
         }),
       });
-      
-    isDeleteSuccess(true);
     updateHandler()
     } catch (error) {
       console.error(error);

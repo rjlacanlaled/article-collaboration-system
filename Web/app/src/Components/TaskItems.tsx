@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AvatarGroup, Avatar } from "@mui/material";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
-import TaskComment from "./TaskComment";
+import TaskComment, { CommentDetails } from "./TaskComment";
 import TaskAssigned from "./TaskAssigned";
-// import MessageIcon from '@mui/icons-material/Message';
 import MessageIcon from '../Assets/Images/message-icon.svg'
 import { ProjectTask } from "./TaskList";
 
@@ -20,6 +19,13 @@ type ListItemProps = {
   task: ProjectTask | null;
 };
 
+export type commenDetails = {
+  id: number;
+  taskId: number;
+  message: any;
+  dateCreated: any;
+}
+
 function TaskItems({
   createdAt,
   title,
@@ -29,10 +35,36 @@ function TaskItems({
   task,
 }: ListItemProps) {
   const [open, setOpen] = React.useState("");
+  const [commentData, setCommentData] = useState<CommentDetails[]>([]);
+  const [comment, setComment] = useState({
+    id: task?.id,
+    taskId: task?.id || "",
+    message: "",
+    dateCreated: "",
+  });
 
   useEffect(() => {
     console.log({ task });
   }, [task]);
+
+  const refreshData = async () => {
+    const fetchData = async () => {
+      const res = await fetch(`http://localhost:5143/api/v1/Comments/task/${comment.taskId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const comments = await res.json();
+      setCommentData(comments);
+    };
+
+    fetchData();
+  };
+
+  useEffect(() => {
+    refreshData();
+  }, []);
 
   return (
     <>
@@ -51,7 +83,7 @@ function TaskItems({
           </i>
               {/* MESSAGE ICON */}
             <img src={MessageIcon} alt="message-icon" className="absolute bottom-0 left-0 w-4 ml-2 mb-1" />
-            <h4 className="absolute bottom-0 left-6 ml-0.5 mb-1 text-xs">1</h4>
+            <h4 className="absolute bottom-0 left-6 ml-0.5 mb-1 text-xs">{commentData.length}</h4>
         </div>
 
         <div className="p-2 absolute top-0 right-0">

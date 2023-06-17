@@ -17,7 +17,7 @@ import ResetEmail from "./Components/ResetEmail";
 import NotFoundPage from "./Components/NotFound";
 import NewPassword from "./Components/ResetPassword"
 import SuccessReset from "./Components/SuccessReset";
-import PrivateRoutes from "./utils/PrivateRoutes";
+// import PrivateRoutes from "./utils/PrivateRoutes";
 import "./App.css";
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
 
 
         {/* Protected Routes */}
-        <Route element={<PrivateRoutes/>} path="/">
+        {/* <Route element={<PrivateRoutes/>} path="/"> */}
           <Route path="/pending" element={<AdminDashboard />} />
           <Route path="/user" element={<DashboardContent />} />
           <Route path="/profile" element={<Profile />} />
@@ -45,7 +45,7 @@ function App() {
           <Route path="/successreset" element={<SuccessReset />} />
           <Route path="/resetemail" element={<ResetEmail />} />
           <Route path="/newpassword" element={<NewPassword />} />
-        </Route>
+        {/* </Route> */}
 
         {/* error page */}
         <Route path="/*" element={<NotFoundPage/>} />

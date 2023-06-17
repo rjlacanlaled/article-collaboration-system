@@ -98,7 +98,7 @@ export default function TaskAssigned({ task }: MyProps) {
                 </div>    
               </div>
               <div className='flex items-center'>
-                <label className='p-2 ml-2 font-semibold'>Web Developer:</label>
+                <label className='p-2 ml-2 font-semibold'>Uploader:</label>
                 <div className='flex items-center ml-2'>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
                 <Select
@@ -127,7 +127,7 @@ export default function TaskAssigned({ task }: MyProps) {
                     src={''}
                     alt="Jese Leos" 
                   />
-                  <p>{task?.id}</p>
+                  <p>{task?.id} {}</p>
                 </div>
               </div>
               <div className='flex items-center'>

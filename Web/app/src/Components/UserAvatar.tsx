@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Profile from '../Assets/Images/profile.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export type UserDetail = {
   id: any;
@@ -21,6 +21,7 @@ export type UserDetail = {
 function UserAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [user, setUser] = useState<UserDetail[]>([]);
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -29,6 +30,11 @@ function UserAvatar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogoutSubmit = () => {
+    localStorage.clear();
+    navigate("/")
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,7 +92,7 @@ function UserAvatar() {
             <MenuItem>Profile</MenuItem>
           </Link>
           <Link to="/">
-            <MenuItem>Logout</MenuItem>
+            <MenuItem onClick={handleLogoutSubmit}>Logout</MenuItem>
           </Link>
         </Menu>
       </Box>
