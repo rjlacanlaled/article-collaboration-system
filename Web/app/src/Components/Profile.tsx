@@ -45,12 +45,9 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
     }
   };
 
-  const filteredUserData = UserData.filter((user) => user.id === 1);
-
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="bg-gray-100 flex justify-center flex-col items-center">
-        {filteredUserData.map((user) => (
           <div className="max-w-7xl mx-auto pb-6 px-4 sm:px-6 lg:px-8">
             <div className="bg-white overflow-hidden shadow rounded-lg divide-gray-200">
               <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -86,10 +83,10 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                   </label>
                   <div className="flex justify-center flex-col items-center">
                     <h2 className="text-zinc-700 tracking-widest text-base font-semibold">
-                      {user.firstname} {user.lastname}
+                      {userDetail.user.firstName} {userDetail.user.lastName}
                     </h2>
                     <h2 className="text-zinc-700 tracking-wider text-xs">
-                      Content Manager
+                      {userDetail.roles[0]}
                     </h2>
                   </div>
                 </div>
@@ -108,7 +105,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                         First Name
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                        {user.firstname}
+                        {userDetail.user.firstName}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -116,7 +113,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                         Middle Name
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                        Farne
+                        {userDetail.user.middleName}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -124,7 +121,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                         Last Name
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                        {user.lastname}
+                        {userDetail.user.lastName}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -132,7 +129,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                         Email address
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                        {user.email}
+                        {userDetail.user.email}
                       </dd>
                     </div>
                   </dl>
@@ -140,7 +137,6 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
               </div>
             </div>
           </div>
-        ))}
       </div>
       {/* UPDATE PROFILE NOTIFICATION */}
       {isUpdateProfileSuccess && (

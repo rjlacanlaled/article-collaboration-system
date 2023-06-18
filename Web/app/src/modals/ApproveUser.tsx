@@ -5,10 +5,10 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import UserRole from "./UserRole";
-import { UserDetail } from "../Types/UserDetails";
+import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyProps {
-  user: UserDetail;
+  user: UserDetailList;
   updateHandler: any;
 }
 

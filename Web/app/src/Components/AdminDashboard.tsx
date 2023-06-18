@@ -3,18 +3,17 @@ import DashboardPage from "../Pages/DashboardPage";
 import { Chip } from "@mui/material";
 import ApproveUser from "../modals/ApproveUser";
 import RejectUser from "../modals/RejectUser";
-import AddRole from "../modals/AddRole";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { UserDetail } from "../Types/UserDetails";
 import { UserLogin } from "../Types/UserLogin";
+import { UserDetailList } from "../Types/UserDetailList";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
 function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [isRoleSuccess, setRoleSuccess] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetail[]>();
+  const [userDetails, setUserDetails] = useState<UserDetailList[]>();
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -93,26 +92,26 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
                 userDetails.map((userDetail) => (
                   <tr
                     className="hover:bg-slate-300 text-zinc-700 tracking-wide"
-                    key={userDetail.user.email}
+                    key={userDetail.email}
                   >
                     <td className="border px-4 py-3">
-                      {userDetail.user.firstName}
+                      {userDetail.firstName}
                     </td>
                     <td className="border px-4 py-3">
-                      {userDetail.user.middleName}
+                      {userDetail.middleName}
                     </td>
                     <td className="border px-4 py-3">
-                      {userDetail.user.lastName}
+                      {userDetail.lastName}
                     </td>
                     <td className="border px-4 py-3">
-                      {userDetail.user.email}
+                      {userDetail.email}
                     </td>
                     <td className="border px-4 py-3">{userDetail.roles[0]}</td>
                     <td className="border px-4 py-3">
                       <Chip label="For Approval" className="font-semibold" />
                     </td>
                     <td className="border px-4 py-3">
-                      {new Date(userDetail.user.date).toLocaleString()}
+                    {userDetail.date ? new Date(userDetail.date).toLocaleString() : ""}
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
                       <ApproveUser
@@ -126,10 +125,6 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
               )}
             </tbody>
           </table>
-        </div>
-        {/* ADD ROLE BUTTON */}
-        <div className="absolute top-0 right-0 p-0 m-3">
-          <AddRole isAddRoleSuccess={isRoleSuccess} />
         </div>
       </div>
       {/* ADD USER ROLE NOTIFICATION */}

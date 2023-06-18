@@ -5,7 +5,7 @@ import AuthPage from "../Pages/AuthPage";
 import visibleIcon from "../Assets/Images/visible.svg";
 import notVisibleIcon from "../Assets/Images/notvisible.svg";
 import { UserDetail } from "../Types/UserDetails";
-import jwt_decode, { JwtPayload } from "jwt-decode";
+import jwt_decode from "jwt-decode";
 
 export type Role = {
   id: number;
@@ -122,11 +122,18 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
           onLoginSuccess(true);
 
           switch (true) {
-            case userDetail.roles[0] === "Admin":
+            case userDetail.roles[0] === "Admin" || userDetail.roles[0] === "admin":
               navigate("/pending");
               break;
-            case userDetail.roles[0] === "Unassigned":
-              navigate("/success");
+            case userDetail.roles[0] === "Client" || userDetail.roles[0] === "client":
+              navigate("/clientmain");
+              break;
+            case userDetail.roles[0] !== "Client" && userDetail.roles[0] !== "Admin":
+              navigate("/kanbanboard");
+            break;
+            case userDetail.roles[0] === "Unassigned" || userDetail.roles[0] === "unassigned":
+              navigate("/pendingapproval");
+              localStorage.clear()
               break;
             default:
               navigate("/kanbanboard");

@@ -4,7 +4,6 @@ import MemberLogo from "../Assets/Images/member-logo.svg";
 import DashboardPage from "../Pages/DashboardPage";
 import DeleteUser from "../modals/DeleteUser";
 import UpdateUser from "../modals/UpdateUser";
-import { UserDetail } from "../Types/UserDetails";
 import { UserLogin } from "../Types/UserLogin";
 import { UserDetailList } from "../Types/UserDetailList";
 

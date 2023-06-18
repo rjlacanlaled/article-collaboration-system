@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DashboardPage from "../Pages/DashboardPage";
 import LinkButton from "./LinkButton";
 import Modal from "@mui/joy/Modal";
@@ -19,23 +19,11 @@ function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
     ProjectAssigneeDetails[] | null
   >(null);
 
-  useEffect(() => {
-    console.log("here");
-    async function fetchTaskData() {
-      const response = await fetch(
-        `http://localhost:5143/api/v1/ProjectTasks/user/4`
-      );
-      const data = await response.json();
-      setProjectDetails(data);
-    }
-    fetchTaskData();
-  }, []);
-
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <h2 className="self-start text-2xl font-bold text-gray-800 p-1">
         {" "}
-        mnxcxvcvcvcv0- Welcome Back Bryan!
+        Welcome Back {userDetail.user.firstName}!
       </h2>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
         <div className="relative overflow-x-auto shadow-md sm:rounded-md">

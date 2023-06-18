@@ -8,11 +8,11 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import UpdateIcon from "../Assets/Images/edit-icon.svg";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { UserDetail } from "../Types/UserDetails";
+import Select from "@mui/material/Select";
+import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyUserRoleProps {
-  user: UserDetail;
+  user: UserDetailList;
   updateHandler: any;
 }
 
@@ -33,7 +33,7 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        email: user.user.email,
+        email: user.email,
         roleName: selectedRole,
       }),
     });

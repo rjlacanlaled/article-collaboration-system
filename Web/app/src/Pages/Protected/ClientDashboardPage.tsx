@@ -2,17 +2,17 @@ import { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
 import { UserDetail } from "../../Types/UserDetails";
 
-type AdminDashboardPageProps = {
+type ClientDashboardPageProps = {
   isSignedIn: boolean;
   userDetails: UserDetail;
   children: ReactElement;
 };
 
-function AdminDashboardPage({
+function ClientDashboardPage({
   isSignedIn,
   children,
   userDetails,
-}: AdminDashboardPageProps) {
+}: ClientDashboardPageProps) {
   if (!isSignedIn) {
     return <Navigate to="/" replace />;
   }
@@ -21,11 +21,11 @@ function AdminDashboardPage({
     return <Navigate to="/pendingapproval" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] !== "Admin") {
+  if (isSignedIn && userDetails.roles[0] !== "client") {
     return <Navigate to="/404" replace />;
   }
 
   return children;
 }
 
-export default AdminDashboardPage;
+export default ClientDashboardPage;

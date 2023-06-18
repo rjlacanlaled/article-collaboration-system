@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -6,7 +6,6 @@ import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Profile from "../Assets/Images/profile.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { UserDetail } from "../Types/UserDetails";
 import { UserLogin } from "../Types/UserLogin";
 
 function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
@@ -26,18 +25,14 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
     navigate("/");
   };
 
-  useEffect(() => {
-    console.log({ userDetail });
-  }, []);
-
   return (
     <div>
       <Box sx={{ flexGrow: 0 }}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} disableRipple>
           <Avatar alt="Remy Sharp" src={Profile} />
-          <div>
+          <label className="text-sm ml-3 text-zinc-700 cursor-pointer tracking-wider capitalize">
             {userDetail.user.firstName + " " + userDetail.user.lastName}
-          </div>
+          </label>
         </IconButton>
         <Menu
           sx={{ mt: "45px" }}
