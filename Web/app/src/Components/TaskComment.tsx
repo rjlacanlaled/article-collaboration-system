@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ProjectTask } from "./TaskList";
-import { Link } from 'react-router-dom';
-import CheckIcon from '../Assets/Images/done-check.svg';
+import { Link } from "react-router-dom";
+import CheckIcon from "../Assets/Images/done-check.svg";
 import DeleteComment from "../modals/DeleteComment";
 
 interface MyProps {
@@ -13,7 +13,7 @@ export type CommentDetails = {
   taskId: number;
   message: any;
   dateCreated: any;
-}
+};
 
 function TaskComment({ task }: MyProps) {
   const [commentData, setCommentData] = useState<CommentDetails[]>([]);
@@ -36,28 +36,28 @@ function TaskComment({ task }: MyProps) {
   const getStatus = (status: any) => {
     switch (status) {
       case 0:
-        return 'bg-orange-500';
+        return "bg-orange-500";
       case 1:
-        return 'bg-blue-500';
+        return "bg-blue-500";
       case 2:
-        return 'bg-purple-500';
+        return "bg-purple-500";
       case 3:
-        return 'bg-green-500';
+        return "bg-green-500";
       default:
-        return 'bg-green-500';
+        return "bg-green-500";
     }
   };
 
   const getStatusText = (status: any) => {
     switch (status) {
       case 0:
-        return 'To Do';
+        return "To Do";
       case 1:
-        return 'In Progress';
+        return "In Progress";
       case 2:
-        return 'For Review';
+        return "For Review";
       case 3:
-        return 'Completed';
+        return "Completed";
       default:
         return (
           <div className="flex justify-center items-center">
@@ -65,18 +65,21 @@ function TaskComment({ task }: MyProps) {
             <img src={CheckIcon} alt="Done" className="w-4 h-4" />
           </div>
         );
-      }
-    };
+    }
+  };
 
   // GET COMMENTS
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:5143/api/v1/Comments/task/${comment.taskId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        `http://localhost:5143/api/v1/Comments/task/${comment.taskId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const comments = await res.json();
       setCommentData(comments);
     };
@@ -88,13 +91,14 @@ function TaskComment({ task }: MyProps) {
     refreshData();
   }, []);
 
-  // Handle Post Comment 
-  const handlePostCommentSubmit = async () => {
+  // Handle Post Comment
+  const handlePostCommentSubmit = async (e: any) => {
+    e.preventDefault();
     await fetch("http://localhost:5143/api/v1/Comments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         id: comment.id,
@@ -110,14 +114,16 @@ function TaskComment({ task }: MyProps) {
   const getTimeDifference = (date: any) => {
     const currentDate = new Date();
     const commentDate = new Date(date);
-    const timeDifference = Math.abs(currentDate.getTime() - commentDate.getTime());
-  
+    const timeDifference = Math.abs(
+      currentDate.getTime() - commentDate.getTime()
+    );
+
     const minuteInMillis = 60 * 1000;
     const hourInMillis = 60 * minuteInMillis;
     const dayInMillis = 24 * hourInMillis;
     const weekInMillis = 7 * dayInMillis;
     const monthInMillis = 30 * dayInMillis;
-  
+
     if (timeDifference < minuteInMillis) {
       const seconds = Math.floor(timeDifference / 1000);
       return `${seconds} second${seconds > 1 ? "s" : ""} ago`;
@@ -148,16 +154,24 @@ function TaskComment({ task }: MyProps) {
             <h1 className="mb-4 max-w-md lg:text-2xl font-bold text-slate-800">
               {task?.title}
             </h1>
-            <p className={`${getStatus(task?.status)} rounded-lg p-1 px-2.5 mr-5 w-content text-center font-medium text-white`}>
+            <p
+              className={`${getStatus(
+                task?.status
+              )} rounded-lg p-1 px-2.5 mr-5 w-content text-center font-medium text-white`}
+            >
               <button>{getStatusText(task?.status)}</button>
             </p>
           </div>
           <div className="mb-2">
-            <label className="font-semibold text-zinc-800 tracking-wider">Description</label>
+            <label className="font-semibold text-zinc-800 tracking-wider">
+              Description
+            </label>
             <p className="text-slate-800">{task?.description}</p>
           </div>
           <div className="mb-2">
-            <label className="font-semibold text-slate-800 text-sm mr-2 tracking-wide">Article Link:</label>
+            <label className="font-semibold text-slate-800 text-sm mr-2 tracking-wide">
+              Article Link:
+            </label>
             {task?.link ? (
               <Link to={task.link} target="_blank">
                 <button className="inline-flex items-center py-0.5 px-5 text-xs font-medium text-center text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 tracking-wider">
@@ -165,7 +179,10 @@ function TaskComment({ task }: MyProps) {
                 </button>
               </Link>
             ) : (
-              <button disabled className="inline-flex items-center py-0.5 px-5 text-xs font-medium text-center text-white bg-gray-400 rounded-lg tracking-wider">
+              <button
+                disabled
+                className="inline-flex items-center py-0.5 px-5 text-xs font-medium text-center text-white bg-gray-400 rounded-lg tracking-wider"
+              >
                 Link
               </button>
             )}
@@ -199,7 +216,10 @@ function TaskComment({ task }: MyProps) {
           </form>
           {/* all comments section */}
           {commentData.map((comment: CommentDetails) => (
-            <article className="p-6 mb-4 text-base bg-white rounded-lg dark:bg-gray-100 h-fit overflow-y-auto" key={comment.id}>
+            <article
+              className="p-6 mb-4 text-base bg-white rounded-lg dark:bg-gray-100 h-fit overflow-y-auto"
+              key={comment.id}
+            >
               <div>
                 <footer className="flex justify-between items-center mb-2">
                   <div className="flex items-center">
@@ -216,13 +236,11 @@ function TaskComment({ task }: MyProps) {
                     </p>
                   </div>
                 </footer>
-                <p className="text-zinc-700">
-                  {comment.message}
-                </p>
+                <p className="text-zinc-700">{comment.message}</p>
                 <div className="flex justify-end items-center flex-row mt-4 space-x-2">
                   <DeleteComment
                     comment={comment}
-                    updateHandler={refreshData}                 
+                    updateHandler={refreshData}
                   />
                 </div>
               </div>

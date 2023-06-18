@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Login, { MyToken } from "./Components/Login";
 import Signup from "./Components/Signup";
 import SignupSuccess from "./Components/SignupSuccess";
@@ -23,12 +23,15 @@ import { UserDetail } from "./Types/UserDetails";
 import AdminDashboardPage from "./Pages/Protected/AdminDashboardPage";
 import ClientDashboardPage from "./Pages/Protected/ClientDashboardPage";
 import jwt_decode from "jwt-decode";
+import ProfilePage from "./Pages/Protected/ProfilePage";
+import LoginPage from "./Pages/Protected/LoginPage";
 
 function App() {
   // isSignedIn state = if signed out false
   const [user, setUser] = useState<UserDetail | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleLoginAsync = async (token: string) => {
@@ -54,22 +57,28 @@ function App() {
       setUser(userDetail);
       setIsSignedIn(true);
 
+      localStorage.setItem("user", JSON.stringify(userDetail));
+
+      console.log("pathbnae", location.pathname);
+
       switch (true) {
-        case userDetail.roles[0] === "Admin" || userDetail.roles[0] === "admin":
-          navigate("/pending");
+        case userDetail.roles[0] === "Admin":
+          navigate(location.pathname === "/" ? "/pending" : location.pathname);
           break;
-        case userDetail.roles[0] === "Client" || userDetail.roles[0] === "client":
-          navigate("/clientmain");
+        case userDetail.roles[0] === "Client":
+          navigate(
+            location.pathname === "/" ? "/clientmain" : location.pathname
+          );
           break;
-        case userDetail.roles[0] !== "Client" && userDetail.roles[0] !== "Admin":
-          navigate("/kanbanboard");
-        break;
-        case userDetail.roles[0] === "Unassigned" || userDetail.roles[0] === "unassigned":
-          navigate("/pendingapproval");
-          localStorage.clear()
+        case userDetail.roles[0] === "Unassigned":
+          navigate(
+            location.pathname === "/" ? "/pendingapproval" : location.pathname
+          );
           break;
         default:
-          navigate("/kanbanboard");
+          navigate(
+            location.pathname === "/" ? "/kanbanboard" : location.pathname
+          );
       }
     };
     if (localStorage.getItem("token") != null) {
@@ -80,7 +89,23 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {/* public routes */}
+        {/* public routes */}z
+        {/* <Route
+          path="/"
+          element={
+            <LoginPage
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={
+                <Login
+                  onLoginSuccess={setIsSignedIn}
+                  onFetchUserDetails={setUser}
+                />
+              }
+              redirectTo={location.pathname}
+            />
+          }
+        /> */}
         <Route
           path="/"
           element={
@@ -92,7 +117,6 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-
         {/* Admin Protected Routes */}
         <Route
           path="/pending"
@@ -101,10 +125,7 @@ function App() {
               isSignedIn={isSignedIn}
               userDetails={user!}
               children={
-                <>
                 <AdminDashboard userDetail={user!} isSignedIn={isSignedIn} />
-                <Profile userDetail={user!} isSignedIn={isSignedIn} />
-                </>
               }
             />
           }
@@ -113,23 +134,22 @@ function App() {
           path="/user"
           element={
             <AdminDashboardPage
-            isSignedIn={isSignedIn}
-            userDetails={user!}
-            children={
-              <DashboardContent userDetail={user!} isSignedIn={isSignedIn} />
-            }
-          />
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={
+                <DashboardContent userDetail={user!} isSignedIn={isSignedIn} />
+              }
+            />
           }
         />
         <Route
           path="/profile"
           element={
-            <AdminDashboardPage
-            isSignedIn={isSignedIn}
-            userDetails={user!}
-            children={<Profile userDetail={user!} isSignedIn={isSignedIn} />
-          }
-          />
+            <ProfilePage
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={<Profile userDetail={user!} isSignedIn={isSignedIn} />}
+            />
           }
         />
         {/* Client Protected */}
@@ -137,16 +157,13 @@ function App() {
           path="/clientmain"
           element={
             <ClientDashboardPage
-            isSignedIn={isSignedIn}
-            userDetails={user!}
-            children={
-              <>
-              <ClientDashboard userDetail={user!} isSignedIn={isSignedIn} />
-              <Profile userDetail={user!} isSignedIn={isSignedIn} />
-              </>
-            }
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={
+                <ClientDashboard userDetail={user!} isSignedIn={isSignedIn} />
+              }
             />
-        }
+          }
         />
         <Route
           path="/report"
@@ -160,11 +177,9 @@ function App() {
           path="/viewTask/:id"
           element={
             <ClientDashboardPage
-            isSignedIn={isSignedIn}
-            userDetails={user!}
-            children={
-            <ViewTask userDetail={user!} isSignedIn={isSignedIn}/>
-            }
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={<ViewTask userDetail={user!} isSignedIn={isSignedIn} />}
             />
           }
         />
@@ -182,7 +197,6 @@ function App() {
         <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/pendingapproval" element={<PendingApproval />} />
         {/* </Route> */}
-
         {/* error page */}
         <Route path="/*" element={<NotFoundPage />} />
         <Route path="/404" element={<NotFoundPage />} />

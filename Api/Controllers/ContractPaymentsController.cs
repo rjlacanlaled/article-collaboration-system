@@ -15,6 +15,7 @@ namespace Api.Controllers;
 [ApiController]
 [ApiVersion(1.0)]
 [Route("api/v{versionNumber}/[controller]")]
+[Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
 public class ContractPaymentsController : ControllerBase
 {
 
@@ -26,6 +27,24 @@ public class ContractPaymentsController : ControllerBase
     }
 
     // Create
+    // [HttpPost]
+    // public async Task<IActionResult> AddAsync([FromBody] AddContractPaymentRequest request)
+    // {
+    //     ContractPayment newContractPayment = new()
+    //     {
+    //         ContractId = request.ContractId,
+    //         Link = request.Link,
+    //         Amount = request.Amount,
+    //         ClientId = request.ClientId,
+    //         PaymentDate = DateTime.UtcNow
+    //     };
+
+    //     await _dbContext.ContractPayments.AddAsync(newContractPayment);
+    //     await _dbContext.SaveChangesAsync();
+
+    //     return Created("comments", newContractPayment);
+    // }
+
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] AddContractPaymentRequest request)
     {
@@ -34,7 +53,7 @@ public class ContractPaymentsController : ControllerBase
             ContractId = request.ContractId,
             Link = request.Link,
             Amount = request.Amount,
-            ClientId = request.ClientId,
+            ClientEmail = request.ClientEmail,
             PaymentDate = DateTime.UtcNow
         };
 
@@ -44,49 +63,49 @@ public class ContractPaymentsController : ControllerBase
         return Created("comments", newContractPayment);
     }
 
-    // Update
-    [HttpPut("id/{id}")]
-    public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] AddContractPaymentRequest req)
-    {
-        ContractPayment? existing = await _dbContext.ContractPayments
-            .Where(c => c.Id == id)
-            .FirstOrDefaultAsync();
+    // // Update
+    // [HttpPut("id/{id}")]
+    // public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] AddContractPaymentRequest req)
+    // {
+    //     ContractPayment? existing = await _dbContext.ContractPayments
+    //         .Where(c => c.Id == id)
+    //         .FirstOrDefaultAsync();
 
-        if (existing is null) return NotFound();
+    //     if (existing is null) return NotFound();
 
-        existing.ContractId = req.ContractId;
-        existing.Link = req.Link;
-        existing.Amount = req.Amount;
-        existing.PaymentDate = DateTime.UtcNow;
+    //     existing.ContractId = req.ContractId;
+    //     existing.Link = req.Link;
+    //     existing.Amount = req.Amount;
+    //     existing.PaymentDate = DateTime.UtcNow;
 
-        _dbContext.ContractPayments.Update(existing);
-        await _dbContext.SaveChangesAsync();
+    //     _dbContext.ContractPayments.Update(existing);
+    //     await _dbContext.SaveChangesAsync();
 
-        return Ok(existing);
-    }
+    //     return Ok(existing);
+    // }
 
-    // Delete 
-    [HttpDelete("id/{id}")]
-    public async Task<IActionResult> DeleteAsync([FromRoute] int id)
-    {
-        ContractPayment? existing = await _dbContext.ContractPayments
-            .Where(c => c.Id == id)
-            .FirstOrDefaultAsync();
+    // // Delete 
+    // [HttpDelete("id/{id}")]
+    // public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+    // {
+    //     ContractPayment? existing = await _dbContext.ContractPayments
+    //         .Where(c => c.Id == id)
+    //         .FirstOrDefaultAsync();
 
-        if (existing is null) return NotFound();
+    //     if (existing is null) return NotFound();
 
-        _dbContext.ContractPayments.Remove(existing);
-        await _dbContext.SaveChangesAsync();
+    //     _dbContext.ContractPayments.Remove(existing);
+    //     await _dbContext.SaveChangesAsync();
 
-        return Ok(existing);
-    }
+    //     return Ok(existing);
+    // }
 
-    // Read
-    [HttpGet("client/{clientId}")]
-    public async Task<IActionResult> FetchAsync([FromRoute] int clientId)
+    // // Read
+    [HttpGet("client/{clientEmail}")]
+    public async Task<IActionResult> FetchAsync([FromRoute] string clientEmail)
     {
         List<ContractPayment> contractPayments = await _dbContext.ContractPayments
-            .Where(c => c.ClientId == clientId)
+            .Where(c => c.ClientEmail == clientEmail)
             .OrderBy(c => c.PaymentDate)
             .ToListAsync();
 
@@ -96,11 +115,8 @@ public class ContractPaymentsController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> FetchAllAsync()
     {
-        var contractPayments = await _dbContext.ContractPayments
-            .Join(_dbContext.Contracts, cp => cp.ContractId, c => c.Id, (cp, c) => new { ContractPayment = cp, Contract = c })
-            .Where(g => g.Contract != null)
-            .Join(_dbContext.UserDetails, g => g.Contract.ClientId, ud => ud.Id, (g, ud) => new { g.ContractPayment, g.Contract, UserDetails = ud })
-            .OrderBy(g => g.ContractPayment.PaymentDate)
+        List<ContractPayment> contractPayments = await _dbContext.ContractPayments
+            .OrderBy(c => c.PaymentDate)
             .ToListAsync();
 
         return Ok(contractPayments);

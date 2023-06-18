@@ -15,6 +15,7 @@ namespace Api.Controllers;
 [ApiController]
 [ApiVersion(1.0)]
 [Route("api/v{versionNumber}/[controller]")]
+[Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
 public class NotificationAssigneesController : ControllerBase
 {
 

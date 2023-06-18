@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavLogo from "../Assets/Images/searchwork-logo.svg";
 import HomeIcon from "@mui/icons-material/HomeOutlined";
@@ -8,6 +8,8 @@ import KanbanBoardIcon from "@mui/icons-material/ViewKanbanOutlined";
 import UserIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ClientIcon from "@mui/icons-material/AccountBoxOutlined";
 import { UserDetail } from "../Types/UserDetails";
+import { MyToken } from "./Login";
+import jwt_decode from "jwt-decode";
 
 interface NavigationProps {
   user: UserDetail;
@@ -15,6 +17,16 @@ interface NavigationProps {
 }
 
 function Navigation({ user, isSignedIn }: NavigationProps) {
+  const [userDetail, setUserDetail] = useState<UserDetail>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
+
+  useEffect(() => {
+    if (!userDetail) {
+      setUserDetail(JSON.parse(localStorage.getItem("user")!));
+    }
+  }, []);
+
   return (
     <>
       <div className="flex items-center mb-6 px-4 py-6">
@@ -22,7 +34,7 @@ function Navigation({ user, isSignedIn }: NavigationProps) {
         <span className="text-gray-400 font-bold text-base">SEARCH WORK</span>
       </div>
       <ul className="list-none text-l font-medium leading-relaxed tracking-wide">
-        {user.roles[0] === "Admin" ? (
+        {userDetail!.roles[0] === "Admin" ? (
           <>
             <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
               <HomeIcon className="w-5 mr-3" />
@@ -45,7 +57,8 @@ function Navigation({ user, isSignedIn }: NavigationProps) {
               </li>
             </div>
           </>
-        ) : user.roles[0] === "client" || user.roles[0] === "Client" ? (
+        ) : userDetail!.roles[0] === "client" ||
+          userDetail!.roles[0] === "Client" ? (
           <div className="flex justify-start items-center w-48 rounded-md py-2 px-4 text-gray-400 hover:text-white">
             <HomeIcon className="w-5 mr-3" />
             <li>

@@ -7,10 +7,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Profile from "../Assets/Images/profile.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { UserLogin } from "../Types/UserLogin";
+import { UserDetail } from "../Types/UserDetails";
 
 function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const [user, setUser] = useState<UserDetail>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -31,7 +35,7 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} disableRipple>
           <Avatar alt="Remy Sharp" src={Profile} />
           <label className="text-sm ml-3 text-zinc-700 cursor-pointer tracking-wider capitalize">
-            {userDetail.user.firstName + " " + userDetail.user.lastName}
+            {user.user.firstName + " " + user.user.lastName}
           </label>
         </IconButton>
         <Menu

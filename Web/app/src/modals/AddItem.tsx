@@ -11,12 +11,18 @@ import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import DatePicker from "../Components/DatePicker";
+import jwt_decode from "jwt-decode";
+import { MyToken } from "../Components/Login";
 
 interface myProps {
   updateHandler: any;
 }
 
-function AddItem({updateHandler}: myProps) {
+type ItemResult = {
+  id: string;
+};
+
+function AddItem({ updateHandler }: myProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState({
@@ -36,10 +42,11 @@ function AddItem({updateHandler}: myProps) {
   };
 
   const handleCreateTaskSubmit = async () => {
-    await fetch("http://localhost:5143/api/v1/ProjectTasks", {
+    var res = await fetch("http://localhost:5143/api/v1/ProjectTasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         title: taskData.name,
@@ -51,9 +58,29 @@ function AddItem({updateHandler}: myProps) {
         contractId: -1,
       }),
     });
+
+    const result: ItemResult = await res.json();
+    console.log({ result });
+
+    const user = jwt_decode<MyToken>(localStorage.getItem("token")!);
+
+    console.log({ user });
+
+    await fetch("http://localhost:5143/api/v1/ProjectTaskAssignees", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        projectTaskId: result.id,
+        userEmail: user.email,
+        roleName: "Reporter",
+      }),
+    });
     await updateHandler();
     setOpen(false);
-  }
+  };
 
   return (
     <>

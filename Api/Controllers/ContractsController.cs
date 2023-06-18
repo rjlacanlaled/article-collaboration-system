@@ -15,6 +15,7 @@ namespace Api.Controllers;
 [ApiController]
 [ApiVersion(1.0)]
 [Route("api/v{versionNumber}/[controller]")]
+[Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
 public class ContractsController : ControllerBase
 {
 
@@ -25,14 +26,14 @@ public class ContractsController : ControllerBase
         _dbContext = dbContext;
     }
 
-    // Create
+
     [HttpPost]
-    public async Task<IActionResult> AddAsync([FromBody] AddContractRequest request)
+    public async Task<IActionResult> AddByEmailAsync([FromBody] AddContractRequest request)
     {
         Contract newContract = new()
         {
-            ClientId = request.ClientId,
-            SeoId = request.SeoId,
+            ClientEmail = request.ClientEmail,
+            SeoEmail = request.SeoEmail,
             Type = request.Type,
             Plan = request.Plan,
             Status = request.Status,
@@ -47,54 +48,17 @@ public class ContractsController : ControllerBase
         return Created("comments", newContract);
     }
 
-    // Update
-    [HttpPut("id/{id}")]
-    public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] AddContractRequest addContractRequest)
+    [HttpGet("contract/email/{email}")]
+    public async Task<IActionResult> FetchByEmailAsync([FromRoute] string email)
     {
-        Contract? existing = await _dbContext.Contracts
-            .Where(c => c.Id == id)
-            .FirstOrDefaultAsync();
-
-        if (existing is null) return NotFound();
-
-        existing.ClientId = addContractRequest.ClientId;
-        existing.SeoId = addContractRequest.SeoId;
-        existing.Type = addContractRequest.Type;
-        existing.Status = addContractRequest.Status;
-        existing.ManagedBy = addContractRequest.ManagedBy;
-        existing.DateUpdated = DateTime.UtcNow;
-
-        _dbContext.Contracts.Update(existing);
-        await _dbContext.SaveChangesAsync();
-
-        return Ok(existing);
+        var result = await _dbContext.Contracts.Where(x => x.ClientEmail == email).ToListAsync();
+        return Ok(result);
     }
 
-    // Delete 
-    [HttpDelete("id/{id}")]
-    public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+    [HttpGet("contract/all")]
+    public async Task<IActionResult> FetchAll()
     {
-        Contract? existing = await _dbContext.Contracts
-            .Where(c => c.Id == id)
-            .FirstOrDefaultAsync();
-
-        if (existing is null) return NotFound();
-
-        _dbContext.Remove(existing);
-        await _dbContext.SaveChangesAsync();
-
-        return Ok(existing);
-    }
-
-    // Read
-    [HttpGet("client/{clientId}")]
-    public async Task<IActionResult> FetchAsync([FromRoute] int clientId)
-    {
-        List<Contract> contracts = await _dbContext.Contracts
-            .Where(c => c.ClientId == clientId)
-            .OrderBy(c => c.DateCreated)
-            .ToListAsync();
-
-        return Ok(contracts);
+        var result = await _dbContext.Contracts.ToListAsync();
+        return Ok(result);
     }
 }

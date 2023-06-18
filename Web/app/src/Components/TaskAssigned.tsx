@@ -10,13 +10,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/joy/FormControl";
 import { UserDetail } from "../Types/UserDetails";
+import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyProps {
   task: ProjectTask | null;
 }
 
 export default function TaskAssigned({ task }: MyProps) {
-  const [client, setClient] = useState<UserDetail[]>([]);
+  const [client, setClient] = useState<UserDetailList[]>([]);
   const [detailsExpand, setDetailsExpanded] = useState(true);
   const [contractData, setContractData] = useState({
     client: "",
@@ -44,7 +45,7 @@ export default function TaskAssigned({ task }: MyProps) {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/Setup/users/client",
+        "http://localhost:5143/api/v1/Setup/users/Client",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -52,6 +53,7 @@ export default function TaskAssigned({ task }: MyProps) {
         }
       );
       const roles = await res.json();
+      console.log({ roles });
       setClient(roles);
     };
 
@@ -185,8 +187,8 @@ export default function TaskAssigned({ task }: MyProps) {
                       <em>None</em>
                     </MenuItem>
                     {client.map((clients) => (
-                      <MenuItem value={clients.user.email}>
-                        {clients.user.firstName} {clients.user.lastName}
+                      <MenuItem value={clients.email}>
+                        {clients.firstName} {clients.lastName}
                       </MenuItem>
                     ))}
                   </Select>

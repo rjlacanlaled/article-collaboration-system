@@ -73,7 +73,12 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
 
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all");
+      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const tasks = await res.json();
       setTasks(tasks);
     };

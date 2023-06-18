@@ -55,6 +55,7 @@ function CreateContract() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         client: contractData.client,
@@ -70,7 +71,12 @@ function CreateContract() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:5143/api/v1/UserDetails/all`);
+      const res = await fetch(`http://localhost:5143/api/v1/UserDetails/all`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const user = await res.json();
       setClient(user);
     };
@@ -89,6 +95,7 @@ function CreateContract() {
         }
       );
       const roles = await res.json();
+      console.log({ roles });
       setClient(roles);
     };
 

@@ -3,8 +3,8 @@ namespace Common.Models.Core;
 public class Contract
 {
     public int Id { get; set; }
-    public int ClientId { get; set; }
-    public int SeoId { get; set; }
+    public string ClientEmail { get; set; }
+    public string SeoEmail { get; set; }
     public int Type { get; set; }
     public int Plan { get; set; }
     public int Status { get; set; }

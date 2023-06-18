@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginIcon from "../Assets/Images/login-logo.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthPage from "../Pages/AuthPage";
 import visibleIcon from "../Assets/Images/visible.svg";
 import notVisibleIcon from "../Assets/Images/notvisible.svg";
@@ -36,6 +36,7 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Handle change
   const handleChange = (e: any) => {
@@ -116,24 +117,21 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
           );
 
           var userDetail: UserDetail = await userDetailReq.json();
+          localStorage.setItem("user", JSON.stringify(userDetail));
           console.log({ userDetail });
 
           onFetchUserDetails(userDetail);
           onLoginSuccess(true);
 
           switch (true) {
-            case userDetail.roles[0] === "Admin" || userDetail.roles[0] === "admin":
+            case userDetail.roles[0] === "Admin":
               navigate("/pending");
               break;
-            case userDetail.roles[0] === "Client" || userDetail.roles[0] === "client":
+            case userDetail.roles[0] === "Client":
               navigate("/clientmain");
               break;
-            case userDetail.roles[0] !== "Client" && userDetail.roles[0] !== "Admin":
-              navigate("/kanbanboard");
-            break;
-            case userDetail.roles[0] === "Unassigned" || userDetail.roles[0] === "unassigned":
+            case userDetail.roles[0] === "Unassigned":
               navigate("/pendingapproval");
-              localStorage.clear()
               break;
             default:
               navigate("/kanbanboard");

@@ -15,6 +15,7 @@ namespace Api.Controllers;
 [ApiController]
 [ApiVersion(1.0)]
 [Route("api/v{versionNumber}/[controller]")]
+[Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper")]
 public class ProjectTaskAssigneesController : ControllerBase
 {
 
@@ -36,8 +37,8 @@ public class ProjectTaskAssigneesController : ControllerBase
             // public int UserId { get; init; }
             // public int RoleId { get; init; }
             ProjectTaskId = request.ProjectTaskId,
-            UserId = request.UserId,
-            RoleId = request.RoleId
+            UserEmail = request.UserEmail,
+            RoleName = request.RoleName
         };
 
         await _dbContext.ProjectTaskAssignees.AddAsync(newProjectTaskAssignee);
@@ -57,8 +58,8 @@ public class ProjectTaskAssigneesController : ControllerBase
         if (existing is null) return NotFound();
 
         existing.ProjectTaskId = request.ProjectTaskId;
-        existing.UserId = request.UserId;
-        existing.RoleId = request.RoleId;
+        existing.UserEmail = request.UserEmail;
+        existing.RoleName = request.RoleName;
 
         _dbContext.ProjectTaskAssignees.Update(existing);
         await _dbContext.SaveChangesAsync();
@@ -87,8 +88,18 @@ public class ProjectTaskAssigneesController : ControllerBase
     public async Task<IActionResult> FetchAsync([FromRoute] string userId)
     {
         List<ProjectTaskAssignee> tasks = await _dbContext.ProjectTaskAssignees
-            .Where(c => c.UserId == userId)
+            .Where(c => c.UserEmail == userId)
             .OrderBy(c => c.ProjectTaskId)
+            .ToListAsync();
+
+        return Ok(tasks);
+    }
+
+    [HttpGet("assignees/{taskId}")]
+    public async Task<IActionResult> FetchAssigneesAsync([FromRoute] int taskId)
+    {
+        List<ProjectTaskAssignee> tasks = await _dbContext.ProjectTaskAssignees
+            .Where(c => c.ProjectTaskId == taskId)
             .ToListAsync();
 
         return Ok(tasks);

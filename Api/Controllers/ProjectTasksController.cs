@@ -15,6 +15,7 @@ namespace Api.Controllers;
 [ApiController]
 [ApiVersion(1.0)]
 [Route("api/v{versionNumber}/[controller]")]
+[Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper")]
 public class ProjectTasksController : ControllerBase
 {
 
@@ -49,7 +50,7 @@ public class ProjectTasksController : ControllerBase
         await _dbContext.ProjectTasks.AddAsync(newProjectTask);
         await _dbContext.SaveChangesAsync();
 
-        return Created("projectTask", newProjectTask);
+        return Ok(newProjectTask);
     }
 
     // Update
@@ -105,7 +106,7 @@ public class ProjectTasksController : ControllerBase
     {
         // @TODO: join with project assignees
         List<ProjectTaskAssigneeDetails> tasks = await _dbContext.ProjectTasks
-            .Join(_dbContext.ProjectTaskAssignees.Where(pta => pta.UserId == userId), pt => pt.Id, pta => pta.ProjectTaskId, (pt, pta) => new { ProjectTask = pt, Assignee = pta })
+            .Join(_dbContext.ProjectTaskAssignees.Where(pta => pta.UserEmail == userId), pt => pt.Id, pta => pta.ProjectTaskId, (pt, pta) => new { ProjectTask = pt, Assignee = pta })
             .OrderBy(g => g.ProjectTask.DateUpdated)
             .Select(g => new ProjectTaskAssigneeDetails()
             {
@@ -149,10 +150,10 @@ public class ProjectTasksController : ControllerBase
                 DateUpdated = g.ProjectTask.DateUpdated,
                 Assignees = g.Assignee.Select(a => new ProjectAssigneeRole()
                 {
-                    UserId = a.UserId,
+                    UserId = a.UserEmail,
                     FirstName = "",
                     LastName = "",
-                    RoleId = a.RoleId,
+                    RoleId = a.RoleName,
                     Role = ""
                 })
                 .ToList()

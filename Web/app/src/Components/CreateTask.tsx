@@ -17,7 +17,7 @@ interface MyProps {
   isNewTaskSuccess: any;
 }
 
-function CreateTask({updateHandler, isNewTaskSuccess}: MyProps) {
+function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
   const [open, setOpen] = useState(false);
 
   const [taskData, setTaskData] = useState({
@@ -38,10 +38,11 @@ function CreateTask({updateHandler, isNewTaskSuccess}: MyProps) {
   };
 
   const handleCreateTaskSubmit = async () => {
-    await fetch("http://localhost:5143/api/v1/ProjectTasks", {
+    var res = await fetch("http://localhost:5143/api/v1/ProjectTasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         title: taskData.name,
@@ -54,7 +55,21 @@ function CreateTask({updateHandler, isNewTaskSuccess}: MyProps) {
         contractId: -1,
       }),
     });
-    isNewTaskSuccess(true)
+
+    console.log({ res });
+
+    // await fetch("http://localhost:5143/api/v1/ProjectTaskAssignee", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     projectTaskId: 1,
+    //     userEmail: "webdev@gmail.com",
+    //     roleName: "WebDeveloper",
+    //   }),
+    // });
+    isNewTaskSuccess(true);
     await updateHandler();
     setOpen(false);
   };
@@ -156,9 +171,7 @@ function CreateTask({updateHandler, isNewTaskSuccess}: MyProps) {
                 <FormLabel>SEO Deadline</FormLabel>
                 <DatePicker />
               </FormControl>
-              <Button onClick={handleCreateTaskSubmit}>
-                Submit
-              </Button>
+              <Button onClick={handleCreateTaskSubmit}>Submit</Button>
             </Stack>
           </form>
         </ModalDialog>

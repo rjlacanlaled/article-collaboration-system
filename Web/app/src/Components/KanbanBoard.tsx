@@ -7,6 +7,9 @@ import TaskItems from "./TaskItems";
 import AddSwimLaneList from "../modals/AddItem";
 import { ProjectTask } from "./TaskList";
 import { UserLogin } from "../Types/UserLogin";
+import { UserDetail } from "../Types/UserDetails";
+import { MyToken } from "./Login";
+import jwt_decode from "jwt-decode";
 
 type Columns = {
   [key: string]: {
@@ -21,6 +24,26 @@ export type Assignee = {
   lastName: string;
   roleId: number;
   role: string;
+};
+
+const fetchUserDetail = async () => {
+  const decodedToken = jwt_decode<MyToken>(localStorage.getItem("token")!);
+  var userDetailReq = await fetch(
+    `http://localhost:5143/api/v1/UserData/email/${encodeURIComponent(
+      decodedToken.email
+    )}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")!}`,
+      },
+    }
+  );
+
+  var userDetail: UserDetail = await userDetailReq.json();
+
+  return userDetail;
 };
 
 const onDragEnd = async (result: any, columns: any, setColumns: any) => {
@@ -43,6 +66,7 @@ const onDragEnd = async (result: any, columns: any, setColumns: any) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(updatedTask),
     }
@@ -98,14 +122,32 @@ const onDragEnd = async (result: any, columns: any, setColumns: any) => {
 function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
   const [columns, setColumns] = useState<Columns | null>(null);
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
+  const [user, setUser] = useState<UserDetail | null>(null);
 
   useEffect(() => {
+    console.log("jere");
     refreshData();
+    const fetchUser = async () => {
+      const userDetails = await fetchUserDetail();
+      setUser(userDetails);
+      console.log({ userDetails });
+    };
+
+    if (!userDetail) {
+      fetchUser();
+    } else {
+      setUser(user);
+    }
   }, []);
 
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all");
+      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const resJson = await res.json();
       setTasks(resJson);
 
