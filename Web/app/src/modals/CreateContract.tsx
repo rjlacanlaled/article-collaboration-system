@@ -14,7 +14,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { UserDetail } from "../Types/UserDetails";
 import { UserDetailList } from "../Types/UserDetailList";
 
 export type Role = {
@@ -55,7 +54,7 @@ function CreateContract() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         client: contractData.client,
@@ -69,20 +68,20 @@ function CreateContract() {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`http://localhost:5143/api/v1/UserDetails/all`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const user = await res.json();
-      setClient(user);
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await fetch(`http://localhost:5143/api/v1/UserDetails/all`, {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     });
+  //     const user = await res.json();
+  //     setClient(user);
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,7 +94,6 @@ function CreateContract() {
         }
       );
       const roles = await res.json();
-      console.log({ roles });
       setClient(roles);
     };
 

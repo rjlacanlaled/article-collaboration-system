@@ -17,7 +17,7 @@ export type SignupData = {
   lastName: string;
 };
 
-function Signup() {
+function Signup() {  
   const [tooltip, setTooltip] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [errors, setErrors] = useState<Partial<SignupData>>({});
@@ -28,7 +28,7 @@ function Signup() {
     password: "",
     confirmPassword: "",
     firstName: "",
-    middleName: null,
+    middleName: "",
     lastName: "",
   });
   const Navigate = useNavigate();
@@ -158,7 +158,7 @@ function Signup() {
           Navigate("/success")
         } else {
           console.log(result);
-          setErrorMessage("Email Address already exists. Please try with another one")
+          setErrorMessage("Email Address or Username might already exist. Please try another one.")
         }
       } catch (err: any) {
         console.log(err.message);

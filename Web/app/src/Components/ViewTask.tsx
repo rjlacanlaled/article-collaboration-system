@@ -14,7 +14,12 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
     console.log("here");
     async function fetchTaskData() {
       const response = await fetch(
-        `http://localhost:5143/api/v1/ProjectTasks/task/${id}`
+        `http://localhost:5143/api/v1/ProjectTasks/task/${id}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+        }
       );
       const data = await response.json();
       setTaskData(data);
@@ -30,7 +35,7 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
             <TaskComment task={taskData} />
           </div>
           <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-            <TaskAssigned task={taskData} />
+            <TaskAssigned columnId={taskData} task={taskData} />
             <h2 className="absolute bottom-0 right-0 p-4 font-medium text-sm text-gray-500">
               Task Created: {new Date(taskData.dateCreate).toLocaleString()}
             </h2>

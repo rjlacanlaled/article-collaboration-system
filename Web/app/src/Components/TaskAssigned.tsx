@@ -4,20 +4,30 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Avatar from "@mui/material/Avatar";
 import Slide from "@mui/material/Slide";
 import { ProjectTask } from "./TaskList";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/joy/FormControl";
-import { UserDetail } from "../Types/UserDetails";
 import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyProps {
-  task: ProjectTask | null;
+  task: ProjectTask;
+  columnId: any;
 }
 
-export default function TaskAssigned({ task }: MyProps) {
+export type Assignee = {
+  userId: number;
+  firstName: string;
+  lastName: string;
+  roleId: number;
+  role: string;
+};
+
+export default function TaskAssigned({columnId, task }: MyProps) {
   const [client, setClient] = useState<UserDetailList[]>([]);
+  const [assignee, setAssignee] = useState<Assignee[]>([])
   const [detailsExpand, setDetailsExpanded] = useState(true);
   const [contractData, setContractData] = useState({
     client: "",
@@ -42,19 +52,40 @@ export default function TaskAssigned({ task }: MyProps) {
     });
   };
 
+  //GET CLIENT
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/Setup/users/Client",
+        "http://localhost:5143/api/v1/Setup/users/client",
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       const roles = await res.json();
-      console.log({ roles });
+      console.log("roles" + { roles });
       setClient(roles);
+    };
+
+    fetchData();
+  }, []);
+
+  //GET TASK ASSIGNEE
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `http://localhost:5143/api/v1/ProjectTaskAssignees/assignees/${task.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const assignee = await res.json();
+      console.log({assignee});
+      setAssignee(assignee)
     };
 
     fetchData();
@@ -123,13 +154,9 @@ export default function TaskAssigned({ task }: MyProps) {
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Reporter:</label>
               <div className="flex items-center ml-2">
-                <img
-                  className="mr-2 w-6 h-6 rounded-full"
-                  src={""}
-                  alt="Jese Leos"
-                />
-                <p>
-                  {task?.id} {}
+                <Avatar alt="user-profile" sx={{ width: 24, height: 24 }}/>
+                <p className="ml-2">
+                  assign reporter
                 </p>
               </div>
             </div>
@@ -146,7 +173,7 @@ export default function TaskAssigned({ task }: MyProps) {
               <label className="p-2 ml-2 font-semibold">Timeliness:</label>
               {task?.timeliness === 0 ? "Pending" : ""}
               {task?.timeliness === 1 ? "Past EOD" : ""}
-              {task?.timeliness === 2 ? "On Time" : ""}
+              {columnId === "4" && task?.timeliness === 2 && "On Time"}
             </div>
             <div className="absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider">
               <p>SEO Deadline: {task?.seoDeadline}</p>
@@ -178,7 +205,7 @@ export default function TaskAssigned({ task }: MyProps) {
                     id="demo-select-small"
                     type="text"
                     name="client"
-                    value={contractData.client}
+                    value={client}
                     label="Type"
                     onChange={handleChange}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
@@ -198,12 +225,8 @@ export default function TaskAssigned({ task }: MyProps) {
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">SEO:</label>
               <div className="flex items-center ml-2">
-                <img
-                  className="mr-2 w-6 h-6 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                  alt="Michael Gough"
-                />
-                <p>JR</p>
+                <Avatar alt="user-profile" sx={{ width: 24, height: 24 }}/> 
+                <p className="ml-2">JR</p>
               </div>
             </div>
             <div className="flex items-center">

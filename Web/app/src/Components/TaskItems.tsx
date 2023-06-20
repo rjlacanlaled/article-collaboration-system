@@ -9,6 +9,7 @@ import MessageIcon from '../Assets/Images/message-icon.svg'
 import { ProjectTask } from "./TaskList";
 
 type ListItemProps = {
+  columnId: any;
   status: string;
   title: string;
   description: string;
@@ -16,7 +17,7 @@ type ListItemProps = {
   prodDate: number;
   createdAt: number,
   provided: any;
-  task: ProjectTask | null;
+  task: ProjectTask;
 };
 
 export type commenDetails = {
@@ -27,6 +28,7 @@ export type commenDetails = {
 }
 
 function TaskItems({
+  columnId,
   createdAt,
   title,
   description,
@@ -105,7 +107,7 @@ function TaskItems({
               <TaskComment task={task} />
             </div>
             <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-              <TaskAssigned task={task}/>
+              <TaskAssigned columnId={columnId} task={task} />
               <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-zinc-700 tracking-widest">
                 Task Created: {new Date(createdAt).toLocaleString()}
               </h2>

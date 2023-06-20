@@ -11,11 +11,17 @@ import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import DatePicker from "./DatePicker";
+import jwt_decode from "jwt-decode";
+import { MyToken } from "../Components/Login";
 
 interface MyProps {
   updateHandler: any;
   isNewTaskSuccess: any;
 }
+
+type ItemResult = {
+  id: string;
+};
 
 function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
   const [open, setOpen] = useState(false);
@@ -56,19 +62,22 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
       }),
     });
 
-    console.log({ res });
+    const result: ItemResult = await res.json();
+    const user = jwt_decode<MyToken>(localStorage.getItem("token")!);
 
-    // await fetch("http://localhost:5143/api/v1/ProjectTaskAssignee", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     projectTaskId: 1,
-    //     userEmail: "webdev@gmail.com",
-    //     roleName: "WebDeveloper",
-    //   }),
-    // });
+    await fetch("http://localhost:5143/api/v1/ProjectTaskAssignees", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        projectTaskId: result.id,
+        userEmail: user.email,
+        roleName: "Reporter",
+      }),
+    });
+
     isNewTaskSuccess(true);
     await updateHandler();
     setOpen(false);

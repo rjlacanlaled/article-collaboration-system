@@ -125,7 +125,6 @@ function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
   const [user, setUser] = useState<UserDetail | null>(null);
 
   useEffect(() => {
-    console.log("jere");
     refreshData();
     const fetchUser = async () => {
       const userDetails = await fetchUserDetail();
@@ -245,6 +244,7 @@ function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
                                 {(provided) => {
                                   return (
                                     <TaskItems
+                                      columnId={columnId}
                                       title={item.title}
                                       status={column.title}
                                       description={item.description}

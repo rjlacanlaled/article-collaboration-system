@@ -92,7 +92,7 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify(loginFormData),
         });
@@ -111,7 +111,7 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${result}`,
+                "Authorization": `Bearer ${result}`,
               },
             }
           );

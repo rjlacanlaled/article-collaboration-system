@@ -5,7 +5,6 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import DeleteIcon from "../Assets/Images/delete-icon.svg";
-import { UserDetail } from "../Types/UserDetails";
 import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyUserRoleProps {
@@ -17,10 +16,11 @@ function DeleteUser({ user, updateHandler }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
 
   const handleDeleteUserSubmit = async () => {
-    await fetch(`http://localhost:5143/api/v1/UserDetails/id/1`, {
+    await fetch(`http://localhost:5143/api/v1/Setup/role/remove/user/${user.email}}/role/${user.roles}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         id: 1,

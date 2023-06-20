@@ -3,6 +3,7 @@ import { ProjectTask } from "./TaskList";
 import { Link } from "react-router-dom";
 import CheckIcon from "../Assets/Images/done-check.svg";
 import DeleteComment from "../modals/DeleteComment";
+import { UserDetailList } from "../Types/UserDetailList";
 
 interface MyProps {
   task: ProjectTask | null;
@@ -16,6 +17,7 @@ export type CommentDetails = {
 };
 
 function TaskComment({ task }: MyProps) {
+  const [userComment, setUserComment] = useState<UserDetailList[]>([])
   const [commentData, setCommentData] = useState<CommentDetails[]>([]);
   const [comment, setComment] = useState({
     id: task?.id,
@@ -215,7 +217,7 @@ function TaskComment({ task }: MyProps) {
             </button>
           </form>
           {/* all comments section */}
-          {commentData.map((comment: CommentDetails) => (
+          {commentData.sort((a: CommentDetails, b: CommentDetails) => new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()).map((comment: CommentDetails) => (
             <article
               className="p-6 mb-4 text-base bg-white rounded-lg dark:bg-gray-100 h-fit overflow-y-auto"
               key={comment.id}
@@ -230,7 +232,7 @@ function TaskComment({ task }: MyProps) {
                         alt="Michael Gough"
                       />
                     </p>
-                    <p className="mr-3 font-semibold">bryansaguit</p>
+                    <p className="mr-3 font-semibold">{comment.taskId}</p>
                     <p className="text-sm text-zinc-500">
                       {getTimeDifference(comment.dateCreated)}
                     </p>

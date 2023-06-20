@@ -5,6 +5,7 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import TaskComment from "./TaskComment";
 import TaskAssigned from "./TaskAssigned";
+import { Column } from "jspdf-autotable";
 
 type TaskProps = {
     task: any,
@@ -56,7 +57,7 @@ const [open, setOpen] = React.useState("");
                       <TaskComment task={task.status} />
                     </div>
                     <div className="bg-white w-full h-full flex justify-start flex-col items-center">
-                      <TaskAssigned task={task.status}/>
+                      <TaskAssigned columnId={task} task={task.status}/>
                       <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-gray-500">
                           {task=task.status}
                       </h2>

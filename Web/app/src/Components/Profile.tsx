@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import UserData from "../Data/UserData.json";
+import React, { useState, useEffect } from "react";
 import DashboardPage from "../Pages/DashboardPage";
 import { Avatar, IconButton } from "@mui/material";
 import EditProfile from "../modals/UpdateProfile";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { UserLogin } from "../Types/UserLogin";
+import { UserDetail } from "../Types/UserDetails";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
@@ -15,6 +15,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [isUpdateProfileSuccess, setUpdateProfileSuccess] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserDetail>()
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -23,7 +24,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const handleProfileUpdateClose = () => {
+  const handleProfileUpdateClose = async () => {
     setUpdateProfileSuccess((prevState) => !prevState);
   };
 
@@ -45,6 +46,27 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
     }
   };
 
+  useEffect(() => {
+    refreshData();
+  }, []);
+
+  const refreshData = async () => {
+    const fetchData = async () => {
+      const res = await fetch(`http://localhost:5143/api/v1/UserData/email/${userDetail.user.email}`, 
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const userDetails = await res.json();
+      setUserProfile(userDetails);
+    };
+
+    fetchData();
+  };
+
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="bg-gray-100 flex justify-center flex-col items-center">
@@ -53,7 +75,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between">
                 <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-                <EditProfile isUpdateProfileSuccess={isUpdateProfileSuccess} />
+                <EditProfile user={userDetail} isUpdateProfileSuccess={isUpdateProfileSuccess} updateHandler={refreshData}/>
               </div>
               <div className="flex justify-start items-center w-content mt-4">
                 <input
@@ -79,10 +101,10 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                 </label>
                 <div className="flex justify-center flex-col items-center">
                   <h2 className="text-zinc-700 tracking-widest text-base font-semibold">
-                    {userDetail.user.firstName} {userDetail.user.lastName}
+                    {userProfile?.user.firstName} {userProfile?.user.lastName}
                   </h2>
                   <h2 className="text-zinc-700 tracking-wider text-xs">
-                    {userDetail.roles[0]}
+                    {userProfile?.roles}
                   </h2>
                 </div>
               </div>
@@ -101,7 +123,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                       First Name
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                      {userDetail.user.firstName}
+                      {userProfile?.user.firstName}
                     </dd>
                   </div>
                   <div className="sm:col-span-1">
@@ -109,7 +131,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                       Middle Name
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                      {userDetail.user.middleName}
+                      {userProfile?.user.middleName}
                     </dd>
                   </div>
                   <div className="sm:col-span-1">
@@ -117,7 +139,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                       Last Name
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                      {userDetail.user.lastName}
+                      {userProfile?.user.lastName}
                     </dd>
                   </div>
                   <div className="sm:col-span-1">
@@ -125,7 +147,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                       Email address
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 tracking-wider">
-                      {userDetail.user.email}
+                      {userProfile?.user.email}
                     </dd>
                   </div>
                 </dl>

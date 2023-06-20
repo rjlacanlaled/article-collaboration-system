@@ -26,6 +26,7 @@ function DeleteUser({ task, updateHandler}: MyProps) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           id: task.id,

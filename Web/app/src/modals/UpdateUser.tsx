@@ -8,14 +8,13 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import UpdateIcon from "../Assets/Images/edit-icon.svg";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { UserDetail } from "../Types/UserDetails";
+import Select from "@mui/material/Select";
 import { UserDetailList } from "../Types/UserDetailList";
 
-export type Role = {
-  id: number;
-  name: string;
-};
+// export type Role = {
+//   id: number;
+//   name: string;
+// };
 
 interface MyUserRoleProps {
   user: UserDetailList;
@@ -24,33 +23,42 @@ interface MyUserRoleProps {
 
 function UpdateUser({ user, updateHandler }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
-  const [userRoles, setUserRoles] = useState<Role[]>([]);
+  const [userRoles, setUserRoles] = useState([])
   const [selectedRole, setSelectedRole] = useState<number>(0);
 
-  const handleUserRole = (e: SelectChangeEvent) => {
-    setSelectedRole(parseInt(e.target.value));
+  const handleUserRole = (e: any) => {
+    setSelectedRole((e.target.value));
   };
 
+  //UPDATE USER ROLES BY EMAIL
   const handleUserRoleSubmit = async () => {
     console.log({ user });
-    await fetch(`http://localhost:5143/api/v1/UserRoles/id/1`, {
+    await fetch(`http://localhost:5143/api/v1/UserData/role/update/email/${user.email}/role/${selectedRole}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        roleId: selectedRole,
-        userId: 1,
+        userEmail: user.email,
+        roleId: user.roles,
       }),
+     
     });
-
+    console.log(selectedRole)
     await updateHandler();
     setOpen(false);
   };
 
+  //GET ALL USER ROLES
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Roles/all");
+      const res = await fetch("http://localhost:5143/api/v1/Setup/roles/all", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
       const roles = await res.json();
       setUserRoles(roles);
     };
@@ -92,7 +100,7 @@ function UpdateUser({ user, updateHandler }: MyUserRoleProps) {
                   <FormLabel sx={{ color: "black" }}>Role</FormLabel>
                   <Select
                     label="Role"
-                    value={selectedRole.toString()}
+                    value={selectedRole}
                     onChange={handleUserRole}
                     sx={{ borderRadius: "7px", color: "black" }}
                   >
@@ -100,7 +108,7 @@ function UpdateUser({ user, updateHandler }: MyUserRoleProps) {
                       <em>None</em>
                     </MenuItem>
                     {userRoles.map((r) => (
-                      <MenuItem value={r.id}>{r.name}</MenuItem>
+                      <MenuItem key={r} value={r}>{r}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>

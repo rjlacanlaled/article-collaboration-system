@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import ExportButton from './ExportButton'
-import TaskTotalStatus from '../Data/TaskTotalStatus.json'
+import ExportButton from './ExportCompletedTaskButton'
 import DatePickerViews from './DatePickerViews'
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Chip } from "@mui/material";
 import CheckIcon from '../Assets/Images/done-check.svg' 
 
 export type ProjectTask = {
@@ -40,13 +38,17 @@ function CompletedArticle() {
     const handleChange = (e: any, p: number) => {
         setPage(p)
     }
-    
+
     useEffect (() => {
         const fetchData = async () => {
-            const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done");
+            const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done", {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
             const doneTask = await res.json();
             setDoneTask(doneTask)
-            console.log(doneTask)
         };
         fetchData();
     }, [])

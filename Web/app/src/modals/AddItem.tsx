@@ -28,6 +28,7 @@ function AddItem({ updateHandler }: myProps) {
   const [taskData, setTaskData] = useState({
     name: "",
     description: "",
+    link: "",
     type: "",
     words: "",
   });
@@ -51,6 +52,7 @@ function AddItem({ updateHandler }: myProps) {
       body: JSON.stringify({
         title: taskData.name,
         description: taskData.description,
+        link: taskData.link,
         status: 0,
         type: taskData.type,
         words: taskData.words,
@@ -121,6 +123,16 @@ function AddItem({ updateHandler }: myProps) {
                   type="text"
                   name="description"
                   value={taskData.description}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Link</FormLabel>
+                <Input
+                  type="text"
+                  name="link"
+                  value={taskData.link}
                   onChange={handleChange}
                   required
                 />

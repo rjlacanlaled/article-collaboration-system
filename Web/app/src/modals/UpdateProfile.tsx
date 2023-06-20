@@ -7,28 +7,50 @@ import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
+import { UserDetail } from '../Types/UserDetails';
 
 interface profileData {
+  user: UserDetail;
   isUpdateProfileSuccess: any;
+  updateHandler: any;
 }
 
-function UpdateProfile({isUpdateProfileSuccess}: profileData) {
+function UpdateProfile({user, isUpdateProfileSuccess, updateHandler}: profileData) {
 const [open, setOpen] = useState(false);
 
 const [profileData, setProfileData] = useState({
-    firstname: "",
-    lastname: "",
-    middlename: "",
+  firstname: user.user.firstName,
+  lastname: user.user.lastName,
+  middlename: user.user.middleName,
 })
 
 const handleChange = (e: any) => {
-    setProfileData((prevTaskData) => {
+    setProfileData((prevProfileData) => {
       return {
-        ...prevTaskData,
+        ...prevProfileData,
         [e.target.name]: e.target.value,
       };
     });
   };
+
+const updateProfileSubmit = async () => {
+  await fetch(`http://localhost:5143/api/v1/UserData/details/update/email/${user.user.email}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify({
+      firstName: profileData.firstname,
+      lastName: profileData.lastname,
+      middleName: profileData.middlename,
+    }),
+  });
+  // setOpen(false);
+  // await updateHandler()
+  window.location.reload()
+  isUpdateProfileSuccess(true)
+}
 
   return (
     <>
@@ -51,35 +73,32 @@ const handleChange = (e: any) => {
                 <FormLabel>First Name</FormLabel>
                 <Input
                   type="text"
-                  name="name"
-                  value={profileData.firstname}
+                  name="firstname"
+                  value={profileData?.firstname}
                   onChange={handleChange}
-                  autoFocus
                 />
               </FormControl>
               <FormControl>
                 <FormLabel>Last Name</FormLabel>
                 <Input
                   type="text"
-                  name="description"
-                  value={profileData.lastname}
+                  name="lastname"
+                  value={profileData?.lastname}
                   onChange={handleChange}
-                  required
                 />
               </FormControl>
               <FormControl>
                 <FormLabel>Middle Name</FormLabel>
                 <Input
                   type="text"
-                  name="description"
-                  value={profileData.middlename}
+                  name="middlename"
+                  value={profileData?.middlename}
                   onChange={handleChange}
-                  required
                 />
               </FormControl>
-              <Button>Update</Button>
+              <Button onClick={updateProfileSubmit}>Update</Button>
             </Stack>
-          </form>
+          </form> 
         </ModalDialog>
       </Modal>
     </>

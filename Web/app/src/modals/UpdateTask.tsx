@@ -54,6 +54,7 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         title: taskData.title,

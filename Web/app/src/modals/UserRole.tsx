@@ -49,7 +49,6 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
         },
       });
       const roles = await res.json();
-      console.log({ roles });
       setUserRoles(roles);
     };
 

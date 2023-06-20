@@ -24,7 +24,11 @@ import AdminDashboardPage from "./Pages/Protected/AdminDashboardPage";
 import ClientDashboardPage from "./Pages/Protected/ClientDashboardPage";
 import jwt_decode from "jwt-decode";
 import ProfilePage from "./Pages/Protected/ProfilePage";
-import LoginPage from "./Pages/Protected/LoginPage";
+import TaskPage from "./Pages/Protected/TaskPage";
+import KanbanboardPage from "./Pages/Protected/KanbanboardPage";
+import ViewTaskPage from "./Pages/Protected/ViewTaskPage";
+import ContractPage from "./Pages/Protected/ContractPage";
+import ReportPage from "./Pages/Protected/ReportPage";
 
 function App() {
   // isSignedIn state = if signed out false
@@ -89,23 +93,6 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {/* public routes */}z
-        {/* <Route
-          path="/"
-          element={
-            <LoginPage
-              isSignedIn={isSignedIn}
-              userDetails={user!}
-              children={
-                <Login
-                  onLoginSuccess={setIsSignedIn}
-                  onFetchUserDetails={setUser}
-                />
-              }
-              redirectTo={location.pathname}
-            />
-          }
-        /> */}
         <Route
           path="/"
           element={
@@ -117,7 +104,7 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        {/* Admin Protected Routes */}
+        {/* Protected Routes */}
         <Route
           path="/pending"
           element={
@@ -148,35 +135,48 @@ function App() {
             <ProfilePage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={<Profile userDetail={user!} isSignedIn={isSignedIn} />}
+              children={
+                <Profile userDetail={user!} isSignedIn={isSignedIn} />
+              }
             />
           }
         />
-        {/* Client Protected */}
         <Route
           path="/clientmain"
           element={
             <ClientDashboardPage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={
-                <ClientDashboard userDetail={user!} isSignedIn={isSignedIn} />
-              }
+              children={<ClientDashboard userDetail={user!} isSignedIn={isSignedIn} />}
             />
           }
         />
         <Route
           path="/report"
-          element={<Report userDetail={user!} isSignedIn={isSignedIn} />}
+          element={
+            <ReportPage
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={
+                <Report userDetail={user!} isSignedIn={isSignedIn} />
+              }
+            />
+          }
         />
         <Route
           path="/contract"
-          element={<ClientBoard userDetail={user!} isSignedIn={isSignedIn} />}
+          element={
+            <ContractPage
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={<ClientBoard userDetail={user!} isSignedIn={isSignedIn} />}
+            />
+          }
         />
         <Route
           path="/viewTask/:id"
           element={
-            <ClientDashboardPage
+            <ViewTaskPage
               isSignedIn={isSignedIn}
               userDetails={user!}
               children={<ViewTask userDetail={user!} isSignedIn={isSignedIn} />}
@@ -185,11 +185,23 @@ function App() {
         />
         <Route
           path="/kanbanboard"
-          element={<ProjectBoard userDetail={user!} isSignedIn={isSignedIn} />}
+          element={
+            <KanbanboardPage
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={<ProjectBoard userDetail={user!} isSignedIn={isSignedIn} />}
+            />
+          }
         />
         <Route
           path="/task"
-          element={<TaskList userDetail={user!} isSignedIn={isSignedIn} />}
+          element={
+          <TaskPage
+              isSignedIn={isSignedIn}
+              userDetails={user!}
+              children={<TaskList userDetail={user!} isSignedIn={isSignedIn} />}
+            />
+          }
         />
         <Route path="/success" element={<SignupSuccess />} />
         <Route path="/successreset" element={<SuccessReset />} />

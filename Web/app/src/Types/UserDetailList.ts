@@ -1,4 +1,5 @@
 export type UserDetailList = {
+  id: number;
   username: string;
   firstName: string;
   middleName: string;

@@ -27,7 +27,7 @@ export type ProjectTask = {
   seoDeadline: number;
 };
 
-export default function ExportButton({label}:exportButton) {
+export default function ExportCompletedTaskButton({label}:exportButton) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [taskCompleted, setTaskCompleted] = useState<ProjectTask[]>([])
   const open = Boolean(anchorEl);
@@ -41,14 +41,21 @@ export default function ExportButton({label}:exportButton) {
   };
 
 
-  useEffect (() => {
+  useEffect(() => {
     const fetchData = async () => {
-        const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done");
-        const doneTask = await res.json();
-        setTaskCompleted(doneTask)
+      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const doneTask = await res.json();
+      setTaskCompleted(doneTask);
     };
     fetchData();
-  }, [])
+  }, []);
+  
 
   const columns = [
     { header: "ID", dataKey: "id" },
@@ -67,9 +74,9 @@ export default function ExportButton({label}:exportButton) {
 
   // EXPORT PDF
   const downloadPdf = () => {
-    const doc = new jsPDF()
+    const doc = new jsPDF({ orientation: "landscape" })
     doc.text("Completed Task", 14, 10)
-
+    
     const tableData = taskCompleted.map((task) => ({
       ...task,
       status: "Done", // Set "Done" as the status for all rows

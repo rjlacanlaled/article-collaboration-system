@@ -11,6 +11,7 @@ import { UserDetailList } from "../Types/UserDetailList";
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
+
 function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [isRoleSuccess, setRoleSuccess] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetailList[]>();
@@ -35,6 +36,7 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
       const res = await fetch(
         "http://localhost:5143/api/v1/UserData/users/unapproved",
         {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -106,7 +108,7 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
                     <td className="border px-4 py-3">
                       {userDetail.email}
                     </td>
-                    <td className="border px-4 py-3">{userDetail.roles[0]}</td>
+                    <td className="border px-4 py-3">{userDetail.roles[0] === "Unassigned" && "Unassigned"}</td>
                     <td className="border px-4 py-3">
                       <Chip label="For Approval" className="font-semibold" />
                     </td>
