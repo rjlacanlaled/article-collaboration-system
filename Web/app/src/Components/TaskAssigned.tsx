@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/joy/FormControl";
 import { UserDetailList } from "../Types/UserDetailList";
+import { UserDetail } from "../Types/UserDetails";
 
 interface MyProps {
   task: ProjectTask;
@@ -18,16 +19,21 @@ interface MyProps {
 }
 
 export type Assignee = {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  roleId: number;
+  email: string;
+  name: string;
   role: string;
 };
 
-export default function TaskAssigned({columnId, task }: MyProps) {
+export type AssigneeRaw = {
+  id: number;
+  projectTaskId: number;
+  roleName: string;
+  userEmail: string;
+};
+
+export default function TaskAssigned({ columnId, task }: MyProps) {
   const [client, setClient] = useState<UserDetailList[]>([]);
-  const [assignee, setAssignee] = useState<Assignee[]>([])
+  const [assignee, setAssignee] = useState<Assignee[]>([]);
   const [detailsExpand, setDetailsExpanded] = useState(true);
   const [contractData, setContractData] = useState({
     client: "",
@@ -59,7 +65,7 @@ export default function TaskAssigned({columnId, task }: MyProps) {
         "http://localhost:5143/api/v1/Setup/users/client",
         {
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -79,13 +85,44 @@ export default function TaskAssigned({columnId, task }: MyProps) {
         {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      const assignee = await res.json();
-      console.log({assignee});
-      setAssignee(assignee)
+      const assigneesRaw: AssigneeRaw[] = await res.json();
+      const assignees: Assignee[] = [];
+
+      console.log({ assigneesRaw });
+
+      for (const assigneeRaw of assigneesRaw) {
+        console.log({ assigneeRaw });
+        const res = await fetch(
+          `http://localhost:5143/api/v1/UserData/email/${encodeURI(
+            assigneeRaw.userEmail
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        const populatedAssigneeRaw: UserDetail = await res.json();
+
+        assignees.push({
+          email: populatedAssigneeRaw.user.email,
+          name:
+            populatedAssigneeRaw.user.firstName +
+            " " +
+            populatedAssigneeRaw.user.lastName,
+          role: assigneeRaw.roleName,
+        });
+      }
+
+      console.log({ assignees });
+
+      setAssignee(assignees);
     };
 
     fetchData();
@@ -154,9 +191,10 @@ export default function TaskAssigned({columnId, task }: MyProps) {
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Reporter:</label>
               <div className="flex items-center ml-2">
-                <Avatar alt="user-profile" sx={{ width: 24, height: 24 }}/>
+                <Avatar alt="user-profile" sx={{ width: 24, height: 24 }} />
                 <p className="ml-2">
-                  assign reporter
+                  {assignee.find((x) => x.role === "Reporter")?.name ??
+                    "Assign Reporter"}
                 </p>
               </div>
             </div>
@@ -225,7 +263,7 @@ export default function TaskAssigned({columnId, task }: MyProps) {
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">SEO:</label>
               <div className="flex items-center ml-2">
-                <Avatar alt="user-profile" sx={{ width: 24, height: 24 }}/> 
+                <Avatar alt="user-profile" sx={{ width: 24, height: 24 }} />
                 <p className="ml-2">JR</p>
               </div>
             </div>

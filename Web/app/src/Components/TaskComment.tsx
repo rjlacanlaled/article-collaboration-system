@@ -4,20 +4,32 @@ import { Link } from "react-router-dom";
 import CheckIcon from "../Assets/Images/done-check.svg";
 import DeleteComment from "../modals/DeleteComment";
 import { UserDetailList } from "../Types/UserDetailList";
+import { UserDetail } from "../Types/UserDetails";
 
 interface MyProps {
   task: ProjectTask | null;
 }
 
 export type CommentDetails = {
-  id: number;
   taskId: number;
   message: any;
   dateCreated: any;
+  email: string;
+  firstName: string;
+  lastName: string;
+  id: number;
+};
+
+export type CommentRaw = {
+  id: number;
+  dateCreated: Date;
+  message: string;
+  taskId: number;
+  userId: string;
 };
 
 function TaskComment({ task }: MyProps) {
-  const [userComment, setUserComment] = useState<UserDetailList[]>([])
+  const [userComment, setUserComment] = useState<UserDetailList[]>([]);
   const [commentData, setCommentData] = useState<CommentDetails[]>([]);
   const [comment, setComment] = useState({
     id: task?.id,
@@ -25,6 +37,10 @@ function TaskComment({ task }: MyProps) {
     message: "",
     dateCreated: "",
   });
+
+  const [user, setUser] = useState<UserDetail>(
+    JSON.parse(localStorage.getItem("user")!)
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment((prevTaskData) => ({
@@ -82,8 +98,41 @@ function TaskComment({ task }: MyProps) {
           },
         }
       );
-      const comments = await res.json();
-      setCommentData(comments);
+      const commentsRaw: CommentRaw[] = await res.json();
+      console.log({ commentsRaw });
+      const populatedComments: CommentDetails[] = [];
+
+      for (const commentRaw of commentsRaw) {
+        console.log({ commentRaw });
+        const res = await fetch(
+          `http://localhost:5143/api/v1/UserData/email/${encodeURI(
+            commentRaw.userId
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        const populatedComment: UserDetail = await res.json();
+
+        console.log({ populatedComment });
+
+        populatedComments.push({
+          taskId: commentRaw.taskId,
+          message: commentRaw.message,
+          dateCreated: commentRaw.dateCreated,
+          email: populatedComment.user.email,
+          firstName: populatedComment.user.firstName,
+          lastName: populatedComment.user.lastName,
+          id: commentRaw.id,
+        });
+      }
+
+      console.log({ populatedComments });
+      setCommentData(populatedComments);
     };
 
     fetchData();
@@ -91,6 +140,7 @@ function TaskComment({ task }: MyProps) {
 
   useEffect(() => {
     refreshData();
+    console.log({ user });
   }, []);
 
   // Handle Post Comment
@@ -103,10 +153,9 @@ function TaskComment({ task }: MyProps) {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        id: comment.id,
         taskId: comment.taskId,
         message: comment.message,
-        dateCreated: comment.dateCreated,
+        userId: user.user.email,
       }),
     });
 
@@ -217,37 +266,45 @@ function TaskComment({ task }: MyProps) {
             </button>
           </form>
           {/* all comments section */}
-          {commentData.sort((a: CommentDetails, b: CommentDetails) => new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()).map((comment: CommentDetails) => (
-            <article
-              className="p-6 mb-4 text-base bg-white rounded-lg dark:bg-gray-100 h-fit overflow-y-auto"
-              key={comment.id}
-            >
-              <div>
-                <footer className="flex justify-between items-center mb-2">
-                  <div className="flex items-center">
-                    <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                      <img
-                        className="w-6 h-6 rounded-full"
-                        src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                        alt="Michael Gough"
-                      />
-                    </p>
-                    <p className="mr-3 font-semibold">{comment.taskId}</p>
-                    <p className="text-sm text-zinc-500">
-                      {getTimeDifference(comment.dateCreated)}
-                    </p>
+          {commentData
+            .sort(
+              (a: CommentDetails, b: CommentDetails) =>
+                new Date(b.dateCreated).getTime() -
+                new Date(a.dateCreated).getTime()
+            )
+            .map((comment: CommentDetails) => (
+              <article
+                className="p-6 mb-4 text-base bg-white rounded-lg dark:bg-gray-100 h-fit overflow-y-auto"
+                key={comment.id}
+              >
+                <div>
+                  <footer className="flex justify-between items-center mb-2">
+                    <div className="flex items-center">
+                      <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+                        <img
+                          className="w-6 h-6 rounded-full"
+                          src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                          alt="Michael Gough"
+                        />
+                      </p>
+                      <p className="mr-3 font-semibold">
+                        {comment.firstName + " " + comment.lastName}
+                      </p>
+                      <p className="text-sm text-zinc-500">
+                        {getTimeDifference(comment.dateCreated)}
+                      </p>
+                    </div>
+                  </footer>
+                  <p className="text-zinc-700">{comment.message}</p>
+                  <div className="flex justify-end items-center flex-row mt-4 space-x-2">
+                    <DeleteComment
+                      comment={comment}
+                      updateHandler={refreshData}
+                    />
                   </div>
-                </footer>
-                <p className="text-zinc-700">{comment.message}</p>
-                <div className="flex justify-end items-center flex-row mt-4 space-x-2">
-                  <DeleteComment
-                    comment={comment}
-                    updateHandler={refreshData}
-                  />
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
         </div>
       </section>
     </div>

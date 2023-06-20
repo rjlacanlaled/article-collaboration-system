@@ -101,19 +101,9 @@ public class UserDataController : ControllerBase
         _logger.LogInformation("Email = " + user.Email);
         _logger.LogInformation("OwnerEmail = " + ownerUser.Email);
 
-        if (ownerUser.Email.ToLower() == user.Email!.ToLower())
-        {
-            return Ok(new { User = user, Roles = roles });
-        }
-        else
-        {
-            if (ownerRoles.Contains("Admin"))
-            {
-                return Ok(new { User = user, Roles = roles });
-            }
 
-            return Unauthorized();
-        }
+        return Ok(new { User = user, Roles = roles });
+
     }
 
     // Read
