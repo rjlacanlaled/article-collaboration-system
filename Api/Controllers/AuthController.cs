@@ -35,7 +35,7 @@ namespace Api.Controllers
         public async Task<IActionResult> RegisterAsync(Registration registration)
         {
             if (!ModelState.IsValid) return BadRequest("InvalidPayload");
-            var role = registration.Email == "admin@gmail.com" ? "Admin" : "Unassigned";
+            var role = registration.Email == "admin_searchworks@gmail.com" || registration.Email == "admin_searchworks@yahoo.com" ? "Admin" : "Unassigned";
             var (status, message) = await _authService.Register(registration, role);
             if (status == 0) return BadRequest(message);
             return Ok(message);

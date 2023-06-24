@@ -12,8 +12,8 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230618091337_Initialreate5")]
-    partial class Initialreate5
+    [Migration("20230620153150_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,11 +231,11 @@ namespace Data.Migrations
                     b.Property<int>("ProjectTaskId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("RoleId")
+                    b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("text");
 

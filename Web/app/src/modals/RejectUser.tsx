@@ -4,10 +4,35 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
+import { UserDetailList } from '../Types/UserDetailList';
 
-function RejectUser() {
+interface MyProps {
+  user: UserDetailList;
+  updateHandler: any;
+}
+
+function RejectUser({ user, updateHandler }: MyProps) {
 
   const [open, setOpen] = useState(false);
+
+  const handleRejectUserSubmit = async (e:any) => {
+    e.preventDefault();
+    // http://localhost:5143/api/v1/Setup/role/remove/user/edcel%40yahoo.com/role/Unassigned
+    await fetch(`${process.env.REACT_APP_BASE_URL}/Setup/role/remove/user/${encodeURIComponent(user.email)}/role/${user.roles}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        id: user.email,
+        role: user.roles,
+      }),
+    });
+    console.log({fetch});
+    await updateHandler();
+    setOpen(false);
+  };
 
   return (
     <>
@@ -42,7 +67,7 @@ function RejectUser() {
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button color="danger" className='w-24' size='sm'>Reject</Button>
+                <Button color="danger" className='w-24' size='sm' onClick={handleRejectUserSubmit}>Reject</Button>
               </Stack>
             </Stack>
           </form>

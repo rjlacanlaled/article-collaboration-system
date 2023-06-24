@@ -39,7 +39,7 @@ const BoardMenu = ({ onDelete, columnId, columnItems, updateHandler }: MyCompone
   const onClearDone = async () => {
     const ids = columnItems.map((x) => x.id);
     console.log({ ids });
-    await fetch(`http://localhost:5143/api/v1/ProjectTasks/done`, {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/done`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

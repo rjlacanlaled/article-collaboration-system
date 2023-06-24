@@ -5,7 +5,6 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import TaskComment from "./TaskComment";
 import TaskAssigned from "./TaskAssigned";
-import { Column } from "jspdf-autotable";
 
 type TaskProps = {
     task: any,

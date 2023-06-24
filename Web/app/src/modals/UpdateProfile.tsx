@@ -34,7 +34,7 @@ const handleChange = (e: any) => {
   };
 
 const updateProfileSubmit = async () => {
-  await fetch(`http://localhost:5143/api/v1/UserData/details/update/email/${user.user.email}`, {
+  await fetch(`${process.env.REACT_APP_BASE_URL}/UserData/details/update/email/${user.user.email}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -46,10 +46,12 @@ const updateProfileSubmit = async () => {
       middleName: profileData.middlename,
     }),
   });
-  // setOpen(false);
+  setOpen(false);
   // await updateHandler()
+  console.log("success")
   window.location.reload()
-  isUpdateProfileSuccess(true)
+  // setProfileData(true)
+  // isUpdateProfileSuccess(true)
 }
 
   return (

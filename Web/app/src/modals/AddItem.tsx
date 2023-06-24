@@ -43,7 +43,7 @@ function AddItem({ updateHandler }: myProps) {
   };
 
   const handleCreateTaskSubmit = async () => {
-    var res = await fetch("http://localhost:5143/api/v1/ProjectTasks", {
+    var res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function AddItem({ updateHandler }: myProps) {
 
     console.log({ user });
 
-    await fetch("http://localhost:5143/api/v1/ProjectTaskAssignees", {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

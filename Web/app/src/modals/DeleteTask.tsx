@@ -22,7 +22,7 @@ function DeleteUser({ task, updateHandler}: MyProps) {
 
   const handleDeleteTaskSubmit = async () => {
     try {
-      await fetch(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`, {
+      await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/id/${task.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

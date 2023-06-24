@@ -49,9 +49,13 @@ function TaskItems({
     console.log({ task });
   }, [task]);
 
+  useEffect(() => {
+    refreshData();
+  }, []);
+
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:5143/api/v1/Comments/task/${comment.taskId}`, {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/Comments/task/${comment.taskId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -64,9 +68,6 @@ function TaskItems({
     fetchData();
   };
 
-  useEffect(() => {
-    refreshData();
-  }, []);
 
   return (
     <>
@@ -83,9 +84,9 @@ function TaskItems({
           <i className="text-xs my-1.5 mx-1 self-end tracking-wide">
             Production Date:{new Date(prodDate).toLocaleDateString()}
           </i>
-              {/* MESSAGE ICON */}
-            <img src={MessageIcon} alt="message-icon" className="absolute bottom-0 left-0 w-4 ml-2 mb-1" />
-            <h4 className="absolute bottom-0 left-6 ml-0.5 mb-1 text-xs">{commentData.length}</h4>
+          {/* MESSAGE ICON */}
+          <img src={MessageIcon} alt="message-icon" className="absolute bottom-0 left-0 w-4 ml-2 mb-1" />
+          <h4 className="absolute bottom-0 left-6 ml-0.5 mb-1 text-xs">{commentData.length}</h4>
         </div>
 
         <div className="p-2 absolute top-0 right-0">
@@ -109,7 +110,7 @@ function TaskItems({
             <div className="bg-white w-full h-full flex justify-start flex-col items-center">
               <TaskAssigned columnId={columnId} task={task} />
               <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-zinc-700 tracking-widest">
-                Task Created: {new Date(createdAt).toLocaleString()}
+                Task Created: {new Date(createdAt).toLocaleDateString() + " at " + new Date(createdAt).toLocaleTimeString()}
               </h2>
             </div>
           </div>

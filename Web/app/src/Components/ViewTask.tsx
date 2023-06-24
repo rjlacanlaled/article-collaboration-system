@@ -14,7 +14,7 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
     console.log("here");
     async function fetchTaskData() {
       const response = await fetch(
-        `http://localhost:5143/api/v1/ProjectTasks/task/${id}`, {
+        `${process.env.REACT_APP_BASE_URL}/ProjectTasks/task/${id}`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -33,7 +33,7 @@ function UpdateUser({ user, updateHandler }: MyUserRoleProps) {
   //UPDATE USER ROLES BY EMAIL
   const handleUserRoleSubmit = async () => {
     console.log({ user });
-    await fetch(`http://localhost:5143/api/v1/UserData/role/update/email/${user.email}/role/${selectedRole}`, {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/UserData/role/update/email/${user.email}/role/${selectedRole}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ function UpdateUser({ user, updateHandler }: MyUserRoleProps) {
   //GET ALL USER ROLES
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Setup/roles/all", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/Setup/roles/all`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,

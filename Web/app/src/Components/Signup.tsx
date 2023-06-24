@@ -145,7 +145,7 @@ function Signup() {
       };
 
       try {
-        var res = await fetch(`http://localhost:5143/api/v1/Auth/register`, {
+        var res = await fetch(`${process.env.REACT_APP_BASE_URL}/Auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

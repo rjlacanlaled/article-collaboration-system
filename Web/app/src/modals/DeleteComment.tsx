@@ -17,7 +17,7 @@ const [open, setOpen] = useState(false);
 //Handle Delete
 const handleDeleteCommentSubmit = async () => {
   try {
-  await fetch(`http://localhost:5143/api/v1/Comments/id/${comment.id}`, {
+  await fetch(`${process.env.REACT_APP_BASE_URL}/Comments/id/${comment.id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

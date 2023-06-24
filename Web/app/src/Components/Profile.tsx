@@ -52,7 +52,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
 
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:5143/api/v1/UserData/email/${userDetail.user.email}`, 
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/UserData/email/${userDetail.user.email}`, 
         {
           method: "GET",
           headers: {
@@ -104,7 +104,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                     {userProfile?.user.firstName} {userProfile?.user.lastName}
                   </h2>
                   <h2 className="text-zinc-700 tracking-wider text-xs">
-                    {userProfile?.roles}
+                    {userProfile?.roles[0].replace(/([a-z])([A-Z])/g, '$1 $2')}
                   </h2>
                 </div>
               </div>

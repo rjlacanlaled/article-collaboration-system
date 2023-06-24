@@ -16,7 +16,7 @@ function DashboardContent({ userDetail, isSignedIn }: UserLogin) {
 
   const refreshData = async () => {
     const res = await fetch(
-      "http://localhost:5143/api/v1/UserData/users/approved",
+      `${process.env.REACT_APP_BASE_URL}/UserData/users/approved`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -96,7 +96,7 @@ function DashboardContent({ userDetail, isSignedIn }: UserLogin) {
                     <td className="border px-4 py-3">{userD.middleName}</td>
                     <td className="border px-4 py-3">{userD.lastName}</td>
                     <td className="border px-4 py-3">{userD.email}</td>
-                    <td className="border px-4 py-3">{userD.roles[0]}</td>
+                    <td className="border px-4 py-3">{userD.roles[0].replace(/([a-z])([A-Z])/g, '$1 $2')}</td>
                     <td className="border px-4 py-3">
                       <Chip label="Approved" color="success" />
                     </td>

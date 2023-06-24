@@ -41,7 +41,7 @@ function CompletedArticle() {
 
     useEffect (() => {
         const fetchData = async () => {
-            const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done", {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/done`, {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },

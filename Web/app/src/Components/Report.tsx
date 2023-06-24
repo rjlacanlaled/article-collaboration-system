@@ -40,7 +40,7 @@ function Report({ userDetail, isSignedIn }: UserLogin) {
   const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/UserData/users/approved",
+        `${process.env.REACT_APP_BASE_URL}/UserData/users/approved`,
         {
           method: "GET",
           headers: {
@@ -59,7 +59,7 @@ function Report({ userDetail, isSignedIn }: UserLogin) {
 
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
-      {userDetail.roles[0] === "SEO Specialist" || userDetail.roles[0] === "Content Writer" || userDetail.roles[0] === "Web Developer" ? (
+      {userDetail.roles[0] === "SeoSpecialist" || userDetail.roles[0] === "ContentWriter" || userDetail.roles[0] === "WebDeveloper" ? (
         <>
         <ArticleTable />
         </>

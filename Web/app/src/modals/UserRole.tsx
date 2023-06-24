@@ -26,7 +26,7 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
   };
 
   const handleUserRoleSubmit = async () => {
-    await fetch(`http://localhost:5143/api/v1/Setup/role/user`, {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/Setup/role/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/Setup/roles/all", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/Setup/roles/all`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -12,23 +12,6 @@ export type exportButton = {
   label: string
 }
 
-// export type ProjectTask = {
-//   id: number;
-//   title: string;
-//   description: string;
-//   link: any;
-//   status: number;
-//   type: number;
-//   words: number;
-//   timeliness: number;
-//   contractId: number;
-//   dateCreate: number;
-//   dateUpdated: number;
-//   productionDate: number;
-//   seoDeadline: number;
-// };
-
-
 export default function ExportUserSummaryButton({label}:exportButton) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userData, setUserData] = useState<UserDetailList[]>([])
@@ -43,26 +26,9 @@ export default function ExportUserSummaryButton({label}:exportButton) {
     setAnchorEl(null);
   };
 
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/done", {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Authorization": `Bearer ${localStorage.getItem("token")}`,
-//         },
-//       });
-//       const doneTask = await res.json();
-//       setCompletedTaskData(doneTask);
-//     };
-//     fetchData();
-//   }, []);
-
-
 useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/UserData/users/approved", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/UserData/users/approved`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -74,45 +40,6 @@ useEffect(() => {
     };
     fetchData();
   }, []);
-  
-
-//   const downloadPdf = () => {
-//     const doc = new jsPDF();
-//     doc.text("User Task Summary", 14, 10);
-  
-//     const usersTableData = userData.map((user, index) => ({
-//       id: index + 1,
-//       firstname: user.firstName,
-//       middlename: user.middleName,
-//       lastname: user.lastName,
-//       email: user.email,
-//     //   role: user.role,
-//     //   inprogress: user.inProgress,
-//     //   completedtask: user.completedTask,
-//     //   pasteod: user.pastEOD,
-//     }));
-  
-//     const columns = [
-//       { header: "ID", dataKey: "id" },
-//       { header: "First Name", dataKey: "firstName" },
-//       { header: "Middle Name", dataKey: "middleName" },
-//       { header: "Last Name", dataKey: "lastName" },
-//       { header: "Email", dataKey: "email" },
-//       { header: "Role", dataKey: "roles" },
-//     //   { header: "In Progress", dataKey: "inprogress" },
-//     //   { header: "Completed Task", dataKey: "completedtask" },
-//     //   { header: "Past EOD", dataKey: "pasteod" },
-//     ];
-  
-//     autoTable(doc, {
-//       head: [columns.map((column) => column.header)],
-//       body: usersTableData,
-//     });
-  
-//     doc.save("UserTaskSummary.pdf");
-//     handleClose();
-//   };
-  
 
 const columns = [
     { header: "ID", dataKey: "id", width: 10 },

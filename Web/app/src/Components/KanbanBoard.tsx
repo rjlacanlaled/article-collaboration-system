@@ -29,7 +29,7 @@ export type Assignee = {
 const fetchUserDetail = async () => {
   const decodedToken = jwt_decode<MyToken>(localStorage.getItem("token")!);
   var userDetailReq = await fetch(
-    `http://localhost:5143/api/v1/UserData/email/${encodeURIComponent(
+    `${process.env.REACT_APP_BASE_URL}/UserData/email/${encodeURIComponent(
       decodedToken.email
     )}`,
     {
@@ -61,7 +61,7 @@ const onDragEnd = async (result: any, columns: any, setColumns: any) => {
 
   updatedTask.status = result.destination.droppableId - 1;
   await fetch(
-    `http://localhost:5143/api/v1/ProjectTasks/id/${updatedTask.id}`,
+    `${process.env.REACT_APP_BASE_URL}/ProjectTasks/id/${updatedTask.id}`,
     {
       method: "PUT",
       headers: {
@@ -85,38 +85,6 @@ const onDragEnd = async (result: any, columns: any, setColumns: any) => {
       items: arr,
     },
   });
-
-  // if (source.droppableId !== destination.droppableId) {
-  //   const sourceColumn = columns[source.droppableId];
-  //   const destColumn = columns[destination.droppableId];
-  //   const sourceItems = [...sourceColumn.items];
-  //   const destItems = [...destColumn.items];
-  //   const [removed] = sourceItems.splice(source.index, 1);
-  //   destItems.splice(destination.index, 0, removed);
-  //   setColumns({
-  //     ...columns,
-  //     [source.droppableId]: {
-  //       ...sourceColumn,
-  //       items: sourceItems,
-  //     },
-  //     [destination.droppableId]: {
-  //       ...destColumn,
-  //       items: destItems,
-  //     },
-  //   });
-  // } else {
-  //   const column = columns[source.droppableId];
-  //   const copiedItems = [...column.items];
-  //   const [removed] = copiedItems.splice(source.index, 1);
-  //   copiedItems.splice(destination.index, 0, removed);
-  //   setColumns({
-  //     ...columns,
-  //     [source.droppableId]: {
-  //       ...column,
-  //       items: copiedItems,
-  //     },
-  //   });
-  // }
 };
 
 function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
@@ -141,7 +109,7 @@ function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
 
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/all`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

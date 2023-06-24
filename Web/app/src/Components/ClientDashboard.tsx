@@ -21,10 +21,6 @@ function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
 
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
-      <h2 className="self-start text-2xl font-bold text-gray-800 p-1">
-        {" "}
-        Welcome Back {userDetail.user.firstName}!
-      </h2>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
         <div className="relative overflow-x-auto shadow-md sm:rounded-md">
           <h2 className="text-lg font-bold text-gray-800 m-2 py-1">{`Article's Status`}</h2>

@@ -88,7 +88,7 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
       try {
         const token = localStorage.getItem("token");
 
-        var res = await fetch(`http://localhost:5143/api/v1/Auth/login`, {
+        var res = await fetch(`${process.env.REACT_APP_BASE_URL}/Auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -104,7 +104,7 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
           const decodedToken = jwt_decode<MyToken>(result);
           console.log({ decodedToken });
           var userDetailReq = await fetch(
-            `http://localhost:5143/api/v1/UserData/email/${encodeURIComponent(
+            `${process.env.REACT_APP_BASE_URL}/UserData/email/${encodeURIComponent(
               decodedToken.email
             )}`,
             {
@@ -222,14 +222,6 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
                 Sign Up
               </Link>
             </h2>
-            <div className="w-80 text-center">
-              <Link
-                to="/forgotpassword"
-                className="text-blue-500 hover:text-blue-600 p-0.5 text-xs leading-normal tracking-wide hover:underline hover:underline-offset-2"
-              >
-                Forgot Password?
-              </Link>
-            </div>
           </form>
         </div>
       </AuthPage>

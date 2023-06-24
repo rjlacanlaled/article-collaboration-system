@@ -33,11 +33,15 @@ export type AssigneeRaw = {
 
 export default function TaskAssigned({ columnId, task }: MyProps) {
   const [client, setClient] = useState<UserDetailList[]>([]);
+  const [allUsers, setAllUsers] = useState<UserDetailList[]>([]);
+  const [uploader, setUploader] = useState<UserDetailList[]>([]);
   const [assignee, setAssignee] = useState<Assignee[]>([]);
   const [detailsExpand, setDetailsExpanded] = useState(true);
   const [contractData, setContractData] = useState({
-    client: "",
-    seo: "",
+    assignUser: "",
+    assignUploader: "",
+    assignClient: "",
+    assignSeo: "",
     contract: "",
     payment: "",
     paymentStatus: "",
@@ -58,30 +62,50 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
     });
   };
 
+  //GET ALL APPROVED USERS
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        "http://localhost:5143/api/v1/UserData/users/approved",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const users = await res.json();
+      setAllUsers(users);
+      setUploader(users);
+    };
+
+    fetchData();
+  }, []);
+
   //GET CLIENT
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/Setup/users/client",
+        `${process.env.REACT_APP_BASE_URL}/Setup/users/client`,
         {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       const roles = await res.json();
-      console.log("roles" + { roles });
       setClient(roles);
     };
 
     fetchData();
   }, []);
 
-  //GET TASK ASSIGNEE
+  //GET TASK ASSIGNED REPORTER
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        `http://localhost:5143/api/v1/ProjectTaskAssignees/assignees/${task.id}`,
+        `${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/assignees/${task.id}`,
         {
           method: "GET",
           headers: {
@@ -97,7 +121,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
       for (const assigneeRaw of assigneesRaw) {
         console.log({ assigneeRaw });
         const res = await fetch(
-          `http://localhost:5143/api/v1/UserData/email/${encodeURI(
+          `${process.env.REACT_APP_BASE_URL}/UserData/email/${encodeURI(
             assigneeRaw.userEmail
           )}`,
           {
@@ -152,8 +176,8 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     labelId="demo-select-small"
                     id="demo-select-small"
                     type="text"
-                    name="type"
-                    value={client}
+                    name="assignUser"
+                    value={contractData.assignUser}
                     label="Type"
                     onChange={handleChange}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
@@ -161,7 +185,19 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={0}>Guest Post</MenuItem>
+                    {allUsers
+                    .filter(
+                      (user) =>
+                        user.roles[0] === "Admin" ||
+                        user.roles[0] === "SeoSpecialist" ||
+                        user.roles[0] === "ContentWriter" ||
+                        user.roles[0] === "TopManagement"
+                    )
+                    .map((user) => (
+                      <MenuItem value={user.email}>
+                        {user.firstName} {user.lastName}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -174,8 +210,8 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     labelId="demo-select-small"
                     id="demo-select-small"
                     type="text"
-                    name="client"
-                    value={client}
+                    name="assignUploader"
+                    value={contractData.assignUploader}
                     label="Type"
                     onChange={handleChange}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
@@ -183,7 +219,19 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={0}>Guest Post</MenuItem>
+                    {uploader
+                    .filter(
+                      (user) =>
+                        user.roles[0] === "Admin" ||
+                        user.roles[0] === "SeoManager" ||
+                        user.roles[0] === "ContentManager" ||
+                        user.roles[0] === "TopManagement"
+                    )
+                    .map((user) => (
+                      <MenuItem value={user.email}>
+                        {user.firstName} {user.lastName}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -242,8 +290,8 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     labelId="demo-select-small"
                     id="demo-select-small"
                     type="text"
-                    name="client"
-                    value={client}
+                    name="assignClient"
+                    value={contractData.assignClient}
                     label="Type"
                     onChange={handleChange}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}

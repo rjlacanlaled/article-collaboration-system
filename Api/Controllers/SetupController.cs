@@ -63,6 +63,7 @@ namespace Api.Controllers
             return Ok(users);
         }
 
+        // ADD POST
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> CreateRole(string name)
@@ -145,7 +146,8 @@ namespace Api.Controllers
             return Ok(roles);
         }
 
-        [HttpPost("role/remove/user/{email}/role/{roleName}")]
+        // DELETE / REJECT USER
+        [HttpDelete("role/remove/user/{email}/role/{roleName}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> RemoveRole(string email, string roleName)
         {

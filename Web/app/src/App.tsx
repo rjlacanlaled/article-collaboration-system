@@ -204,10 +204,10 @@ function App() {
           }
         />
         <Route path="/success" element={<SignupSuccess />} />
-        <Route path="/successreset" element={<SuccessReset />} />
-        <Route path="/resetemail" element={<ResetEmail />} />
-        <Route path="/newpassword" element={<NewPassword />} />
         <Route path="/pendingapproval" element={<PendingApproval />} />
+        {/* <Route path="/successreset" element={<SuccessReset />} />
+        <Route path="/resetemail" element={<ResetEmail />} />
+        <Route path="/newpassword" element={<NewPassword />} /> */}
         {/* </Route> */}
         {/* error page */}
         <Route path="/*" element={<NotFoundPage />} />

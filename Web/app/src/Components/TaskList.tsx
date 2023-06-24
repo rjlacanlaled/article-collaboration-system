@@ -73,7 +73,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
 
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5143/api/v1/ProjectTasks/all", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/all`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -253,7 +253,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                         {task.timeliness === 2 ? "On Time" : ""}
                       </td>
                       <td className="px-6 py-4">
-                        {new Date(task.dateCreate).toLocaleString()}
+                        {new Date(task.dateCreate).toLocaleDateString() + " at " + new Date(task.dateCreate).toLocaleTimeString()}
                       </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateTask

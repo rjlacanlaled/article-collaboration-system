@@ -7,6 +7,7 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { UserLogin } from "../Types/UserLogin";
 import { UserDetailList } from "../Types/UserDetailList";
+import { UserDetail } from "../Types/UserDetails";
 
 export interface State extends SnackbarOrigin {
   open: boolean;
@@ -34,7 +35,7 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
   const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/UserData/users/unapproved",
+        `${process.env.REACT_APP_BASE_URL}/UserData/users/unapproved`,
         {
           method: "GET",
           headers: {
@@ -120,7 +121,10 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
                         user={userDetail}
                         updateHandler={refreshData}
                       />
-                      <RejectUser />
+                      <RejectUser 
+                        user={userDetail}
+                        updateHandler={refreshData}
+                      />
                     </td>
                   </tr>
                 ))

@@ -50,7 +50,7 @@ function CreateContract() {
   };
 
   const onSubmitCreateContract = async () => {
-    await fetch("http://localhost:5143/api/v1/Contracts", {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/Contracts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function CreateContract() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/Setup/users/client",
+        `${process.env.REACT_APP_BASE_URL}/Setup/users/client`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -103,7 +103,7 @@ function CreateContract() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/Setup/users/seo%20manager",
+        `${process.env.REACT_APP_BASE_URL}/Setup/users/seo%20manager`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

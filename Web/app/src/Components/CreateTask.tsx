@@ -44,7 +44,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
   };
 
   const handleCreateTaskSubmit = async () => {
-    var res = await fetch("http://localhost:5143/api/v1/ProjectTasks", {
+    var res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
     const result: ItemResult = await res.json();
     const user = jwt_decode<MyToken>(localStorage.getItem("token")!);
 
-    await fetch("http://localhost:5143/api/v1/ProjectTaskAssignees", {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

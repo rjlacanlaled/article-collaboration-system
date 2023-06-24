@@ -15,7 +15,7 @@ function NotFound() {
         But you can click the button below to go back to the homepage.
         </p>
       </div>
-      <Link to={`/`}>
+      <Link to={`/kanbanboard`}>
           <button className="bg-blue-500 hover:bg-blue-600 transition duration-300 text-white w-48 py-3.5 px-3 rounded-md mt-8 tracking-wider">Return Home</button>
       </Link>
     </div>

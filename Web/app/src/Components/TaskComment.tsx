@@ -3,8 +3,9 @@ import { ProjectTask } from "./TaskList";
 import { Link } from "react-router-dom";
 import CheckIcon from "../Assets/Images/done-check.svg";
 import DeleteComment from "../modals/DeleteComment";
-import { UserDetailList } from "../Types/UserDetailList";
+import Avatar from "@mui/material/Avatar";
 import { UserDetail } from "../Types/UserDetails";
+import Tooltip from '@mui/material/Tooltip';
 
 interface MyProps {
   task: ProjectTask | null;
@@ -29,8 +30,8 @@ export type CommentRaw = {
 };
 
 function TaskComment({ task }: MyProps) {
-  const [userComment, setUserComment] = useState<UserDetailList[]>([]);
   const [commentData, setCommentData] = useState<CommentDetails[]>([]);
+  const [tooltip, setTooltip] = useState(false)
   const [comment, setComment] = useState({
     id: task?.id,
     taskId: task?.id || "",
@@ -49,7 +50,15 @@ function TaskComment({ task }: MyProps) {
     }));
   };
 
-  console.log(comment.message);
+  const handleTooltipOpen = () => {
+    setTooltip(prevState => !prevState)
+  }
+
+  const handleTooltipClose = () => {
+    setTimeout(() => {
+      setTooltip(prevState => !prevState)
+    },2000)
+  }
 
   const getStatus = (status: any) => {
     switch (status) {
@@ -90,7 +99,7 @@ function TaskComment({ task }: MyProps) {
   const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch(
-        `http://localhost:5143/api/v1/Comments/task/${comment.taskId}`,
+        `${process.env.REACT_APP_BASE_URL}/Comments/task/${comment.taskId}`,
         {
           method: "GET",
           headers: {
@@ -105,7 +114,7 @@ function TaskComment({ task }: MyProps) {
       for (const commentRaw of commentsRaw) {
         console.log({ commentRaw });
         const res = await fetch(
-          `http://localhost:5143/api/v1/UserData/email/${encodeURI(
+          `${process.env.REACT_APP_BASE_URL}/UserData/email/${encodeURI(
             commentRaw.userId
           )}`,
           {
@@ -146,7 +155,7 @@ function TaskComment({ task }: MyProps) {
   // Handle Post Comment
   const handlePostCommentSubmit = async (e: any) => {
     e.preventDefault();
-    await fetch("http://localhost:5143/api/v1/Comments", {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/Comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -158,6 +167,11 @@ function TaskComment({ task }: MyProps) {
         userId: user.user.email,
       }),
     });
+
+    setComment((prevComment) => ({
+      ...prevComment,
+      message: "", // Set the message to an empty string
+    }));
 
     refreshData(); // Refresh the comment data after posting a comment
   };
@@ -281,18 +295,16 @@ function TaskComment({ task }: MyProps) {
                   <footer className="flex justify-between items-center mb-2">
                     <div className="flex items-center">
                       <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                        <img
-                          className="w-6 h-6 rounded-full"
-                          src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                          alt="Michael Gough"
-                        />
+                        <Avatar alt="user-profile" sx={{ width: 24, height: 24 }} />
                       </p>
                       <p className="mr-3 font-semibold">
                         {comment.firstName + " " + comment.lastName}
                       </p>
-                      <p className="text-sm text-zinc-500">
-                        {getTimeDifference(comment.dateCreated)}
+                      <Tooltip title={new Date(comment.dateCreated).toLocaleDateString() + " at " + new Date(comment.dateCreated).toLocaleTimeString()} placement="top">
+                      <p className="text-sm text-zinc-500 cursor-default">
+                          {getTimeDifference(comment.dateCreated)}
                       </p>
+                      </Tooltip>
                     </div>
                   </footer>
                   <p className="text-zinc-700">{comment.message}</p>

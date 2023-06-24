@@ -16,7 +16,7 @@ function DeleteUser({ user, updateHandler }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
 
   const handleDeleteUserSubmit = async () => {
-    await fetch(`http://localhost:5143/api/v1/Setup/role/remove/user/${user.email}}/role/${user.roles}`, {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/Setup/role/remove/user/${user.email}/role/${user.roles}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

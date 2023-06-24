@@ -37,7 +37,7 @@ public class UserDataController : ControllerBase
     }
 
     [HttpPut("details/update/email/{email}")]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
     public async Task<IActionResult> UpdateAsync([FromRoute] string email, [FromBody] AddUsersRequest addUsersRequest)
     {
         if (!ModelState.IsValid) return BadRequest("Bad data");
@@ -148,7 +148,7 @@ public class UserDataController : ControllerBase
     }
 
     [HttpGet("users/approved")]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
     public async Task<IActionResult> FetchAllApprovedAsync()
     {
         var users = await _userManager.Users

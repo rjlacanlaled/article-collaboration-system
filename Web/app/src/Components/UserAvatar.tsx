@@ -37,7 +37,7 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
             <label className="text-sm text-zinc-700 font-semibold cursor-pointer tracking-widest capitalize">
               {user.user.firstName + " " + user.user.lastName}
             </label>
-            <label className="text-xs text-zinc-700 tracking-wider">{user.roles[0]}</label>
+            <label className="text-xs text-zinc-700 tracking-wider">{user.roles[0].replace(/([a-z])([A-Z])/g, '$1 $2')}</label>
           </div>
         </IconButton>
         <Menu
