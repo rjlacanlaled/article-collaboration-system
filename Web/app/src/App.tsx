@@ -43,7 +43,7 @@ function App() {
       const decodedToken = jwt_decode<MyToken>(token);
       console.log({ decodedToken });
       var userDetailReq = await fetch(
-        `http://localhost:5143/api/v1/UserData/email/${encodeURIComponent(
+        `${process.env.REACT_APP_BASE_URL}/${encodeURIComponent(
           decodedToken.email
         )}`,
         {
@@ -135,9 +135,7 @@ function App() {
             <ProfilePage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={
-                <Profile userDetail={user!} isSignedIn={isSignedIn} />
-              }
+              children={<Profile userDetail={user!} isSignedIn={isSignedIn} />}
             />
           }
         />
@@ -147,7 +145,9 @@ function App() {
             <ClientDashboardPage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={<ClientDashboard userDetail={user!} isSignedIn={isSignedIn} />}
+              children={
+                <ClientDashboard userDetail={user!} isSignedIn={isSignedIn} />
+              }
             />
           }
         />
@@ -157,9 +157,7 @@ function App() {
             <ReportPage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={
-                <Report userDetail={user!} isSignedIn={isSignedIn} />
-              }
+              children={<Report userDetail={user!} isSignedIn={isSignedIn} />}
             />
           }
         />
@@ -169,7 +167,9 @@ function App() {
             <ContractPage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={<ClientBoard userDetail={user!} isSignedIn={isSignedIn} />}
+              children={
+                <ClientBoard userDetail={user!} isSignedIn={isSignedIn} />
+              }
             />
           }
         />
@@ -189,14 +189,16 @@ function App() {
             <KanbanboardPage
               isSignedIn={isSignedIn}
               userDetails={user!}
-              children={<ProjectBoard userDetail={user!} isSignedIn={isSignedIn} />}
+              children={
+                <ProjectBoard userDetail={user!} isSignedIn={isSignedIn} />
+              }
             />
           }
         />
         <Route
           path="/task"
           element={
-          <TaskPage
+            <TaskPage
               isSignedIn={isSignedIn}
               userDetails={user!}
               children={<TaskList userDetail={user!} isSignedIn={isSignedIn} />}
