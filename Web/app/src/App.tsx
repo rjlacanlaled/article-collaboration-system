@@ -38,32 +38,11 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const handleLoginAsync = async (token: string) => {
-      // fetch user details
-      const decodedToken = jwt_decode<MyToken>(token);
-      console.log({ decodedToken });
-      var userDetailReq = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/${encodeURIComponent(
-          decodedToken.email
-        )}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      var userDetail: UserDetail = await userDetailReq.json();
-      console.log({ userDetail });
+    const handleLoginAsync = async () => {
+      const userDetail: UserDetail = JSON.parse(localStorage.getItem("user")!);
 
       setUser(userDetail);
       setIsSignedIn(true);
-
-      localStorage.setItem("user", JSON.stringify(userDetail));
-
-      console.log("pathbnae", location.pathname);
 
       switch (true) {
         case userDetail.roles[0] === "Admin":
@@ -86,7 +65,7 @@ function App() {
       }
     };
     if (localStorage.getItem("token") != null) {
-      handleLoginAsync(localStorage.getItem("token")!);
+      handleLoginAsync();
     }
   }, []);
 
