@@ -66,7 +66,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        "http://localhost:5143/api/v1/UserData/users/approved",
+        `${process.env.REACT_APP_BASE_URL}/UserData/users/approved`,
         {
           method: "GET",
           headers: {
@@ -188,10 +188,8 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     {allUsers
                     .filter(
                       (user) =>
-                        user.roles[0] === "Admin" ||
                         user.roles[0] === "SeoSpecialist" ||
-                        user.roles[0] === "ContentWriter" ||
-                        user.roles[0] === "TopManagement"
+                        user.roles[0] === "ContentWriter" 
                     )
                     .map((user) => (
                       <MenuItem value={user.email}>
@@ -222,10 +220,9 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     {uploader
                     .filter(
                       (user) =>
-                        user.roles[0] === "Admin" ||
                         user.roles[0] === "SeoManager" ||
-                        user.roles[0] === "ContentManager" ||
-                        user.roles[0] === "TopManagement"
+                        user.roles[0] === "WebDeveloper" ||
+                        user.roles[0] === "SeoSpecialist" 
                     )
                     .map((user) => (
                       <MenuItem value={user.email}>

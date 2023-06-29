@@ -31,6 +31,8 @@ function AddItem({ updateHandler }: myProps) {
     link: "",
     type: "",
     words: "",
+    productionDate: "2023-06-30",
+    seoDeadline: "2023-06-30",
   });
 
   const handleChange = (e: any) => {
@@ -58,6 +60,8 @@ function AddItem({ updateHandler }: myProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
+        productionDate: taskData.productionDate,
+        seoDeadline: taskData.seoDeadline,
       }),
     });
 
@@ -168,11 +172,37 @@ function AddItem({ updateHandler }: myProps) {
               </FormControl>
               <FormControl>
                 <FormLabel>Production Date</FormLabel>
-                <DatePicker />
+                <div className="flex items-center">
+                  <div className="relative w-full">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    </div>
+                    <input
+                      type="date"
+                      name="productionDate"
+                      value={taskData?.productionDate.toString()}
+                      onChange={handleChange}
+                      className="bg-white border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Select date"
+                    />
+                  </div>
+                </div>
               </FormControl>
               <FormControl>
                 <FormLabel>SEO Deadline</FormLabel>
-                <DatePicker />
+                <div className="flex items-center">
+                  <div className="relative w-full">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    </div>
+                    <input
+                      type="date"
+                      name="seoDeadline"
+                      value={taskData?.seoDeadline.toString()}
+                      onChange={handleChange}
+                      className="bg-white border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Select date"
+                    />
+                  </div>
+                </div>
               </FormControl>
               <Button onClick={handleCreateTaskSubmit}>Submit</Button>
             </Stack>

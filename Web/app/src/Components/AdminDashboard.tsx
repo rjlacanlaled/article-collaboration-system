@@ -8,6 +8,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { UserLogin } from "../Types/UserLogin";
 import { UserDetailList } from "../Types/UserDetailList";
 import { UserDetail } from "../Types/UserDetails";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 export interface State extends SnackbarOrigin {
   open: boolean;
@@ -16,6 +17,9 @@ export interface State extends SnackbarOrigin {
 function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [isRoleSuccess, setRoleSuccess] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetailList[]>();
+
+  //Page Title
+  TabTitle('Pending Users - SearchWorks')
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,

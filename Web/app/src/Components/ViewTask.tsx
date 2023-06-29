@@ -11,7 +11,6 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
   const [taskData, setTaskData] = useState<ProjectTask>();
 
   useEffect(() => {
-    console.log("here");
     async function fetchTaskData() {
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/ProjectTasks/task/${id}`, {
@@ -36,9 +35,6 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
           </div>
           <div className="bg-white w-full h-full flex justify-start flex-col items-center">
             <TaskAssigned columnId={taskData} task={taskData} />
-            <h2 className="absolute bottom-0 right-0 p-4 font-medium text-sm text-gray-500">
-              Task Created: {new Date(taskData.dateCreate).toLocaleString()}
-            </h2>
           </div>
         </div>
       ) : (

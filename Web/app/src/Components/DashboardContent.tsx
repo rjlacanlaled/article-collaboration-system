@@ -6,9 +6,14 @@ import DeleteUser from "../modals/DeleteUser";
 import UpdateUser from "../modals/UpdateUser";
 import { UserLogin } from "../Types/UserLogin";
 import { UserDetailList } from "../Types/UserDetailList";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 function DashboardContent({ userDetail, isSignedIn }: UserLogin) {
   const [userDetails, setUserDetails] = useState<UserDetailList[]>();
+
+  //Page Title
+  TabTitle('Users - SearchWorks')
+
   console.log(userDetails);
   useEffect(() => {
     refreshData();

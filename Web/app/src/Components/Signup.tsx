@@ -6,6 +6,7 @@ import notVisibleIcon from '../Assets/Images/notvisible.svg'
 import AuthPage from "../Pages/AuthPage";
 import Zoom from '@mui/material/Zoom';
 import Tooltip from '@mui/material/Tooltip';
+import { TabTitle } from '../utils/GeneralFunctions';
 
 export type SignupData = {
   email: string;
@@ -32,6 +33,9 @@ function Signup() {
     lastName: "",
   });
   const Navigate = useNavigate();
+
+  //Page Title
+  TabTitle('Signup - SearchWorks')
 
   // Handle Change
   const handleChange = (e: any) => {

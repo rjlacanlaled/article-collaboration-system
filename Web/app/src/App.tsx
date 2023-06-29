@@ -29,6 +29,7 @@ import KanbanboardPage from "./Pages/Protected/KanbanboardPage";
 import ViewTaskPage from "./Pages/Protected/ViewTaskPage";
 import ContractPage from "./Pages/Protected/ContractPage";
 import ReportPage from "./Pages/Protected/ReportPage";
+import { TabTitle } from './utils/GeneralFunctions';
 
 function App() {
   // isSignedIn state = if signed out false
@@ -36,6 +37,8 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  TabTitle('SearchWorks: SEO Company in the Philippines')
 
   useEffect(() => {
     const handleLoginAsync = async (token: string) => {

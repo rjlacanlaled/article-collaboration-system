@@ -8,6 +8,7 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import CheckIcon from "../Assets/Images/done-check.svg";
 import { UserLogin } from "../Types/UserLogin";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 export type Assignee = {
   userId: number;
@@ -45,17 +46,20 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
   const [isUpdateSuccess, setUpdateSuccess] = useState(false);
   const [isNewTaskSuccess, setNewTaskSuccess] = useState(false);
 
-  //handle delete close
+  //Page Title
+  TabTitle('Task List - SearchWorks')
+
+  // handle delete close
   const handleNewTaskClose = () => {
     setNewTaskSuccess((prevState) => !prevState);
   };
 
-  //handle delete close
+  // handle delete close
   const handleDeleteClose = () => {
     setDeleteSuccess((prevState) => !prevState);
   };
 
-  //handle Update close
+  // handle Update close
   const handleUpdateClose = () => {
     setUpdateSuccess((prevState) => !prevState);
   };
@@ -125,10 +129,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4">
         <div className="flex justify-start flex-row items-center mb-8">
-          <CreateTask
-            updateHandler={refreshData}
-            isNewTaskSuccess={setNewTaskSuccess}
-          />
+          <CreateTask updateHandler={refreshData} isNewTaskSuccess={setNewTaskSuccess} />
         </div>
         <div className="overflow-x-auto shadow-md sm:rounded-md">
           <table className="w-full text-sm text-left dark:text-black">
@@ -182,17 +183,20 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
             <tbody>
               {tasks == null
                 ? []
-                : tasks.map((task) => (
-                    <tr className="bg-white border-b dark:bg-white dark:border-gray-300 hover:bg-slate-300 tracking-wide">
+                : [...tasks].reverse().map((task) => (
+                    <tr
+                      key={task.id} // Add key prop with a unique identifier
+                      className="bg-white border-b dark:bg-white dark:border-gray-300 hover:bg-slate-300 tracking-wide"
+                    >
                       <td className="w-4 p-4">
                         <div className="flex items-center">
                           <input
-                            id="checkbox-table-search-1"
+                            id={`checkbox-table-search-${task.id}`} // Use a unique identifier for each checkbox
                             type="checkbox"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            htmlFor="checkbox-table-search-1"
+                            htmlFor={`checkbox-table-search-${task.id}`} // Use a unique identifier for each label
                             className="sr-only"
                           >
                             checkbox
@@ -253,7 +257,9 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                         {task.timeliness === 2 ? "On Time" : ""}
                       </td>
                       <td className="px-6 py-4">
-                        {new Date(task.dateCreate).toLocaleDateString() + " at " + new Date(task.dateCreate).toLocaleTimeString()}
+                        {new Date(task.dateCreate).toLocaleDateString() +
+                          " at " +
+                          new Date(task.dateCreate).toLocaleTimeString()}
                       </td>
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <UpdateTask
@@ -295,7 +301,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
           onClose={handleDeleteClose}
         >
           <Alert onClose={handleDeleteClose} severity="success">
-            Successfully Deleted!
+            Task Successfully Deleted!
           </Alert>
         </Snackbar>
       )}
@@ -307,8 +313,8 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
           open={isUpdateSuccess}
           onClose={handleUpdateClose}
         >
-          <Alert onClose={handleUpdateClose} severity="info">
-            Successfully Updated!
+          <Alert onClose={handleUpdateClose} severity="success">
+            Task Successfully Updated!
           </Alert>
         </Snackbar>
       )}

@@ -6,6 +6,7 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { UserLogin } from "../Types/UserLogin";
 import { UserDetail } from "../Types/UserDetails";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 export interface State extends SnackbarOrigin {
   open: boolean;
@@ -16,6 +17,9 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
   const [previewImage, setPreviewImage] = useState("");
   const [isUpdateProfileSuccess, setUpdateProfileSuccess] = useState(false);
   const [userProfile, setUserProfile] = useState<UserDetail>()
+
+  //Page Title
+  TabTitle('Profile - SearchWorks')
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,

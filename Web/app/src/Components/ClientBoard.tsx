@@ -4,6 +4,7 @@ import UpdateContract from "../modals/UpdateContract";
 import DeleteClient from "../modals/DeleteClient";
 import CreateContract from "../modals/CreateContract";
 import { UserLogin } from "../Types/UserLogin";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 export type Plan = {
   title: string;
@@ -50,6 +51,9 @@ const paymentType: string[] = ["Full Payment", "2 months advance"];
 
 function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
   const [payments, setPayments] = useState<ContractFullDetails[]>([]);
+
+  //Page Title
+  TabTitle('Client - SearchWorks')
 
   useEffect(() => {
     const fetchData = async () => {

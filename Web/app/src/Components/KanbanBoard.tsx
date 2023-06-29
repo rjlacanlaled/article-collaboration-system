@@ -10,6 +10,7 @@ import { UserLogin } from "../Types/UserLogin";
 import { UserDetail } from "../Types/UserDetails";
 import { MyToken } from "./Login";
 import jwt_decode from "jwt-decode";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 type Columns = {
   [key: string]: {
@@ -91,6 +92,9 @@ function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
   const [columns, setColumns] = useState<Columns | null>(null);
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
   const [user, setUser] = useState<UserDetail | null>(null);
+
+    //Page Title
+    TabTitle('Task Board - SearchWorks')
 
   useEffect(() => {
     refreshData();

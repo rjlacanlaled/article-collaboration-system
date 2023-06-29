@@ -6,6 +6,7 @@ import visibleIcon from "../Assets/Images/visible.svg";
 import notVisibleIcon from "../Assets/Images/notvisible.svg";
 import { UserDetail } from "../Types/UserDetails";
 import jwt_decode from "jwt-decode";
+import { TabTitle } from '../utils/GeneralFunctions';
 
 export type Role = {
   id: number;
@@ -37,6 +38,9 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
+  //Page Title
+  TabTitle('Login - SearchWorks')
 
   // Handle change
   const handleChange = (e: any) => {
