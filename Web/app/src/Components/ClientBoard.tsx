@@ -60,7 +60,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
       const res = await fetch(
         `${process.env.REACT_APP_BASE_URL}/ContractPayments/all`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
