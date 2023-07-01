@@ -31,8 +31,8 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
     link: "",
     type: 1,
     words: 0,
-    // productionDate: "2023-06-30",
-    // seoDeadline: "2023-06-30",
+    productionDate: "2023-07-01T07:03:27.662Z",
+    seoDeadline: "2023-07-01T07:03:27.662Z",
   });
 
   const handleChange = (e: any) => {
@@ -60,8 +60,8 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
-        // productionDate: 0,
-        // seoDeadline: 0,
+        productionDate: taskData.productionDate,
+        seoDeadline: taskData.seoDeadline,
       }),
     });
 
