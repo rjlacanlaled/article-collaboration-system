@@ -8,7 +8,7 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import CheckIcon from "../Assets/Images/done-check.svg";
 import { UserLogin } from "../Types/UserLogin";
-import { TabTitle } from '../utils/GeneralFunctions';
+import { TabTitle } from "../utils/GeneralFunctions";
 
 export type Assignee = {
   userId: number;
@@ -30,7 +30,7 @@ export type ProjectTask = {
   contractId: number;
   dateCreate: number;
   dateUpdated: number;
-  productionDate: number;
+  productionDeadline: number;
   seoDeadline: number;
   assignees: Assignee[];
   reporter: string;
@@ -47,7 +47,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
   const [isNewTaskSuccess, setNewTaskSuccess] = useState(false);
 
   //Page Title
-  TabTitle('Task List - SearchWorks')
+  TabTitle("Task List - SearchWorks");
 
   // handle delete close
   const handleNewTaskClose = () => {
@@ -77,12 +77,15 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
 
   const refreshData = async () => {
     const fetchData = async () => {
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/all`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/ProjectTasks/all`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const tasks = await res.json();
       setTasks(tasks);
     };
@@ -129,7 +132,10 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md mx-4 mt-4">
         <div className="flex justify-start flex-row items-center mb-8">
-          <CreateTask updateHandler={refreshData} isNewTaskSuccess={setNewTaskSuccess} />
+          <CreateTask
+            updateHandler={refreshData}
+            isNewTaskSuccess={setNewTaskSuccess}
+          />
         </div>
         <div className="overflow-x-auto shadow-md sm:rounded-md">
           <table className="w-full text-sm text-left dark:text-black">

@@ -12,6 +12,6 @@ export type ProjectTaskData = {
   link: string;
   type: number;
   words: number;
-  productionDate: Date;
+  productionDeadline: Date;
   seoDeadline: Date;
 };

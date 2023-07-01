@@ -186,16 +186,16 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                       <em>None</em>
                     </MenuItem>
                     {allUsers
-                    .filter(
-                      (user) =>
-                        user.roles[0] === "SeoSpecialist" ||
-                        user.roles[0] === "ContentWriter" 
-                    )
-                    .map((user) => (
-                      <MenuItem value={user.email}>
-                        {user.firstName} {user.lastName}
-                      </MenuItem>
-                    ))}
+                      .filter(
+                        (user) =>
+                          user.roles[0] === "SeoSpecialist" ||
+                          user.roles[0] === "ContentWriter"
+                      )
+                      .map((user) => (
+                        <MenuItem value={user.email}>
+                          {user.firstName} {user.lastName}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </div>
@@ -218,17 +218,17 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                       <em>None</em>
                     </MenuItem>
                     {uploader
-                    .filter(
-                      (user) =>
-                        user.roles[0] === "SeoManager" ||
-                        user.roles[0] === "WebDeveloper" ||
-                        user.roles[0] === "SeoSpecialist" 
-                    )
-                    .map((user) => (
-                      <MenuItem value={user.email}>
-                        {user.firstName} {user.lastName}
-                      </MenuItem>
-                    ))}
+                      .filter(
+                        (user) =>
+                          user.roles[0] === "SeoManager" ||
+                          user.roles[0] === "WebDeveloper" ||
+                          user.roles[0] === "SeoSpecialist"
+                      )
+                      .map((user) => (
+                        <MenuItem value={user.email}>
+                          {user.firstName} {user.lastName}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </div>
@@ -259,8 +259,16 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
               {columnId === "4" && task?.timeliness === 2 && "On Time"}
             </div>
             <div className="absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider">
-              <p>SEO Deadline: {task?.seoDeadline}</p>
-              <p>Prod Date: {task?.productionDate}</p>
+              <p>
+                SEO Deadline:{" "}
+                {new Date(task?.seoDeadline.toString()).toLocaleDateString()}
+              </p>
+              <p>
+                Prod Date:{" "}
+                {new Date(
+                  task?.productionDeadline.toString()
+                ).toLocaleDateString()}
+              </p>
             </div>
           </div>
         </Slide>
