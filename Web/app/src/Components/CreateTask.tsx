@@ -45,6 +45,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
   };
 
   const handleCreateTaskSubmit = async () => {
+    console.log({ taskData });
     var res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks`, {
       method: "POST",
       headers: {

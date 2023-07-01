@@ -45,6 +45,7 @@ function AddItem({ updateHandler }: myProps) {
   };
 
   const handleCreateTaskSubmit = async () => {
+    console.log(new Date(taskData.seoDeadline).toISOString());
     var res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks`, {
       method: "POST",
       headers: {
@@ -60,8 +61,8 @@ function AddItem({ updateHandler }: myProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
-        productionDate: taskData.productionDate,
-        seoDeadline: taskData.seoDeadline,
+        productionDate: new Date(taskData.productionDate).toISOString(),
+        seoDeadline: new Date(taskData.seoDeadline).toISOString(),
       }),
     });
 
@@ -174,8 +175,7 @@ function AddItem({ updateHandler }: myProps) {
                 <FormLabel>Production Date</FormLabel>
                 <div className="flex items-center">
                   <div className="relative w-full">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    </div>
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
                     <input
                       type="date"
                       name="productionDate"
@@ -191,8 +191,7 @@ function AddItem({ updateHandler }: myProps) {
                 <FormLabel>SEO Deadline</FormLabel>
                 <div className="flex items-center">
                   <div className="relative w-full">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    </div>
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
                     <input
                       type="date"
                       name="seoDeadline"
