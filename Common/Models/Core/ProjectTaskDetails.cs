@@ -16,5 +16,7 @@ public class ProjectTaskDetails
     public int ContractId { get; init; }
     public DateTime DateCreate { get; init; }
     public DateTime DateUpdated { get; init; }
+    public DateTime SeoDeadline { get; init; }
+    public DateTime ProductionDeadline { get; init; }
     public List<ProjectAssigneeRole> Assignees { get; set; } = new();
 }

@@ -148,6 +148,8 @@ public class ProjectTasksController : ControllerBase
                 ContractId = g.ProjectTask.ContractId,
                 DateCreate = g.ProjectTask.DateCreated,
                 DateUpdated = g.ProjectTask.DateUpdated,
+                SeoDeadline = g.ProjectTask.SeoDeadline,
+                ProductionDeadline = g.ProjectTask.ProductionDate,
                 Assignees = g.Assignee.Select(a => new ProjectAssigneeRole()
                 {
                     UserId = a.UserEmail,
@@ -186,4 +188,40 @@ public class ProjectTasksController : ControllerBase
         var doneTasks = await _dbContext.ProjectTasks.Where(x => x.Status == ProjectTaskStatus.Done).OrderByDescending(x => x.DateUpdated).ToListAsync();
         return Ok(doneTasks);
     }
+
+    // [HttpGet("stats")]
+    // public async Task<IActionResult> GetStats()
+    // {
+    //     var tasks = await _dbContext.ProjectTasks
+    //         .OrderBy(c => c.DateUpdated)
+    //         .GroupJoin(_dbContext.ProjectTaskAssignees, pt => pt.Id, pta => pta.ProjectTaskId, (pt, pta) => new { ProjectTask = pt, Assignee = pta })
+    //         .Select(g => new ProjectTaskDetails()
+    //         {
+    //             Id = g.ProjectTask.Id,
+    //             Title = g.ProjectTask.Title,
+    //             Description = g.ProjectTask.Description,
+    //             Link = g.ProjectTask.Link,
+    //             Status = g.ProjectTask.Status,
+    //             Type = g.ProjectTask.Type,
+    //             Words = g.ProjectTask.Words,
+    //             Timeliness = g.ProjectTask.Timeliness,
+    //             ContractId = g.ProjectTask.ContractId,
+    //             DateCreate = g.ProjectTask.DateCreated,
+    //             DateUpdated = g.ProjectTask.DateUpdated,
+    //             SeoDeadline = g.ProjectTask.SeoDeadline,
+    //             ProductionDeadline = g.ProjectTask.ProductionDate,
+    //             Assignees = g.Assignee.Select(a => new ProjectAssigneeRole()
+    //             {
+    //                 UserId = a.UserEmail,
+    //                 FirstName = "",
+    //                 LastName = "",
+    //                 RoleId = a.RoleName,
+    //                 Role = ""
+    //             })
+    //             .ToList()
+    //         })
+    //         .ToListAsync();
+
+    //         return Ok();
+    // }
 }

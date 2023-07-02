@@ -21,19 +21,31 @@ export type Role = {
   name: string;
 };
 
+export type ContractDetails = {
+  clientEmail: string;
+  seoEmail: string;
+  type: number;
+  plan: number;
+  status: number;
+  managedBy: number;
+  paymentAmount: number;
+  paymentDate: string;
+};
+
 function CreateContract() {
   const [open, setOpen] = useState(false);
-  const [paymentDate, setPaymentDate] = useState({ paymentAmount: null });
+  const [paymentDate, setPaymentDate] = useState("");
   const [client, setClient] = useState<UserDetailList[]>([]);
   const [seo, setSeo] = useState<UserDetailList[]>([]);
-  const [contractData, setContractData] = useState({
-    client: "",
-    seo: "",
-    contract: "",
-    payment: "",
-    paymentStatus: "",
-    paymentAmount: "",
-    manageBy: "",
+  const [contractData, setContractData] = useState<ContractDetails>({
+    clientEmail: "",
+    seoEmail: "",
+    type: 0,
+    plan: 0,
+    status: 0,
+    paymentAmount: 0,
+    managedBy: 0,
+    paymentDate: "",
   });
 
   const handleChange = (e: any) => {
@@ -46,10 +58,12 @@ function CreateContract() {
   };
 
   const handleDateChange = (date: any) => {
+    console.log({ date });
     setPaymentDate(date);
   };
 
   const onSubmitCreateContract = async () => {
+    console.log({ contractData });
     await fetch(`${process.env.REACT_APP_BASE_URL}/Contracts`, {
       method: "POST",
       headers: {
@@ -57,13 +71,14 @@ function CreateContract() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        client: contractData.client,
-        seo: contractData.seo,
-        contract: contractData.contract,
-        payment: contractData.payment,
-        paymentStatus: contractData.paymentStatus,
+        clientEmail: contractData.clientEmail,
+        seoEmail: contractData.seoEmail,
+        type: contractData.type,
+        plan: contractData.plan,
+        status: contractData.status,
         paymentAmount: contractData.paymentAmount,
-        manageBy: contractData.manageBy,
+        managedBy: contractData.managedBy === 0 ? "SearchWorks" : "Client",
+        paymentDate: new Date(paymentDate).toISOString(),
       }),
     });
   };
@@ -85,7 +100,7 @@ function CreateContract() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
+      const clients = await fetch(
         `${process.env.REACT_APP_BASE_URL}/Setup/users/client`,
         {
           headers: {
@@ -93,25 +108,20 @@ function CreateContract() {
           },
         }
       );
-      const roles = await res.json();
-      setClient(roles);
-    };
+      const clientUsers = await clients.json();
 
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/Setup/users/seo%20manager`,
+      const seoManager = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/Setup/users/seomanager`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      const roles = await res.json();
-      setSeo(roles);
+      const seoManagerUsers = await seoManager.json();
+      setClient(clientUsers);
+      setSeo(seoManagerUsers);
+      console.log({ seoManagerUsers });
     };
 
     fetchData();
@@ -150,8 +160,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="client"
-                  value={contractData.client}
+                  name="clientEmail"
+                  value={contractData.clientEmail}
                   label="client"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px", color: "black" }}
@@ -174,8 +184,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="seo"
-                  value={contractData.seo}
+                  name="seoEmail"
+                  value={contractData.seoEmail}
                   label="seo"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px", color: "black" }}
@@ -198,8 +208,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="contract"
-                  value={contractData.contract}
+                  name="type"
+                  value={contractData.type}
                   label="Contract"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px", color: "black" }}
@@ -220,8 +230,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="payment"
-                  value={contractData.payment}
+                  name="plan"
+                  value={contractData.plan}
                   label="Payment"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
@@ -241,8 +251,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="paymentStatus"
-                  value={contractData.paymentStatus}
+                  name="status"
+                  value={contractData.status}
                   label="PaymentStatus"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
@@ -283,8 +293,8 @@ function CreateContract() {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="manageBy"
-                  value={contractData.manageBy}
+                  name="managedBy"
+                  value={contractData.managedBy}
                   label="Managed"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardPage from "../Pages/DashboardPage";
 import LinkButton from "./LinkButton";
 import Modal from "@mui/joy/Modal";
@@ -7,6 +7,7 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import FeedbackComment from "./FeedbackComment";
 import { Assignee, ProjectTask } from "./TaskList";
 import { UserLogin } from "../Types/UserLogin";
+import { ProjectTaskData } from "../Types/ProjectTaskData";
 
 export type ProjectAssigneeDetails = {
   projectTask: ProjectTask;
@@ -15,9 +16,28 @@ export type ProjectAssigneeDetails = {
 
 function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [open, setOpen] = React.useState("");
-  const [projectDetails, setProjectDetails] = useState<
-    ProjectAssigneeDetails[] | null
-  >(null);
+  const [tasks, setTasks] = useState<ProjectAssigneeDetails[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/ProjectTasks/user/${encodeURI(
+          userDetail.user.email
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const projectTasks: ProjectAssigneeDetails[] = await res.json();
+      setTasks(projectTasks);
+      console.log({ projectTasks });
+    };
+    fetchData();
+  }, []);
 
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
@@ -57,7 +77,7 @@ function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
               </tr>
             </thead>
             <tbody>
-              {projectDetails?.map((TaskDatas) => (
+              {tasks?.map((task) => (
                 <tr
                   className="bg-white border-b dark:bg-white dark:border-gray-300 hover:bg-slate-300 cursor-pointer"
                   onClick={() => setOpen("center")}
@@ -81,22 +101,25 @@ function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                   >
-                    {TaskDatas.projectTask.title}
+                    {task.projectTask.title}
                   </th>
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                   >
-                    {TaskDatas.projectTask.description}
+                    {task.projectTask.description}
                   </th>
                   <td className="px-6 py-4">
                     <p className="bg-orange-500 rounded-lg p-1 w-content text-center">
-                      {TaskDatas.projectTask.status}
+                      {task.projectTask.status}
                     </p>
                   </td>
-                  <td className="px-6 py-4">{TaskDatas.projectTask.type}</td>
+                  <td className="px-6 py-4">{task.projectTask.type}</td>
                   <td className="flex items-center px-6 py-4 space-x-3">
-                    <LinkButton label="Link" articlelink={"google.com"} />
+                    <LinkButton
+                      label="Link"
+                      articlelink={task.projectTask.link}
+                    />
                   </td>
                 </tr>
               ))}

@@ -30,6 +30,15 @@ public class ProjectTaskAssigneesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] AddProjectTaskAssigneeRequest request)
     {
+        ProjectTaskAssignee? existingAssignee = await _dbContext.ProjectTaskAssignees
+            .Where(x => x.ProjectTaskId == request.ProjectTaskId)
+            .Where(x => x.RoleName == request.RoleName)
+            .FirstOrDefaultAsync();
+
+        if (existingAssignee is not null)
+        {
+            _dbContext.ProjectTaskAssignees.Remove(existingAssignee);
+        }
 
         ProjectTaskAssignee newProjectTaskAssignee = new()
         {
@@ -40,6 +49,8 @@ public class ProjectTaskAssigneesController : ControllerBase
             UserEmail = request.UserEmail,
             RoleName = request.RoleName
         };
+
+
 
         await _dbContext.ProjectTaskAssignees.AddAsync(newProjectTaskAssignee);
         await _dbContext.SaveChangesAsync();
@@ -68,16 +79,33 @@ public class ProjectTaskAssigneesController : ControllerBase
     }
 
     // Delete 
-    [HttpDelete("id/{id}")]
-    public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteAsync([FromBody] AddProjectTaskAssigneeRequest request)
     {
         ProjectTaskAssignee? existing = await _dbContext.ProjectTaskAssignees
-            .Where(c => c.Id == id)
+            .Where(x => x.ProjectTaskId == request.ProjectTaskId)
+            .Where(x => x.RoleName == request.RoleName)
             .FirstOrDefaultAsync();
 
         if (existing is null) return NotFound();
 
         _dbContext.ProjectTaskAssignees.Remove(existing);
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(existing);
+    }
+
+    [HttpDelete("delete/task/{taskId}/role/{roleName}")]
+    public async Task<IActionResult> DeleteAsync([FromRoute] int taskId, string roleName)
+    {
+        List<ProjectTaskAssignee>? existing = await _dbContext.ProjectTaskAssignees
+            .Where(x => x.ProjectTaskId == taskId)
+            .Where(x => x.RoleName == roleName)
+            .ToListAsync();
+
+        if (existing is null) return NotFound();
+
+        _dbContext.ProjectTaskAssignees.RemoveRange(existing);
         await _dbContext.SaveChangesAsync();
 
         return Ok(existing);

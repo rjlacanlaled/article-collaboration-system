@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardPage from "../Pages/DashboardPage";
 import UpdateContract from "../modals/UpdateContract";
 import DeleteClient from "../modals/DeleteClient";
-import CreateContract from "../modals/CreateContract";
+import CreateContract, { ContractDetails } from "../modals/CreateContract";
 import { UserLogin } from "../Types/UserLogin";
 import { TabTitle } from "../utils/GeneralFunctions";
 
@@ -50,7 +50,7 @@ const paymentPlanStrings: string[] = ["Open", "6 months", "1 year"];
 const paymentType: string[] = ["Full Payment", "2 months advance"];
 
 function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
-  const [payments, setPayments] = useState<ContractFullDetails[]>([]);
+  const [contracts, setContracts] = useState<ContractDetails[]>([]);
 
   //Page Title
   TabTitle("Client - SearchWorks");
@@ -58,7 +58,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/ContractPayments/all`,
+        `${process.env.REACT_APP_BASE_URL}/Contracts/contract/all`,
         {
           method: "GET",
           headers: {
@@ -67,9 +67,9 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
           },
         }
       );
-      const paymentDetails = await res.json();
-      setPayments(paymentDetails);
-      console.log(paymentDetails);
+      const contractDetails = await res.json();
+      setContracts(contractDetails);
+      console.log({ contractDetails });
     };
 
     fetchData();
@@ -131,9 +131,9 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                 </tr>
               </thead>
               <tbody>
-                {payments == null
+                {contracts == null
                   ? []
-                  : payments.map((payment) => (
+                  : contracts.map((contract) => (
                       <tr className="bg-white border-b dark:bg-white dark:border-gray-300 hover:bg-slate-300">
                         <td className="w-4 p-4">
                           <div className="flex items-center">
@@ -154,9 +154,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {payment.userDetails.firstName +
-                            " " +
-                            payment.userDetails.lastName}
+                          {contract.clientEmail}
                         </th>
                         <th
                           scope="row"
@@ -168,16 +166,16 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {paymentPlanStrings[payment.contract.plan]}
+                          {paymentPlanStrings[contract.plan]}
                         </th>
                         <th
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {paymentType[payment.contract.type]}
+                          {paymentType[contract.type]}
                         </th>
                         <td className="px-6 py-4">
-                          {payment.contractPayment.paymentDate != null ? (
+                          {contract.paymentDate != null ? (
                             <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
                               Paid
                             </p>
@@ -191,24 +189,15 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          ₱{payment.contractPayment.amount.toString()}
+                          ₱{contract.paymentAmount.toString()}
                         </th>
                         <th
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {new Date(
-                            payment.contractPayment.paymentDate
-                          ).toLocaleString()}
+                          {new Date(contract.paymentDate).toLocaleString()}
                         </th>
-                        <td className="px-6 py-4">
-                          {payment.contract.managedBy}
-                        </td>
-                        <td className="px-6 py-4">
-                          {new Date(
-                            payment.contract.dateCreated
-                          ).toLocaleString()}
-                        </td>
+                        <td className="px-6 py-4">{contract.managedBy}</td>
                         <td className="flex items-center px-6 py-4 space-x-3">
                           <UpdateContract />
                           <DeleteClient />
@@ -267,17 +256,14 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                       Managed By
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      CreatedAt
-                    </th>
-                    <th scope="col" className="px-6 py-3">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {payments == null
+                  {contracts == null
                     ? []
-                    : payments.map((payment) => (
+                    : contracts.map((contract) => (
                         <tr className="bg-white border-b dark:bg-white dark:border-gray-300 hover:bg-slate-300">
                           <td className="w-4 p-4">
                             <div className="flex items-center">
@@ -298,30 +284,28 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {payment.userDetails.firstName +
-                              " " +
-                              payment.userDetails.lastName}
+                            {contract.clientEmail}
                           </th>
                           <th
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {"tbd"}
+                            {contract.seoEmail}
                           </th>
                           <th
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {paymentPlanStrings[payment.contract.plan]}
+                            {paymentPlanStrings[contract.plan]}
                           </th>
                           <th
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {paymentType[payment.contract.type]}
+                            {paymentType[contract.type]}
                           </th>
                           <td className="px-6 py-4">
-                            {payment.contractPayment.paymentDate != null ? (
+                            {contract.paymentDate != null ? (
                               <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
                                 Paid
                               </p>
@@ -335,24 +319,16 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            ₱{payment.contractPayment.amount.toString()}
+                            ₱{contract.paymentAmount.toString()}
                           </th>
                           <th
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {new Date(
-                              payment.contractPayment.paymentDate
-                            ).toLocaleString()}
+                            {new Date(contract.paymentDate).toLocaleString()}
                           </th>
-                          <td className="px-6 py-4">
-                            {payment.contract.managedBy}
-                          </td>
-                          <td className="px-6 py-4">
-                            {new Date(
-                              payment.contract.dateCreated
-                            ).toLocaleString()}
-                          </td>
+                          <td className="px-6 py-4">{contract.managedBy}</td>
+
                           <td className="flex items-center px-6 py-4 space-x-3">
                             <UpdateContract />
                             <DeleteClient />

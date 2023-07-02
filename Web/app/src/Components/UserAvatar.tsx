@@ -18,7 +18,7 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
     setUser(storedUser);
-  }, []);
+  }, [userDetail]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -31,6 +31,11 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
   const handleLogoutSubmit = () => {
     localStorage.clear();
     navigate("/");
+  };
+
+  const refreshUser = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setUser(storedUser);
   };
 
   return (

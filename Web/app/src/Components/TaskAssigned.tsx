@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/joy/FormControl";
 import { UserDetailList } from "../Types/UserDetailList";
 import { UserDetail } from "../Types/UserDetails";
+import { ContractDetails } from "../modals/CreateContract";
 
 interface MyProps {
   task: ProjectTask;
@@ -49,6 +50,9 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
     manageBy: "",
   });
 
+  const [contractDetails, setContractDetails] =
+    useState<ContractDetails | null>(null);
+
   const handleAccordionChange = () => {
     setDetailsExpanded(!detailsExpand);
   };
@@ -66,20 +70,23 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
   const handleAssignClientSubmit = async () => {
     if (contractData.assignClient === "") {
       // Remove assigned client
-      await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/id/${task.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          projectTaskId: task.id,
-          roleName: "Client",
-        }),
-      });
+      await fetch(
+        `${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/id/${task.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            projectTaskId: task.id,
+            roleName: "Client",
+          }),
+        }
+      );
     } else {
       // Assign selected client
-      console.log("success")
+      console.log("success");
       await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
         method: "POST",
         headers: {
@@ -94,7 +101,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
       });
     }
   };
-  
+
   //GET ALL APPROVED USERS
   useEffect(() => {
     const fetchData = async () => {
@@ -109,31 +116,12 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
       );
       const users = await res.json();
       setAllUsers(users);
-      setUploader(users);
+      console.log({ users });
     };
 
     fetchData();
   }, []);
 
-  //GET client
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/Setup/users/client`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const roles = await res.json();
-      setClient(roles);
-    };
-  
-    fetchData();
-  }, []);
-  
   //GET TASK ASSIGNED REPORTER
   useEffect(() => {
     const fetchData = async () => {
@@ -180,10 +168,176 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
       console.log({ assignees });
 
       setAssignee(assignees);
+      console.log(assignee.find((x) => x.role === "Assignee")?.email);
     };
 
     fetchData();
-  }, []);
+  }, [contractData, task.id]);
+
+  const onAssigneeChange = async (e: any) => {
+    console.log(e.target);
+
+    if (e.target.value === "None") {
+      console.log("here");
+      await fetch(
+        `${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/delete/task/${task.id}/role/Assignee`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setContractData((prevTaskData) => {
+        return {
+          ...prevTaskData,
+          [e.target.name]: e.target.value,
+        };
+      });
+
+      return;
+    }
+
+    console.log("post");
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        projectTaskId: task.id,
+        userEmail: e.target.value,
+        roleName: "Assignee",
+      }),
+    });
+
+    setContractData((prevTaskData) => {
+      return {
+        ...prevTaskData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  const onUploaderChange = async (e: any) => {
+    console.log(e.target);
+
+    if (e.target.value === "None") {
+      console.log("here");
+      await fetch(
+        `${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/delete/task/${task.id}/role/Uploader`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setContractData((prevTaskData) => {
+        return {
+          ...prevTaskData,
+          [e.target.name]: e.target.value,
+        };
+      });
+
+      return;
+    }
+
+    console.log("post");
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        projectTaskId: task.id,
+        userEmail: e.target.value,
+        roleName: "Uploader",
+      }),
+    });
+
+    setContractData((prevTaskData) => {
+      return {
+        ...prevTaskData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  //http://localhost:5143/api/v1/ProjectTaskAssignees/delete/task/1/role/Client
+
+  const onClientChange = async (e: any) => {
+    console.log(e.target);
+
+    if (e.target.value === "None") {
+      console.log("here");
+      await fetch(
+        `${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/delete/task/${task.id}/role/Client`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setContractData((prevTaskData) => {
+        return {
+          ...prevTaskData,
+          [e.target.name]: e.target.value,
+        };
+      });
+
+      setContractDetails(null);
+
+      return;
+    }
+
+    console.log("post");
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        projectTaskId: task.id,
+        userEmail: e.target.value,
+        roleName: "Client",
+      }),
+    });
+
+    const contractDetailsReq = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/Contracts/contract/email/${encodeURI(
+        e.target.value
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const actualContractDetails: ContractDetails =
+      await contractDetailsReq.json();
+    console.log({ actualContractDetails });
+    setContractDetails(actualContractDetails);
+
+    setContractData((prevTaskData) => {
+      return {
+        ...prevTaskData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
 
   return (
     <div className="p-2 w-full mt-5">
@@ -210,12 +364,15 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     id="demo-select-small"
                     type="text"
                     name="assignUser"
-                    value={contractData.assignUser}
                     label="Type"
-                    onChange={handleChange}
+                    onChange={onAssigneeChange}
+                    value={
+                      assignee.find((x) => x.role === "Assignee")?.email ||
+                      "None"
+                    }
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
                   >
-                    <MenuItem value="">
+                    <MenuItem value="None">
                       <em>None</em>
                     </MenuItem>
                     {allUsers
@@ -242,15 +399,18 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     id="demo-select-small"
                     type="text"
                     name="assignUploader"
-                    value={contractData.assignUploader}
+                    value={
+                      assignee.find((x) => x.role === "Uploader")?.email ||
+                      "None"
+                    }
                     label="Type"
-                    onChange={handleChange}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
+                    onChange={onUploaderChange}
                   >
-                    <MenuItem value="">
+                    <MenuItem value="None">
                       <em>None</em>
                     </MenuItem>
-                    {uploader
+                    {allUsers
                       .filter(
                         (user) =>
                           user.roles[0] === "SeoManager" ||
@@ -292,11 +452,11 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
               {columnId === "4" && task?.timeliness === 2 && "On Time"}
             </div>
             <div className="absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider">
+              <p>SEO Deadline: {new Date(task.seoDeadline).toDateString()}</p>
               <p>
-                SEO Deadline: {new Date(task.seoDeadline).toDateString()}
-              </p>
-              <p>
-                Prod Date: {new Date(task.productionDeadline).toDateString() + " at 5:00 PM"}
+                Prod Date:{" "}
+                {new Date(task.productionDeadline).toDateString() +
+                  " at 5:00 PM"}
               </p>
             </div>
           </div>
@@ -325,19 +485,23 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     id="demo-select-small"
                     type="text"
                     name="assignClient"
-                    value={contractData.assignClient}
+                    value={
+                      assignee.find((x) => x.role === "Client")?.email || "None"
+                    }
                     label="Type"
-                    onChange={handleAssignClientSubmit}
+                    onChange={onClientChange}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
                   >
-                    <MenuItem value="">
+                    <MenuItem value="None">
                       <em>None</em>
                     </MenuItem>
-                    {client.map((clients) => (
-                      <MenuItem value={clients.email}>
-                        {clients.firstName} {clients.lastName}
-                      </MenuItem>
-                    ))}
+                    {allUsers
+                      .filter((x) => x.roles[0] === "Client")
+                      .map((clients) => (
+                        <MenuItem value={clients.email}>
+                          {clients.firstName} {clients.lastName}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </div>
@@ -346,28 +510,28 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
               <label className="p-2 ml-2 font-semibold">SEO:</label>
               <div className="flex items-center ml-2">
                 <Avatar alt="user-profile" sx={{ width: 24, height: 24 }} />
-                <p className="ml-2"></p>
+                <p className="ml-2">{contractDetails?.seoEmail}</p>
               </div>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Contract Type:</label>
-              <p></p>
+              <p>{contractDetails?.type}</p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Plan:</label>
               <div className="flex items-center ml-2">
-                <p></p>
+                <p>{contractDetails?.plan}</p>
               </div>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Status:</label>
               <p className="bg-green-500 text-white rounded-lg px-3 py-0.5 text-center">
-                
+                {contractDetails?.status}
               </p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Managed By:</label>
-              <p></p>
+              <p>{contractDetails?.managedBy}</p>
             </div>
           </div>
         </AccordionDetails>
