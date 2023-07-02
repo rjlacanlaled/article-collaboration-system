@@ -31,7 +31,7 @@ function Navigation({ user, isSignedIn }: NavigationProps) {
     <>
       <div className="flex items-center mb-6 px-4 py-6">
         <img src={NavLogo} alt="Logo" className="w-7 h-8 mr-2" />
-        <span className="text-gray-400 font-bold text-base">SEARCH WORK</span>
+        <span className="text-gray-400 font-bold text-base">SEARCHWORKS</span>
       </div>
       <ul className="list-none text-l font-medium leading-relaxed tracking-wide">
         {userDetail!.roles[0] === "Admin" ? (
