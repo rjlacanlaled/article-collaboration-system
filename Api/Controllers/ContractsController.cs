@@ -107,6 +107,7 @@ public class ContractsController : ControllerBase
         }
 
         _dbContext.Remove(existingContract);
+        await _dbContext.SaveChangesAsync();
 
         return Ok("Successfully deleted!");
     }
