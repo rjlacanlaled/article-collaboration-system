@@ -134,6 +134,9 @@ function Login({ onLoginSuccess, onFetchUserDetails }: LoginProps) {
             case userDetail.roles[0] === "Client":
               navigate("/clientmain");
               break;
+            case userDetail.roles[0] === "TopManagement":
+                navigate("/pending");
+                break;
             case userDetail.roles[0] === "Unassigned":
               navigate("/pendingapproval");
               break;

@@ -38,7 +38,8 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
           </div>
         </div>
       ) : (
-        <p>Loading task data...</p>
+        <>
+        </>
       )}
     </DashboardPage>
   );

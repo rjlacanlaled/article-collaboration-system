@@ -79,7 +79,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between">
                 <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-                <EditProfile user={userDetail} isUpdateProfileSuccess={isUpdateProfileSuccess} updateHandler={refreshData}/>
+                <EditProfile user={userDetail} isUpdateProfileSuccess={setUpdateProfileSuccess} updateHandler={refreshData}/>
               </div>
               <div className="flex justify-start items-center w-content mt-4">
                 <input
@@ -100,12 +100,15 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                       src={previewImage}
                       sx={{ width: 90, height: 90, maxWidth: "100%" }}
                       onClick={handleUpload}
-                    />
+                    >
+                        {userProfile?.user.firstName.charAt(0).toUpperCase()}
+                        {userProfile?.user.lastName.charAt(0).toUpperCase()}
+                    </Avatar>
                   </IconButton>
                 </label>
                 <div className="flex justify-center flex-col items-center">
                   <h2 className="text-zinc-700 tracking-widest text-base font-semibold">
-                    {userProfile?.user.firstName} {userProfile?.user.lastName}
+                    {userProfile?.user.firstName + " " + userProfile?.user.lastName}
                   </h2>
                   <h2 className="text-zinc-700 tracking-wider text-xs">
                     {userProfile?.roles[0].replace(/([a-z])([A-Z])/g, '$1 $2')}
@@ -117,7 +120,7 @@ function Profile({ userDetail, isSignedIn }: UserLogin) {
                   Personal Information
                 </h2>
                 <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  Update your personal information and settings.
+                  Update your personal information.
                 </p>
               </div>
               <div className="px-4 py-5 sm:p-6">

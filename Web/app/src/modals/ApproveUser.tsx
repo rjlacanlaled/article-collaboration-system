@@ -10,9 +10,10 @@ import { UserDetailList } from "../Types/UserDetailList";
 interface MyProps {
   user: UserDetailList;
   updateHandler: any;
+  isApproveSuccess: any;
 }
 
-function ApproveUser({ user, updateHandler }: MyProps) {
+function ApproveUser({ user, updateHandler, isApproveSuccess }: MyProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -57,7 +58,7 @@ function ApproveUser({ user, updateHandler }: MyProps) {
                 >
                   Cancel
                 </Button>
-                <UserRole user={user} updateHandler={updateHandler} />
+                <UserRole user={user} updateHandler={updateHandler} isApproveSuccess={isApproveSuccess}/>
               </Stack>
             </Stack>
           </form>

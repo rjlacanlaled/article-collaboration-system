@@ -11,6 +11,7 @@ import { UserLogin } from "../Types/UserLogin";
 import { TabTitle } from "../utils/GeneralFunctions";
 
 export type Assignee = {
+  avatar: string | undefined;
   userId: number;
   firstName: string;
   lastName: string;
@@ -30,8 +31,8 @@ export type ProjectTask = {
   contractId: number;
   dateCreate: number;
   dateUpdated: number;
-  productionDeadline: number;
-  seoDeadline: number;
+  productionDeadline: any;
+  seoDeadline: any;
   assignees: Assignee[];
   reporter: string;
 };
@@ -263,7 +264,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                         {task.timeliness === 2 ? "On Time" : ""}
                       </td>
                       <td className="px-6 py-4">
-                        {new Date(task.dateCreate).toLocaleDateString() +
+                        {new Date(task.dateCreate).toDateString() +
                           " at " +
                           new Date(task.dateCreate).toLocaleTimeString()}
                       </td>

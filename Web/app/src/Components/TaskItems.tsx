@@ -45,6 +45,10 @@ function TaskItems({
     dateCreated: "",
   });
 
+  const [avatarCount, setAvatarCount] = useState({
+    [task.id]: task.assignees.length, // get assignee avatar length per task id
+  });
+
   useEffect(() => {
     console.log({ task });
   }, [task]);
@@ -68,7 +72,6 @@ function TaskItems({
     fetchData();
   };
 
-
   return (
     <>
       <div
@@ -82,7 +85,7 @@ function TaskItems({
           <h4 className="text-sm font-semibold m-2 self-start max-w-195 tracking-wide">{title}</h4>
           <p className="text-xs mb-1 mx-1 p-1.5 self-start">{description}</p>
           <i className="text-xs my-1.5 mx-1 self-end tracking-wide">
-            Production Date:{new Date(prodDate).toLocaleDateString()}
+            Production Date:{new Date(task.productionDeadline).toLocaleDateString()}
           </i>
           {/* MESSAGE ICON */}
           <img src={MessageIcon} alt="message-icon" className="absolute bottom-0 left-0 w-4 ml-2 mb-1" />
@@ -90,10 +93,15 @@ function TaskItems({
         </div>
 
         <div className="p-2 absolute top-0 right-0">
-          <AvatarGroup>
-            <Avatar alt="Avatar 1" src={""} sx={{ width: 20, height: 20 }} />
-            <Avatar alt="Avatar 1" src={""} sx={{ width: 20, height: 20 }} />
-            <Avatar alt="Avatar 1" src={""} sx={{ width: 20, height: 20 }} />
+          <AvatarGroup max={5}>
+            {Array.from(Array(avatarCount[task.id] || 0).keys()).map((index) => (
+              <Avatar
+                key={index}
+                alt={`Avatar ${index + 1}`}
+                src={""}
+                sx={{ width: 20, height: 20 }}
+              />
+            ))}
           </AvatarGroup>
         </div>
       </div>
@@ -110,7 +118,7 @@ function TaskItems({
             <div className="bg-white w-full h-full flex justify-start flex-col items-center">
               <TaskAssigned columnId={columnId} task={task} />
               <h2 className="absolute bottom-0 right-0 p-4 font-medium text-xs text-zinc-700 tracking-widest">
-                Task Created: {new Date(createdAt).toLocaleDateString() + " at " + new Date(createdAt).toLocaleTimeString()}
+                Task Created: {new Date(createdAt).toDateString() + " at " + new Date(createdAt).toLocaleTimeString()}
               </h2>
             </div>
           </div>

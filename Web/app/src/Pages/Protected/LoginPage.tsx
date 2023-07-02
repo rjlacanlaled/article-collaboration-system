@@ -21,22 +21,20 @@ function LoginPage({
     return <Navigate to="/" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] === "Unassigned") {
+  if (userDetails.roles[0] === "Unassigned") {
     return <Navigate to="/pendingapproval" replace />;
   }
 
-  switch (true) {
-    case userDetails.roles[0] === "Admin":
-      navigate(redirectTo === "/" ? "/pending" : redirectTo);
-      break;
-    case userDetails.roles[0] === "Client":
-      navigate(redirectTo === "/" ? "/clientmain" : redirectTo);
-      break;
-    case userDetails.roles[0] === "Unassigned":
-      navigate(redirectTo === "/" ? "/pendingApproval" : redirectTo);
-      break;
-    default:
-      navigate(redirectTo === "/" ? "/kanbanboard" : redirectTo);
+  if (userDetails.roles[0] === "Admin") {
+    navigate(redirectTo === "/" ? "/pending" : redirectTo);
+  } else if (userDetails.roles[0] === "Client") {
+    navigate(redirectTo === "/" ? "/clientmain" : redirectTo);
+  } else if (userDetails.roles[0] === "TopManagement") {
+    navigate(redirectTo === "/" ? "/pending" : redirectTo);
+  } else if (userDetails.roles[0] === "Unassigned") {
+    navigate(redirectTo === "/" ? "/pendingApproval" : redirectTo);
+  } else {
+    navigate(redirectTo === "/" ? "/kanbanboard" : redirectTo);
   }
 
   return children;

@@ -31,8 +31,8 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
     link: "",
     type: 1,
     words: 0,
-    productionDate: "2023-07-01T07:03:27.662Z",
-    seoDeadline: "2023-07-01T07:03:27.662Z",
+    productionDate: "",
+    seoDeadline: "",
   });
 
   const handleChange = (e: any) => {
@@ -61,8 +61,8 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
-        productionDate: taskData.productionDate,
-        seoDeadline: taskData.seoDeadline,
+        productionDate: new Date(taskData.productionDate).toISOString(),
+        seoDeadline: new Date(taskData.seoDeadline).toISOString(),
       }),
     });
 
@@ -178,7 +178,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
               </FormControl>
               <FormControl>
                 <FormLabel>Production Date</FormLabel>
-                {/* <div className="flex items-center">
+                <div className="flex items-center">
                   <div className="relative w-full">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     </div>
@@ -191,11 +191,11 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
                       placeholder="Select date"
                     />
                   </div>
-                </div> */}
+                </div>
               </FormControl>
               <FormControl>
                 <FormLabel>SEO Deadline</FormLabel>
-                {/* <div className="flex items-center">
+                <div className="flex items-center">
                   <div className="relative w-full">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     </div>
@@ -208,7 +208,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
                       placeholder="Select date"
                     />
                   </div>
-                </div> */}
+                </div>
               </FormControl>
               <Button onClick={handleCreateTaskSubmit}>Submit</Button>
             </Stack>

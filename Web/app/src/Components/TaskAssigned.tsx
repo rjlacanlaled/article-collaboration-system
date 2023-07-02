@@ -62,6 +62,39 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
     });
   };
 
+  //HANDLE ASSIGN CLIENT
+  const handleAssignClientSubmit = async () => {
+    if (contractData.assignClient === "") {
+      // Remove assigned client
+      await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees/id/${task.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          projectTaskId: task.id,
+          roleName: "Client",
+        }),
+      });
+    } else {
+      // Assign selected client
+      console.log("success")
+      await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTaskAssignees`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          projectTaskId: task.id,
+          userEmail: contractData.assignClient,
+          roleName: "Client",
+        }),
+      });
+    }
+  };
+  
   //GET ALL APPROVED USERS
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +115,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
     fetchData();
   }, []);
 
-  //GET CLIENT
+  //GET client
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
@@ -97,10 +130,10 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
       const roles = await res.json();
       setClient(roles);
     };
-
+  
     fetchData();
   }, []);
-
+  
   //GET TASK ASSIGNED REPORTER
   useEffect(() => {
     const fetchData = async () => {
@@ -260,14 +293,10 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             </div>
             <div className="absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider">
               <p>
-                SEO Deadline:{" "}
-                {new Date(task?.seoDeadline.toString()).toLocaleDateString()}
+                SEO Deadline: {new Date(task.seoDeadline).toDateString()}
               </p>
               <p>
-                Prod Date:{" "}
-                {new Date(
-                  task?.productionDeadline.toString()
-                ).toLocaleDateString()}
+                Prod Date: {new Date(task.productionDeadline).toDateString() + " at 5:00 PM"}
               </p>
             </div>
           </div>
@@ -298,7 +327,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     name="assignClient"
                     value={contractData.assignClient}
                     label="Type"
-                    onChange={handleChange}
+                    onChange={handleAssignClientSubmit}
                     sx={{ borderRadius: "2px", height: "30px", width: "200px" }}
                   >
                     <MenuItem value="">
@@ -317,28 +346,28 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
               <label className="p-2 ml-2 font-semibold">SEO:</label>
               <div className="flex items-center ml-2">
                 <Avatar alt="user-profile" sx={{ width: 24, height: 24 }} />
-                <p className="ml-2">JR</p>
+                <p className="ml-2"></p>
               </div>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Contract Type:</label>
-              <p>{contractData.contract}</p>
+              <p></p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Plan:</label>
               <div className="flex items-center ml-2">
-                <p>{contractData.payment}</p>
+                <p></p>
               </div>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Status:</label>
               <p className="bg-green-500 text-white rounded-lg px-3 py-0.5 text-center">
-                {contractData.paymentStatus}
+                
               </p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Managed By:</label>
-              <p>{contractData.manageBy}</p>
+              <p></p>
             </div>
           </div>
         </AccordionDetails>

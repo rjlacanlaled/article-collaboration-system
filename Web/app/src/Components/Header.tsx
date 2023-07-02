@@ -7,7 +7,7 @@ function Header({ userDetail, isSignedIn }: UserLogin) {
   return (
     <>
       <div className="flex justify-center flex-row items-center mr-20">
-        <NotificationDropdown />
+        {/* <NotificationDropdown /> */}
         <UserAvatar userDetail={userDetail} isSignedIn={isSignedIn} />
       </div>
     </>

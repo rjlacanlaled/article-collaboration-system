@@ -9,9 +9,10 @@ import { UserDetailList } from '../Types/UserDetailList';
 interface MyProps {
   user: UserDetailList;
   updateHandler: any;
+  isRejectedSuccess: any;
 }
 
-function RejectUser({ user, updateHandler }: MyProps) {
+function RejectUser({ user, updateHandler, isRejectedSuccess }: MyProps) {
 
   const [open, setOpen] = useState(false);
 
@@ -31,6 +32,7 @@ function RejectUser({ user, updateHandler }: MyProps) {
     });
     console.log({fetch});
     await updateHandler();
+    isRejectedSuccess(true);
     setOpen(false);
   };
 

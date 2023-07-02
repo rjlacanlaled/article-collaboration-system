@@ -16,6 +16,7 @@ export interface State extends SnackbarOrigin {
 
 function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
   const [isRoleSuccess, setRoleSuccess] = useState(false);
+  const [isRejectSuccess, setRejectSuccess] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetailList[]>();
 
   //Page Title
@@ -28,9 +29,15 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  // handle Approve Close
   const handleUserRoleClose = () => {
     setRoleSuccess((prevState) => !prevState);
   };
+
+    // handle Reject close
+    const handleRejectClose = () => {
+      setRejectSuccess((prevState) => !prevState);
+    };
 
   useEffect(() => {
     refreshData();
@@ -119,15 +126,18 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
                     </td>
                     <td className="border px-4 py-3">
                     {userDetail.date ? new Date(userDetail.date).toLocaleString() : ""}
+                    asd
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
                       <ApproveUser
                         user={userDetail}
                         updateHandler={refreshData}
+                        isApproveSuccess={setRoleSuccess}
                       />
                       <RejectUser 
                         user={userDetail}
                         updateHandler={refreshData}
+                        isRejectedSuccess={setRejectSuccess}
                       />
                     </td>
                   </tr>
@@ -146,7 +156,20 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
           onClose={handleUserRoleClose}
         >
           <Alert onClose={handleUserRoleClose} severity="info">
-            User Successfully Added!
+            User Successfully Approved!
+          </Alert>
+        </Snackbar>
+      )}
+      {/* DELETE NOTIFICATION */}
+      {isRejectSuccess && (
+        <Snackbar
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={isRejectSuccess}
+          onClose={handleRejectClose}
+        >
+          <Alert onClose={handleRejectClose} severity="success">
+            User Successfully Rejected!
           </Alert>
         </Snackbar>
       )}

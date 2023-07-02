@@ -32,7 +32,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("roles/all")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
         public IActionResult GetAllRoles()
         {
             var roles = _roleManager.Roles.Select(x => x.Name).ToList();
@@ -65,7 +65,7 @@ namespace Api.Controllers
 
         // ADD POST
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
         public async Task<IActionResult> CreateRole(string name)
         {
             // Check if role exists
@@ -92,7 +92,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("role/user")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
         public async Task<IActionResult> AddRole([FromBody] UserRoleUpdate updatedRole)
         {
             var user = await _userManager.FindByEmailAsync(updatedRole.Email);
@@ -131,7 +131,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("user/role/{email}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
         public async Task<IActionResult> GetUserRoles(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -148,7 +148,7 @@ namespace Api.Controllers
 
         // DELETE / REJECT USER
         [HttpDelete("role/remove/user/{email}/role/{roleName}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
         public async Task<IActionResult> RemoveRole(string email, string roleName)
         {
             var user = await _userManager.FindByEmailAsync(email);

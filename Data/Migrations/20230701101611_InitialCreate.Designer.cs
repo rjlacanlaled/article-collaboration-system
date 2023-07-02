@@ -12,7 +12,7 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230620153150_InitialCreate")]
+    [Migration("20230701101611_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

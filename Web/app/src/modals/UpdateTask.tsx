@@ -32,7 +32,7 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
     timeliness: task.timeliness,
     status: task.status,
     contractId: task.contractId,
-    productionDate: task.productionDate,
+    productionDeadline: task.productionDeadline,
     seoDeadline: task.seoDeadline,
     dateCreate: 0,
     dateUpdated: Date.now(),
@@ -65,7 +65,7 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
         words: taskData.words,
         timeliness: taskData.timeliness,
         contractId: taskData.contractId,
-        productionDate: taskData.productionDate,
+        productionDate: taskData.productionDeadline,
         seoDeadline: taskData.seoDeadline,
       }),
     });

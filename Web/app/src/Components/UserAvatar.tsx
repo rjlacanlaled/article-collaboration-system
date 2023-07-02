@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -12,8 +12,13 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const [user, setUser] = useState<UserDetail>(
-    JSON.parse(localStorage.getItem("user")!)
+    JSON.parse(localStorage.getItem("user") || "{}")
   );
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setUser(storedUser);
+  }, []);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -32,12 +37,17 @@ function UserAvatar({ userDetail, isSignedIn }: UserLogin) {
     <div>
       <Box sx={{ flexGrow: 0 }}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} disableRipple>
-          <Avatar alt="user-profile" />
+          <Avatar alt="user-profile">
+            {user?.user?.firstName?.charAt(0).toUpperCase()}
+            {user?.user?.lastName?.charAt(0).toUpperCase()}
+          </Avatar>
           <div className="flex justify-center flex-col items-center ml-3">
             <label className="text-sm text-zinc-700 font-semibold cursor-pointer tracking-widest capitalize">
-              {user.user.firstName + " " + user.user.lastName}
+              {user?.user?.firstName + " " + user?.user?.lastName}
             </label>
-            <label className="text-xs text-zinc-700 tracking-wider">{user.roles[0].replace(/([a-z])([A-Z])/g, '$1 $2')}</label>
+            <label className="text-xs text-zinc-700 tracking-wider">
+              {user?.roles[0].replace(/([a-z])([A-Z])/g, "$1 $2")}
+            </label>
           </div>
         </IconButton>
         <Menu

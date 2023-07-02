@@ -56,6 +56,11 @@ function App() {
             location.pathname === "/" ? "/clientmain" : location.pathname
           );
           break;
+        case userDetail.roles[0] === "TopManagement":
+          navigate(
+            location.pathname === "/" ? "/pending" : location.pathname
+          );
+          break;
         case userDetail.roles[0] === "Unassigned":
           navigate(
             location.pathname === "/" ? "/pendingapproval" : location.pathname

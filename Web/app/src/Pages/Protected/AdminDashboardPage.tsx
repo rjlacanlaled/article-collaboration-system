@@ -17,12 +17,15 @@ function AdminDashboardPage({
     return <Navigate to="/" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] === "Unassigned") {
-    return <Navigate to="/pendingapproval" replace />;
+  const allowedRoles = ["TopManagement", "Admin"];
+  const userRole = userDetails.roles[0];
+
+  if (!allowedRoles.includes(userRole)) {
+    return <Navigate to="/404" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] !== "Admin") {
-    return <Navigate to="/404" replace />;
+  if (userRole === "Unassigned") {
+    return <Navigate to="/pendingapproval" replace />;
   }
 
   return children;

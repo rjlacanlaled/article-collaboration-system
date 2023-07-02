@@ -58,7 +58,7 @@ public class UserDataController : ControllerBase
     }
 
     [HttpPut("role/update/email/{email}/role/{role}")]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
     public async Task<IActionResult> UpdateRoleAsync([FromRoute] string email, [FromRoute] string role)
     {
         if (!ModelState.IsValid) return BadRequest("Bad data");
@@ -170,7 +170,7 @@ public class UserDataController : ControllerBase
     }
 
     [HttpGet("users/unapproved")]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin, TopManagement")]
     public async Task<IActionResult> FetchAllUnApprovedAsync()
     {
         var users = await _userManager.Users

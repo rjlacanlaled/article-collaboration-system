@@ -10,7 +10,6 @@ import Add from "@mui/icons-material/Add";
 import Typography from "@mui/joy/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import DatePicker from "../Components/DatePicker";
 import jwt_decode from "jwt-decode";
 import { MyToken } from "../Components/Login";
 
@@ -31,8 +30,8 @@ function AddItem({ updateHandler }: myProps) {
     link: "",
     type: "",
     words: "",
-    productionDate: "2023-06-30",
-    seoDeadline: "2023-06-30",
+    productionDate: "",
+    seoDeadline: "",
   });
 
   const handleChange = (e: any) => {

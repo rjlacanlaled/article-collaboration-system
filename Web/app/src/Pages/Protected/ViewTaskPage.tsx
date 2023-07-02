@@ -13,8 +13,15 @@ function ViewTaskPage({ isSignedIn, children, userDetails }: ViewTaskPageProps) 
     return <Navigate to="/" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] === "Unassigned") {
+  if (userDetails.roles[0] === "Unassigned") {
     return <Navigate to="/pendingapproval" replace />;
+  }
+
+  const allowedRoles = ["TopManagement", "ContentManager", "ContentWriter", "SeoManager", "SeoSpecialist", "WebDeveloper"];
+  const userRole = userDetails.roles[0];
+
+  if (!allowedRoles.includes(userRole)) {
+    return <Navigate to="/404" replace />;
   }
 
   return children;

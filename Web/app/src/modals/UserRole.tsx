@@ -14,9 +14,10 @@ import { UserDetailList } from "../Types/UserDetailList";
 interface MyUserRoleProps {
   user: UserDetailList;
   updateHandler: any;
+  isApproveSuccess: any;
 }
 
-function UserRole({ user, updateHandler }: MyUserRoleProps) {
+function UserRole({ user, updateHandler, isApproveSuccess }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState<number>(0);
@@ -38,6 +39,7 @@ function UserRole({ user, updateHandler }: MyUserRoleProps) {
       }),
     });
     await updateHandler();
+    isApproveSuccess(true)
     setOpen(false);
   };
 

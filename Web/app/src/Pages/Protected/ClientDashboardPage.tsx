@@ -17,11 +17,11 @@ function ClientDashboardPage({
     return <Navigate to="/" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] === "Unassigned") {
+  if (userDetails.roles[0] === "Unassigned") {
     return <Navigate to="/pendingapproval" replace />;
   }
 
-  if (isSignedIn && userDetails.roles[0] !== "Client") {
+  if (userDetails.roles[0] !== "Client") {
     return <Navigate to="/404" replace />;
   }
 
