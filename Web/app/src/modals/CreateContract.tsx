@@ -81,22 +81,9 @@ function CreateContract() {
         paymentDate: new Date(paymentDate).toISOString(),
       }),
     });
+    setOpen(true);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetch(`http://localhost:5143/api/v1/UserDetails/all`, {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     });
-  //     const user = await res.json();
-  //     setClient(user);
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
