@@ -142,8 +142,10 @@ namespace Data.Migrations
                     SeoEmail = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
                     Plan = table.Column<int>(type: "integer", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    PaymentStatus = table.Column<int>(type: "integer", nullable: false),
+                    PaymentAmount = table.Column<double>(type: "double precision", nullable: false),
                     ManagedBy = table.Column<string>(type: "text", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

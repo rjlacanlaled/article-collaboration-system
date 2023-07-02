@@ -56,6 +56,10 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
   TabTitle("Client - SearchWorks");
 
   useEffect(() => {
+    refreshData();
+  }, []);
+
+  const refreshData = async () => {
     const fetchData = async () => {
       const res = await fetch(
         `${process.env.REACT_APP_BASE_URL}/Contracts/contract/all`,
@@ -73,8 +77,8 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
     };
 
     fetchData();
-  }, []);
-
+  };
+  
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md m-4">
@@ -121,12 +125,6 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Managed By
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    CreatedAt
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
                   </th>
                 </tr>
               </thead>
@@ -198,10 +196,6 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           {new Date(contract.paymentDate).toLocaleString()}
                         </th>
                         <td className="px-6 py-4">{contract.managedBy}</td>
-                        <td className="flex items-center px-6 py-4 space-x-3">
-                          <UpdateContract />
-                          <DeleteClient />
-                        </td>
                       </tr>
                     ))}
               </tbody>
@@ -325,13 +319,12 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {new Date(contract.paymentDate).toLocaleString()}
+                            {new Date(contract.paymentDate).toDateString()}
                           </th>
                           <td className="px-6 py-4">{contract.managedBy}</td>
-
                           <td className="flex items-center px-6 py-4 space-x-3">
-                            <UpdateContract />
-                            <DeleteClient />
+                            <UpdateContract updateHandler={refreshData} />
+                            <DeleteClient user={userDetail} updateHandler={refreshData} />
                           </td>
                         </tr>
                       ))}

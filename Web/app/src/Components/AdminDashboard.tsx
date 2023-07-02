@@ -90,7 +90,6 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
                 <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Role</th>
                 <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Registration Date</th>
                 <th className="px-4 py-3">Action</th>
               </tr>
             </thead>
@@ -123,10 +122,6 @@ function AdminDashboard({ userDetail, isSignedIn }: UserLogin) {
                     <td className="border px-4 py-3">{userDetail.roles[0] === "Unassigned" && "Unassigned"}</td>
                     <td className="border px-4 py-3">
                       <Chip label="For Approval" className="font-semibold" />
-                    </td>
-                    <td className="border px-4 py-3">
-                    {userDetail.date ? new Date(userDetail.date).toLocaleString() : ""}
-                    asd
                     </td>
                     <td className="border px-4 py-3 items-center space-x-3">
                       <ApproveUser

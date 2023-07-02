@@ -5,16 +5,34 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import DeleteIcon from '../Assets/Images/delete-icon.svg'
-import clientData from '../Data/ClientData.json'
+import { UserDetail } from '../Types/UserDetails';
 
-function DeleteClient() {
+interface MyRoleProps {
+  user: UserDetail; 
+  updateHandler: any;
+}
+
+function DeleteClient({user, updateHandler}: MyRoleProps) {
   
   const [open, setOpen] = useState(false);
-  const [clients, setClients] = useState(clientData)
 
-  const removeClient = (id: number) => {
-    const newList = clients.filter((client: { id: number; }) => client.id !== id);
-    setClients(newList);
+  const handleDeleteContractSubmit = async () => {
+
+    if (user.roles[0] !== "Client") {
+      return;
+    }
+
+    await fetch(`${process.env.REACT_APP_BASE_URL}/Contracts/contract/email/${user.user.email}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        id: user.user.email,
+      }),
+    });
+    await updateHandler();
     setOpen(false);
   };
 
@@ -52,7 +70,7 @@ function DeleteClient() {
             <Stack spacing={2}>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button color="neutral" className='w-24' size='sm' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button color="danger" className='w-24' size='sm'>Delete</Button>
+                <Button color="danger" className='w-24' size='sm' onClick={handleDeleteContractSubmit}>Delete</Button>
               </Stack>
             </Stack>
           </form>

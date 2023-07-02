@@ -12,8 +12,8 @@ using Sink.Data;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230702074442_Initialreate7")]
-    partial class Initialreate7
+    [Migration("20230702105156_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

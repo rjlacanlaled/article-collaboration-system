@@ -515,23 +515,34 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Contract Type:</label>
-              <p>{contractDetails?.type}</p>
+                <p>
+                  {contractDetails?.type === 0 && "Open"}
+                  {contractDetails?.type === 1 && "6 Months"}
+                  {contractDetails?.type === 2 && "1 Year"}
+                </p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Plan:</label>
               <div className="flex items-center ml-2">
-                <p>{contractDetails?.plan}</p>
+                <p>
+                  {contractDetails?.plan === 0 && "Full Payment"}
+                  {contractDetails?.plan === 1 && "2 Months Advance"}
+                </p>
               </div>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Status:</label>
               <p className="bg-green-500 text-white rounded-lg px-3 py-0.5 text-center">
-                {contractDetails?.status}
+                {contractDetails?.status === 1 && "Paid"}
+                {contractDetails?.status === 0 && "Not Paid"}
               </p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Managed By:</label>
-              <p>{contractDetails?.managedBy}</p>
+              <p>
+                {contractDetails?.managedBy === 1 && "SearchWorks"}
+                {contractDetails?.managedBy === 2 && "Client"}
+              </p>
             </div>
           </div>
         </AccordionDetails>
