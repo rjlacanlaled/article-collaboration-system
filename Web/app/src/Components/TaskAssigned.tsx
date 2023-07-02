@@ -413,7 +413,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     {allUsers
                       .filter(
                         (user) =>
-                          user.roles[0] === "SeoManager" ||
+                          user.roles[0] === "ContentManager" ||
                           user.roles[0] === "WebDeveloper" ||
                           user.roles[0] === "SeoSpecialist"
                       )
