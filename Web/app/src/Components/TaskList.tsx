@@ -139,8 +139,8 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
           />
         </div>
         <div className="overflow-x-auto shadow-md sm:rounded-md">
-          <table className="w-full text-sm text-left dark:text-black">
-            <thead className="sticky top-0 z-20 text-xs uppercase bg-gray-50 dark:bg-gray-800 text-white tracking-wider">
+          <table className="w-full text-sm text-left text-black">
+            <thead className="sticky top-0 z-20 text-xs uppercase bg-gray-800 text-white tracking-wider">
               <tr>
                 <th scope="col" className="p-4">
                   <div className="flex items-center">

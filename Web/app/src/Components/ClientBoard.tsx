@@ -87,8 +87,8 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
         userDetail.roles[0] === "ContentManager" ||
         userDetail.roles[0] === "WebDeveloper" ? (
           <div className="relative overflow-x-auto shadow-md sm:rounded-md">
-            <table className="w-full text-sm text-left dark:text-black">
-              <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800 text-white">
+            <table className="w-full text-sm text-left text-black">
+              <thead className="text-xs uppercase bg-gray-800 text-white">
                 <tr>
                   <th scope="col" className="p-4">
                     <div className="flex items-center">
@@ -207,15 +207,15 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
               <CreateContract />
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-md">
-              <table className="w-full text-sm text-left dark:text-black">
-                <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800 text-white">
+              <table className="w-full text-sm text-left text-black">
+                <thead className="text-xs uppercase bg-gray-800 text-white">
                   <tr>
                     <th scope="col" className="p-4">
                       <div className="flex items-center">
                         <input
                           id="checkbox-all-search"
                           type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 bg-gray-700border-gray-600"
                         />
                         <label
                           htmlFor="checkbox-all-search"
