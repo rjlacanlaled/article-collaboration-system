@@ -50,7 +50,7 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
   };
 
   const handleUpdateTaskSubmit = async () => {
-    await fetch(`http://localhost:5143/api/v1/ProjectTasks/id/${task.id}`, {
+    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/id/${task.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
