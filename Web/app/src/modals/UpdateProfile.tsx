@@ -103,20 +103,20 @@ function UpdateProfile({
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Last Name</FormLabel>
-                <Input
-                  type="text"
-                  name="lastname"
-                  value={profileData?.lastname}
-                  onChange={handleChange}
-                />
-              </FormControl>
-              <FormControl>
                 <FormLabel>Middle Name</FormLabel>
                 <Input
                   type="text"
                   name="middlename"
                   value={profileData?.middlename}
+                  onChange={handleChange}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Last Name</FormLabel>
+                <Input
+                  type="text"
+                  name="lastname"
+                  value={profileData?.lastname}
                   onChange={handleChange}
                 />
               </FormControl>
