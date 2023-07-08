@@ -19,36 +19,22 @@ type Columns = {
   };
 };
 
-const fetchUserDetail = async () => {
-  const decodedToken = jwt_decode<MyToken>(localStorage.getItem("token")!);
-  const userDetailReq = await fetch(
-    `${process.env.REACT_APP_BASE_URL}/UserData/email/${encodeURIComponent(
-      decodedToken.email
-    )}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")!}`,
-      },
-    }
-  );
-
-  const userDetail: UserDetail = await userDetailReq.json();
-
-  return userDetail;
-};
+const limitedRoles = ["WebDeveloper", "SeoSpecialist", "ContentWriter"];
 
 const onDragEnd = async (
   result: any,
   columns: Columns,
   setColumns: React.Dispatch<React.SetStateAction<Columns | null>>
 ) => {
+  console.log("here1");
   if (
     !result.destination ||
     result.destination.droppableId === result.source.droppableId
-  )
+  ) {
     return;
+  }
+
+  console.log("here2");
 
   const updatedColumns = { ...columns };
 
@@ -63,6 +49,8 @@ const onDragEnd = async (
     status: parseInt(result.destination.droppableId) - 1,
   };
 
+  console.log({ updatedTask });
+
   await fetch(
     `${process.env.REACT_APP_BASE_URL}/ProjectTasks/id/${updatedTask.id}`,
     {
@@ -71,7 +59,18 @@ const onDragEnd = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify(updatedTask),
+      body: JSON.stringify({
+        title: updatedTask.title,
+        description: updatedTask.description,
+        status: updatedTask.status,
+        type: updatedTask.type,
+        words: updatedTask.words,
+        timeliness: updatedTask.timeliness,
+        contractId: updatedTask.contractId,
+        link: updatedTask.link,
+        productionDate: updatedTask.productionDeadline,
+        seoDeadline: updatedTask.seoDeadline,
+      }),
     }
   );
 
@@ -81,7 +80,7 @@ const onDragEnd = async (
 function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
   const [columns, setColumns] = useState<Columns | null>(null);
   const [tasks, setTasks] = useState<ProjectTask[] | undefined | null>(null);
-  const [user, setUser] = useState<UserDetail | null>(null);
+  const [user, setUser] = useState<UserDetail | null>(userDetail);
 
   //Page Title
   TabTitle("Task Board - SearchWorks");
@@ -99,44 +98,47 @@ function KanbanBoard({ userDetail, isSignedIn }: UserLogin) {
       );
       const resJson = await res.json();
       setTasks(resJson);
-
-      const initialColumns: Columns = {
-        1: {
-          title: "To do",
-          items: resJson.filter((task: ProjectTask) => task.status === 0),
-        },
-        2: {
-          title: "In Progress",
-          items: resJson.filter((task: ProjectTask) => task.status === 1),
-        },
-        3: {
-          title: "For Review",
-          items: resJson.filter((task: ProjectTask) => task.status === 2),
-        },
-        4: {
-          title: "Completed",
-          items: resJson.filter((task: ProjectTask) => task.status === 3),
-        },
-      };
-
-      setColumns(initialColumns);
     };
 
     fetchData();
   }, []);
 
   useEffect(() => {
-    if (!userDetail) {
-      const fetchUser = async () => {
-        const userDetails = await fetchUserDetail();
-        setUser(userDetails);
-        console.log({ userDetails });
-      };
-      fetchUser();
+    if (tasks == null || tasks === undefined) return;
+
+    let filteredTasks: ProjectTask[] = [];
+
+    if (limitedRoles.includes(userDetail.roles[0])) {
+      filteredTasks = tasks?.filter((x) =>
+        x.assignees.map((r) => r.userId).includes(user?.user.email!)
+      );
     } else {
-      setUser(user);
+      filteredTasks = tasks;
     }
-  }, [userDetail]);
+
+    console.log({ filteredTasks });
+
+    const initialColumns: Columns = {
+      1: {
+        title: "To do",
+        items: filteredTasks.filter((task: ProjectTask) => task.status === 0),
+      },
+      2: {
+        title: "In Progress",
+        items: filteredTasks.filter((task: ProjectTask) => task.status === 1),
+      },
+      3: {
+        title: "For Review",
+        items: filteredTasks.filter((task: ProjectTask) => task.status === 2),
+      },
+      4: {
+        title: "Completed",
+        items: filteredTasks.filter((task: ProjectTask) => task.status === 3),
+      },
+    };
+
+    setColumns(initialColumns);
+  }, [tasks]);
 
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>

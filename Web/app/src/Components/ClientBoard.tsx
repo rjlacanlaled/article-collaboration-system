@@ -73,12 +73,13 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
       );
       const contractDetails = await res.json();
       setContracts(contractDetails);
+      console.log("clientboard");
       console.log({ contractDetails });
     };
 
     fetchData();
   };
-  
+
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-790 drop-shadow rounded-md m-4">
@@ -193,7 +194,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {new Date(contract.paymentDate).toLocaleString()}
+                          {contract.paymentDate}
                         </th>
                         <td className="px-6 py-4">{contract.managedBy}</td>
                       </tr>
@@ -204,7 +205,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
         ) : (
           <>
             <div className="flex justify-start flex-row items-center mb-8 w-64">
-              <CreateContract />
+              <CreateContract updateHandler={refreshData} />
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-md">
               <table className="w-full text-sm text-left text-black">
@@ -290,16 +291,16 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {paymentPlanStrings[contract.plan]}
+                            {paymentPlanStrings[contract.type]}
                           </th>
                           <th
                             scope="row"
                             className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                           >
-                            {paymentType[contract.type]}
+                            {paymentType[contract.plan]}
                           </th>
                           <td className="px-6 py-4">
-                            {contract.paymentDate != null ? (
+                            {contract.paymentStatus === 1 ? (
                               <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
                                 Paid
                               </p>
@@ -323,8 +324,14 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           </th>
                           <td className="px-6 py-4">{contract.managedBy}</td>
                           <td className="flex items-center px-6 py-4 space-x-3">
-                            <UpdateContract updateHandler={refreshData} />
-                            <DeleteClient user={userDetail} updateHandler={refreshData} />
+                            <UpdateContract
+                              updateHandler={refreshData}
+                              contractDetails={contract}
+                            />
+                            <DeleteClient
+                              user={contract}
+                              updateHandler={refreshData}
+                            />
                           </td>
                         </tr>
                       ))}

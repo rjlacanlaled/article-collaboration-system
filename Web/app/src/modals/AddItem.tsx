@@ -60,7 +60,9 @@ function AddItem({ updateHandler }: myProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
-        productionDate: new Date(taskData.productionDate).toISOString(),
+        productionDate: new Date(
+          new Date(taskData.productionDate).setHours(17)
+        ).toISOString(),
         seoDeadline: new Date(taskData.seoDeadline).toISOString(),
       }),
     });

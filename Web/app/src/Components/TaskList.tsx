@@ -12,10 +12,10 @@ import { TabTitle } from "../utils/GeneralFunctions";
 
 export type Assignee = {
   avatar: string | undefined;
-  userId: number;
+  userId: string;
   firstName: string;
   lastName: string;
-  roleId: number;
+  roleId: string;
   role: string;
 };
 
@@ -36,6 +36,8 @@ export type ProjectTask = {
   assignees: Assignee[];
   reporter: string;
 };
+
+const limitedRoles = ["WebDeveloper", "SeoSpecialist", "ContentWriter"];
 
 export interface State extends SnackbarOrigin {
   open: boolean;
@@ -88,7 +90,19 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
         }
       );
       const tasks = await res.json();
-      setTasks(tasks);
+      let filteredTasks: ProjectTask[] = [];
+
+      if (limitedRoles.includes(userDetail.roles[0])) {
+        filteredTasks = tasks?.filter((x: ProjectTask) =>
+          x.assignees
+            .map((r: Assignee) => r.userId)
+            .includes(userDetail?.user.email!)
+        );
+      } else {
+        filteredTasks = tasks;
+      }
+
+      setTasks(filteredTasks);
     };
 
     fetchData();

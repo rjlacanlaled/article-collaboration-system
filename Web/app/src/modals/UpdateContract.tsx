@@ -1,60 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/joy/Button';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Modal from '@mui/joy/Modal';
+import React, { useState, useEffect } from "react";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Modal from "@mui/joy/Modal";
 import Input from "@mui/joy/Input";
-import ModalDialog from '@mui/joy/ModalDialog';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import UpdateIcon from '../Assets/Images/edit-icon.svg'
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import UpdateIcon from "../Assets/Images/edit-icon.svg";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { UserDetailList } from "../Types/UserDetailList";
-
-export type ContractDetails = {
-  clientEmail: string;
-  seoEmail: string;
-  type: number;
-  plan: number;
-  status: number;
-  managedBy: number;
-  paymentAmount: number;
-  paymentDate: string;
-};
+import { ContractDetails } from "./CreateContract";
+import dayjs from "dayjs";
 
 interface MyUserRoleProps {
   updateHandler: any;
+  contractDetails: ContractDetails;
 }
 
-function UpdateContract({updateHandler}: MyUserRoleProps) {
+function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
   const [open, setOpen] = useState(false);
   const [paymentDate, setPaymentDate] = useState("");
   const [client, setClient] = useState<UserDetailList[]>([]);
   const [seo, setSeo] = useState<UserDetailList[]>([]);
   const [contractData, setContractData] = useState<ContractDetails>({
-    clientEmail: "",
-    seoEmail: "",
-    type: 0,
-    plan: 0,
-    status: 0,
-    paymentAmount: 0,
-    managedBy: 0,
-    paymentDate: "",
+    clientEmail: contractDetails.clientEmail,
+    seoEmail: contractDetails.seoEmail,
+    type: contractDetails.type,
+    plan: contractDetails.plan,
+    paymentStatus: contractDetails.paymentStatus,
+    paymentAmount: contractDetails.paymentAmount,
+    managedBy: contractDetails.managedBy,
+    paymentDate: contractDetails.paymentDate,
   });
 
   const handleChange = (e: any) => {
-    setContractData(prevContractData => {
+    setContractData((prevContractData) => {
       return {
         ...prevContractData,
-        [e.target.name]: e.target.value
-      }
-    })
-  }
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +78,7 @@ function UpdateContract({updateHandler}: MyUserRoleProps) {
   }, []);
 
   const handleUpdateContractSubmit = async () => {
+    console.log({ contractData });
     await fetch(`${process.env.REACT_APP_BASE_URL}/Contracts`, {
       method: "PUT",
       headers: {
@@ -97,27 +90,35 @@ function UpdateContract({updateHandler}: MyUserRoleProps) {
         seoEmail: contractData.seoEmail,
         type: contractData.type,
         plan: contractData.plan,
-        status: contractData.status,
+        status: contractData.paymentStatus,
         paymentAmount: contractData.paymentAmount,
         managedBy: contractData.managedBy === 0 ? "SearchWorks" : "Client",
-        paymentDate: new Date(contractData.paymentDate).toISOString(),
+        paymentDate: contractData.paymentDate,
       }),
     });
     // isUpdateSuccess(true);
     await updateHandler();
-    setOpen(true);
+    setOpen(false);
+  };
+
+  const handleDateChange = (date: any) => {
+    setPaymentDate(date);
+    console.log(contractData.paymentDate);
+    console.log(new Date(date).toISOString());
+    contractData.paymentDate = new Date(date).toISOString();
+    setContractData(contractData);
   };
 
   return (
     <>
-      <div className='mr-2 mb-2'>
+      <div className="mr-2 mb-2">
         <Button
           variant="solid"
           color="primary"
-          size='sm'
+          size="sm"
           onClick={() => setOpen(true)}
         >
-        <img src={UpdateIcon} alt="update" className='h-4 w-4 mr-1.5'/>
+          <img src={UpdateIcon} alt="update" className="h-4 w-4 mr-1.5" />
           Update
         </Button>
         <Modal open={open} onClose={() => setOpen(false)}>
@@ -130,7 +131,10 @@ function UpdateContract({updateHandler}: MyUserRoleProps) {
             <Typography id="basic-modal-dialog-title" component="h2">
               Update Contract
             </Typography>
-            <Typography id="basic-modal-dialog-description" textColor="text.tertiary">
+            <Typography
+              id="basic-modal-dialog-description"
+              textColor="text.tertiary"
+            >
               Fill in the information of the contract.
             </Typography>
             <form
@@ -239,8 +243,8 @@ function UpdateContract({updateHandler}: MyUserRoleProps) {
                     labelId="demo-select-small"
                     id="demo-select-small"
                     type="text"
-                    name="status"
-                    value={contractData.status}
+                    name="paymentStatus"
+                    value={contractData.paymentStatus}
                     label="PaymentStatus"
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
@@ -262,6 +266,17 @@ function UpdateContract({updateHandler}: MyUserRoleProps) {
                     autoFocus
                   />
                 </FormControl>
+                <FormControl>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DatePicker"]}>
+                      <DatePicker
+                        label="Payment Date"
+                        value={dayjs(contractData.paymentDate)}
+                        onChange={handleDateChange}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </FormControl>
                 <Button onClick={handleUpdateContractSubmit}>Submit</Button>
               </Stack>
             </form>
@@ -272,4 +287,4 @@ function UpdateContract({updateHandler}: MyUserRoleProps) {
   );
 }
 
-export default UpdateContract
+export default UpdateContract;

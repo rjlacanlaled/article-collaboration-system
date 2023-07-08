@@ -50,25 +50,31 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
   };
 
   const handleUpdateTaskSubmit = async () => {
-    await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks/id/${task.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        title: taskData.title,
-        description: taskData.description,
-        link: taskData.link,
-        status: taskData.status,
-        type: taskData.type,
-        words: taskData.words,
-        timeliness: taskData.timeliness,
-        contractId: taskData.contractId,
-        productionDate: taskData.productionDeadline,
-        seoDeadline: taskData.seoDeadline,
-      }),
-    });
+    console.log({ taskData, task });
+    await fetch(
+      `${process.env.REACT_APP_BASE_URL}/ProjectTasks/id/${task.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          title: taskData.title,
+          description: taskData.description,
+          link: taskData.link,
+          status: taskData.status,
+          type: taskData.type,
+          words: taskData.words,
+          timeliness: taskData.timeliness,
+          contractId: taskData.contractId,
+          productionDate: new Date(
+            new Date(taskData.productionDeadline).setHours(17)
+          ).toISOString(),
+          seoDeadline: new Date(taskData.seoDeadline).toISOString(),
+        }),
+      }
+    );
     isUpdateSuccess(true);
     await updateHandler();
     setOpen(false);
@@ -170,16 +176,14 @@ function UpdateTask({ task, updateHandler, isUpdateSuccess }: MyProps) {
                   />
                 </FormControl>
                 <FormControl>
-                <FormLabel>Production Date</FormLabel>
-                <DatePicker />
-              </FormControl>
-              <FormControl>
-                <FormLabel>SEO Deadline</FormLabel>
-                <DatePicker />
-              </FormControl>
-                <Button onClick={handleUpdateTaskSubmit}>
-                  Submit
-                </Button>
+                  <FormLabel>Production Date</FormLabel>
+                  <DatePicker />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>SEO Deadline</FormLabel>
+                  <DatePicker />
+                </FormControl>
+                <Button onClick={handleUpdateTaskSubmit}>Submit</Button>
               </Stack>
             </form>
           </ModalDialog>

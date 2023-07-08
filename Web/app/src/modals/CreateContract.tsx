@@ -26,13 +26,17 @@ export type ContractDetails = {
   seoEmail: string;
   type: number;
   plan: number;
-  status: number;
+  paymentStatus: number;
   managedBy: number;
   paymentAmount: number;
   paymentDate: string;
 };
 
-function CreateContract() {
+export type Props = {
+  updateHandler: () => void;
+};
+
+function CreateContract({ updateHandler }: Props) {
   const [open, setOpen] = useState(false);
   const [paymentDate, setPaymentDate] = useState("");
   const [client, setClient] = useState<UserDetailList[]>([]);
@@ -42,7 +46,7 @@ function CreateContract() {
     seoEmail: "",
     type: 0,
     plan: 0,
-    status: 0,
+    paymentStatus: 0,
     paymentAmount: 0,
     managedBy: 0,
     paymentDate: "",
@@ -75,15 +79,15 @@ function CreateContract() {
         seoEmail: contractData.seoEmail,
         type: contractData.type,
         plan: contractData.plan,
-        status: contractData.status,
+        status: contractData.paymentStatus,
         paymentAmount: contractData.paymentAmount,
         managedBy: contractData.managedBy === 0 ? "SearchWorks" : "Client",
         paymentDate: new Date(paymentDate).toISOString(),
       }),
     });
-    setOpen(true);
+    setOpen(false);
+    await updateHandler();
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -239,7 +243,7 @@ function CreateContract() {
                   id="demo-select-small"
                   type="text"
                   name="status"
-                  value={contractData.status}
+                  value={contractData.paymentStatus}
                   label="PaymentStatus"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}

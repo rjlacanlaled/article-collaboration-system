@@ -79,6 +79,7 @@ public class ContractsController : ControllerBase
 
 
         _dbContext.Contracts.Update(existingContract);
+        await _dbContext.SaveChangesAsync();
         return Ok(existingContract);
     }
 
@@ -107,7 +108,16 @@ public class ContractsController : ControllerBase
         }
 
         _dbContext.Remove(existingContract);
+
+        List<ProjectTaskAssignee>? clientAssignees = await _dbContext.ProjectTaskAssignees.Where(pta => pta.UserEmail == email).ToListAsync();
+
+        if (clientAssignees is not null)
+        {
+            _dbContext.Remove(clientAssignees);
+        }
+
         await _dbContext.SaveChangesAsync();
+
 
         return Ok("Successfully deleted!");
     }

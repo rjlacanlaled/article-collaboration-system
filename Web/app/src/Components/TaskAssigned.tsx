@@ -6,7 +6,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Avatar from "@mui/material/Avatar";
 import Slide from "@mui/material/Slide";
-import { ProjectTask } from "./TaskList";
+import { Assignee, ProjectTask } from "./TaskList";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/joy/FormControl";
@@ -19,7 +19,7 @@ interface MyProps {
   columnId: any;
 }
 
-export type Assignee = {
+export type PAssignee = {
   email: string;
   name: string;
   role: string;
@@ -33,10 +33,10 @@ export type AssigneeRaw = {
 };
 
 export default function TaskAssigned({ columnId, task }: MyProps) {
-  const [client, setClient] = useState<UserDetailList[]>([]);
+  const [clients, setClients] = useState<ContractDetails[]>([]);
   const [allUsers, setAllUsers] = useState<UserDetailList[]>([]);
   const [uploader, setUploader] = useState<UserDetailList[]>([]);
-  const [assignee, setAssignee] = useState<Assignee[]>([]);
+  const [assignee, setAssignee] = useState<PAssignee[]>([]);
   const [detailsExpand, setDetailsExpanded] = useState(true);
   const [contractData, setContractData] = useState({
     assignUser: "",
@@ -104,6 +104,8 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
 
   //GET ALL APPROVED USERS
   useEffect(() => {
+    console.log("dsadas");
+    console.log({ task });
     const fetchData = async () => {
       const res = await fetch(
         `${process.env.REACT_APP_BASE_URL}/UserData/users/approved`,
@@ -115,8 +117,59 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
         }
       );
       const users = await res.json();
+
+      const clientUsersReq = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/Contracts/contract/all`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const clientUsers = await clientUsersReq.json();
+
+      setClients(clientUsers);
+
       setAllUsers(users);
-      console.log({ users });
+
+      const clientUser: Assignee | undefined = task.assignees.find(
+        (x: Assignee) => x.roleId === "Client"
+      );
+
+      console.log(task.assignees);
+
+      console.log({ clientUser });
+
+      if (clientUser) {
+        let actualContractDetails: ContractDetails | undefined = clients.find(
+          (x) => x.clientEmail === clientUser.userId
+        );
+
+        if (
+          actualContractDetails === undefined ||
+          actualContractDetails == null
+        ) {
+          const contractDetailsReq = await fetch(
+            `${
+              process.env.REACT_APP_BASE_URL
+            }/Contracts/contract/email/${encodeURI(clientUser.userId)}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          actualContractDetails = await contractDetailsReq.json();
+          console.log({ actualContractDetails });
+        }
+
+        console.log({ actualContractDetails });
+        setContractDetails(actualContractDetails!);
+      }
     };
 
     fetchData();
@@ -135,7 +188,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
         }
       );
       const assigneesRaw: AssigneeRaw[] = await res.json();
-      const assignees: Assignee[] = [];
+      const assignees: PAssignee[] = [];
 
       console.log({ assigneesRaw });
 
@@ -456,7 +509,8 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
               <p>
                 Prod Date:{" "}
                 {new Date(task.productionDeadline).toDateString() +
-                  " at 5:00 PM"}
+                  " at " +
+                  new Date(task.productionDeadline).toLocaleTimeString()}
               </p>
             </div>
           </div>
@@ -495,13 +549,11 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
                     <MenuItem value="None">
                       <em>None</em>
                     </MenuItem>
-                    {allUsers
-                      .filter((x) => x.roles[0] === "Client")
-                      .map((clients) => (
-                        <MenuItem value={clients.email}>
-                          {clients.firstName} {clients.lastName}
-                        </MenuItem>
-                      ))}
+                    {clients.map((client) => (
+                      <MenuItem value={client.clientEmail}>
+                        {client.clientEmail}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -515,11 +567,11 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Contract Type:</label>
-                <p>
-                  {contractDetails?.type === 0 && "Open"}
-                  {contractDetails?.type === 1 && "6 Months"}
-                  {contractDetails?.type === 2 && "1 Year"}
-                </p>
+              <p>
+                {contractDetails?.type === 0 && "Open"}
+                {contractDetails?.type === 1 && "6 Months"}
+                {contractDetails?.type === 2 && "1 Year"}
+              </p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Plan:</label>
@@ -533,16 +585,13 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Status:</label>
               <p className="bg-green-500 text-white rounded-lg px-3 py-0.5 text-center">
-                {contractDetails?.status === 1 && "Paid"}
-                {contractDetails?.status === 0 && "Not Paid"}
+                {contractDetails?.paymentStatus === 1 && "Paid"}
+                {contractDetails?.paymentStatus === 0 && "Not Paid"}
               </p>
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Managed By:</label>
-              <p>
-                {contractDetails?.managedBy === 1 && "SearchWorks"}
-                {contractDetails?.managedBy === 2 && "Client"}
-              </p>
+              <p>{contractDetails?.managedBy}</p>
             </div>
           </div>
         </AccordionDetails>
