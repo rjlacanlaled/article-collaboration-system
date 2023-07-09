@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Common.Models.Core;
+using Api.Services;
+using Common.Models.Mail;
 
 namespace Api.Controllers
 {
@@ -22,13 +24,19 @@ namespace Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<SetupController> _logger;
+        private readonly IMailService _mailService;
 
-        public SetupController(ApplicationContext dbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<SetupController> logger)
+        public SetupController(ApplicationContext dbContext,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        IMailService mailService,
+        ILogger<SetupController> logger)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
+            _mailService = mailService;
         }
 
         [HttpGet("roles/all")]
@@ -122,6 +130,24 @@ namespace Api.Controllers
 
             if (addRoleResult.Succeeded)
             {
+                MailRequest mailRequest = new()
+                {
+                    ToEmail = new List<string>() { user.Email! },
+                    Subject = " Welcome to Searchworks!",
+                    Body = $@"
+Dear {user.FirstName + " " + user.LastName},
+
+Your account approval request for the role {updatedRole.RoleName} has been approved.
+
+If you have any questions or need assistance, please feel free to reach out to us at support@searchworks.xyz.
+
+Best regards,
+Searchworks
+"
+                };
+
+                await _mailService.SendEmailAsync(mailRequest);
+
                 return Ok(user);
             }
             else
@@ -169,6 +195,28 @@ namespace Api.Controllers
 
             if (removeRoleResult.Succeeded)
             {
+                await _userManager.DeleteAsync(user);
+
+                MailRequest mailRequest = new()
+                {
+                    ToEmail = new List<string>() { user.Email! },
+                    Subject = "Account Approval Rejected",
+                    Body = $@"
+Dear {user.FirstName + " " + user.LastName},
+
+We regret to inform you that your account approval request has been rejected. We appreciate your interest, but unfortunately, we are unable to approve your account at this time.
+
+If you have any questions or require further information, please feel free to reach out to our support team at support@searchworks.xyz.
+
+Thank you for your understanding.
+
+Best regards,
+Searchworks
+"
+                };
+
+                await _mailService.SendEmailAsync(mailRequest);
+
                 return Ok(user);
             }
             else

@@ -265,7 +265,12 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                           {getStatusText(task.status)}
                         </p>
                       </td>
-                      <td className="px-6 py-4">{task.reporter}</td>
+                      <td className="px-6 py-4">
+                        {
+                          task.assignees.find((x) => x.roleId === "Reporter")
+                            ?.userId
+                        }
+                      </td>
                       <td className="px-6 py-4">
                         {task.type === 0 ? "Guest Post" : ""}
                         {task.type === 1 ? "Blog" : ""}

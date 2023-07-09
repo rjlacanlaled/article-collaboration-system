@@ -5,10 +5,13 @@ import TaskAssigned from "./TaskAssigned";
 import TaskComment from "./TaskComment";
 import { Assignee, ProjectTask } from "./TaskList";
 import { UserLogin } from "../Types/UserLogin";
+import { ContractDetails } from "../modals/CreateContract";
 
 function ViewTask({ userDetail, isSignedIn }: UserLogin) {
   const { id } = useParams();
   const [taskData, setTaskData] = useState<ProjectTask>();
+  const [contractDetails, setContractDetails] =
+    useState<ContractDetails | null>(null);
 
   useEffect(() => {
     async function fetchTaskData() {
@@ -30,6 +33,32 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
     }
     fetchTaskData();
   }, [id]);
+
+  // useEffect(() => {
+  //   const fetchContractDetails = async (email: string) => {
+  //     const contractDetailsReq = await fetch(
+  //       `${
+  //         process.env.REACT_APP_BASE_URL
+  //       }/Contracts/contract/email/${encodeURI(email)}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     );
+
+  //     const actualContractDetails = await contractDetailsReq.json();
+  //     setContractDetails(actualContractDetails);
+  //     console.log({ actualContractDetails });
+  //   }
+
+  //   const client = taskData?.assignees.find(x => x.role === "Client");
+
+  //   if (client) {
+  //     fetchContractDetails(client.userId);
+  //   }
+  // }, [taskData])
 
   return (
     <DashboardPage user={userDetail} isSignedIn={isSignedIn}>

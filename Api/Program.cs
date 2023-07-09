@@ -6,6 +6,11 @@ using Api.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Common.Models.Mail;
+using Amazon.SimpleEmail;
+using Amazon.Runtime;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +90,19 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+
+// AMAZON SES
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Services.AddAWSService<IAmazonSimpleEmailService>(new AWSOptions()
+{
+    Credentials = new BasicAWSCredentials(builder.Configuration["AWS_ACCESS_KEY"], builder.Configuration["AWS_SECRET_KEY"]),
+    Region = RegionEndpoint.APSoutheast2
+});
+builder.Services.AddTransient<IMailService, SESService>();
+
+
+
 
 var app = builder.Build();
 

@@ -104,7 +104,7 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
 
   //GET ALL APPROVED USERS
   useEffect(() => {
-    console.log("dsadas");
+    console.log("viewtask");
     console.log({ task });
     const fetchData = async () => {
       const res = await fetch(
@@ -500,9 +500,11 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Timeliness:</label>
-              {task?.timeliness === 0 ? "Pending" : ""}
-              {task?.timeliness === 1 ? "Past EOD" : ""}
-              {columnId === "4" && task?.timeliness === 2 && "On Time"}
+              {task.status !== 4
+                ? "Pending"
+                : task.dateUpdated <= task.productionDeadline
+                ? "On time"
+                : "Past EOD"}
             </div>
             <div className="absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider">
               <p>SEO Deadline: {new Date(task.seoDeadline).toDateString()}</p>

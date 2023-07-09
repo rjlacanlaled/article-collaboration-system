@@ -12,10 +12,22 @@ import ExportUserSummaryButton from "./ExportUserSummaryButton";
 import { TabTitle } from "../utils/GeneralFunctions";
 import { ProjectTask } from "./TaskList";
 
+export type UserStats = {
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  email: string;
+  role: string;
+  inProgress: number;
+  completed: number;
+  pastEod: number;
+};
+
 function Report({ userDetail, isSignedIn }: UserLogin) {
   const [userData, setUserData] = useState<UserDetailList[]>([]);
   const [page, setPage] = useState(1);
   const [tasks, setTasks] = useState<ProjectTask[]>([]);
+  const [stats, setStats] = useState<UserStats[]>([]);
   // const [selectedDate, setSelectedDate] = useState(userDetail.user.date);
 
   //Page Title
@@ -54,11 +66,39 @@ function Report({ userDetail, isSignedIn }: UserLogin) {
       );
       const resJson = await res.json();
       setTasks(resJson);
+
       console.log({ resJson });
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const userStats: UserStats[] = displayedUsers.map((x) => {
+      return {
+        firstName: x.firstName,
+        middleName: x.middleName,
+        lastName: x.lastName,
+        email: x.email,
+        role: x.roles[0],
+        inProgress: tasks
+          .filter((y) => y.assignees.map((a) => a.userId).includes(x.email))
+          .filter((fd) => fd.status === 1).length,
+        completed: tasks
+          .filter((y) => y.assignees.map((a) => a.userId).includes(x.email))
+          .filter((fd) => fd.status === 3 || fd.status === 4).length,
+        pastEod: tasks
+          .filter((y) => y.assignees.map((a) => a.userId).includes(x.email))
+          .filter(
+            (fd) => fd.status === 4 && fd.dateUpdated > fd.productionDeadline
+          ).length,
+      };
+    });
+
+    console.log({ userStats });
+
+    setStats(userStats);
+  }, [tasks]);
 
   const refreshData = async () => {
     const fetchData = async () => {
@@ -86,11 +126,11 @@ function Report({ userDetail, isSignedIn }: UserLogin) {
       userDetail.roles[0] === "ContentWriter" ||
       userDetail.roles[0] === "WebDeveloper" ? (
         <>
-          <ArticleTable />
+          <ArticleTable data={userData} />
         </>
       ) : (
         <>
-          <ArticleTable />
+          <ArticleTable data={userData} />
           <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-650 drop-shadow rounded-md m-4">
             <h2 className="text-zinc-800 lining-nums font-bold tracking-wider">
               {" "}
@@ -184,7 +224,11 @@ function Report({ userDetail, isSignedIn }: UserLogin) {
                 />
               </Stack>
             </div>
-            <ExportUserSummaryButton label="export all" />
+            <ExportUserSummaryButton
+              label="export all"
+              userStats={stats}
+              pdfData={userData}
+            />
           </div>
         </>
       )}

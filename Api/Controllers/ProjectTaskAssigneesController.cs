@@ -9,6 +9,8 @@ using Common.Models.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Common.Models.Request;
+using Common.Models.Mail;
+using Api.Services;
 
 namespace Api.Controllers;
 
@@ -20,10 +22,12 @@ public class ProjectTaskAssigneesController : ControllerBase
 {
 
     private readonly ApplicationContext _dbContext;
+    private readonly IMailService _mailService;
 
-    public ProjectTaskAssigneesController(ApplicationContext dbContext)
+    public ProjectTaskAssigneesController(ApplicationContext dbContext, IMailService mailService)
     {
         _dbContext = dbContext;
+        _mailService = mailService;
     }
 
     // Create
@@ -50,10 +54,23 @@ public class ProjectTaskAssigneesController : ControllerBase
             RoleName = request.RoleName
         };
 
-
-
         await _dbContext.ProjectTaskAssignees.AddAsync(newProjectTaskAssignee);
         await _dbContext.SaveChangesAsync();
+
+        MailRequest mailRequest = new()
+        {
+            ToEmail = new List<string>() { request.UserEmail },
+            Subject = "You have been assigned a task",
+            Body = $@"
+You have been assigned a new task:
+https://searchworks.xyz/viewtask/{request.ProjectTaskId}
+
+Best regards,
+Searchworks
+"
+        };
+
+        await _mailService.SendEmailAsync(mailRequest);
 
         return Created("projectTaskAssignee", newProjectTaskAssignee);
     }
