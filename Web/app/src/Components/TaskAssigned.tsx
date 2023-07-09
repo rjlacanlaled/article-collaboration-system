@@ -584,10 +584,15 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Payment Status:</label>
-              <p className="bg-green-500 text-white rounded-lg px-3 py-0.5 text-center">
-                {contractDetails?.paymentStatus === 1 && "Paid"}
-                {contractDetails?.paymentStatus === 0 && "Not Paid"}
-              </p>
+              {contractDetails?.paymentStatus === 1 ? (
+                <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
+                  Paid
+                </p>
+              ) : contractDetails?.paymentStatus === 0 ? (
+                <p className="bg-gray-500 text-white rounded-lg p-1 w-20 text-center">
+                  Not Paid
+                </p>
+              ) : null}
             </div>
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Managed By:</label>

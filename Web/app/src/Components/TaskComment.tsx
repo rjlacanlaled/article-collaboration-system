@@ -259,12 +259,12 @@ function TaskComment({ task }: MyProps) {
           </div>
           {/* post comment section */}
           <form className="mb-6">
-            <div className="py-2 px-4 mb-4 bg-gray-100 rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-100 dark:border-gray-700">
+            <div className="py-2 px-4 mb-4 rounded-lg rounded-t-lg border bg-gray-100 border-gray-700">
               <label htmlFor="comments" className="sr-only">
                 Add a comment...
               </label>
               <textarea
-                className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-gray-900 dark:placeholder-gray-900 dark:bg-gray-100"
+                className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none text-gray-900 placeholder-gray-900 bg-gray-100"
                 id="comments"
                 name="message"
                 value={comment.message}
@@ -288,7 +288,7 @@ function TaskComment({ task }: MyProps) {
             )
             .map((comment: CommentDetails) => (
               <article
-                className="p-6 mb-4 text-base bg-white rounded-lg dark:bg-gray-100 h-fit overflow-y-auto"
+                className="p-6 mb-4 text-baserounded-lg bg-gray-100 h-fit overflow-y-auto"
                 key={comment.id}
               >
                 <div>

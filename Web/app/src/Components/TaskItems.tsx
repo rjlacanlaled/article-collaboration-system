@@ -6,7 +6,9 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import TaskComment, { CommentDetails } from "./TaskComment";
 import TaskAssigned from "./TaskAssigned";
 import MessageIcon from '../Assets/Images/message-icon.svg'
+import DeleteTaskCard from '../modals/DeleteCard'
 import { ProjectTask } from "./TaskList";
+import Tooltip from '@mui/material/Tooltip';
 
 type ListItemProps = {
   columnId: any;
@@ -37,6 +39,7 @@ function TaskItems({
   task,
 }: ListItemProps) {
   const [open, setOpen] = React.useState("");
+  const [tooltip, setTooltip] = useState(false)
   const [commentData, setCommentData] = useState<CommentDetails[]>([]);
   const [comment, setComment] = useState({
     id: task?.id,
@@ -48,6 +51,16 @@ function TaskItems({
   const [avatarCount, setAvatarCount] = useState({
     [task.id]: task.assignees.length, // get assignee avatar length per task id
   });
+
+  const handleTooltipOpen = () => {
+    setTooltip(prevState => !prevState)
+  }
+
+  const handleTooltipClose = () => {
+    setTimeout(() => {
+      setTooltip(prevState => !prevState)
+    },2000)
+  }
 
   useEffect(() => {
     console.log({ task });
@@ -112,7 +125,12 @@ function TaskItems({
         >
           <ModalClose />
           <div className="bg-white mx-auto sm:w-800 md:w-400 lg:w-1000 xl:w-1200 w-1500 h-700 flex justify-center items-center">
-            <div className="w-full h-full overflow-y-auto">
+            <div className="w-full h-full overflow-y-auto relative">
+            <Tooltip title="Delete Task" placement="top">
+              <div className="absolute top-0 left-0">
+                <DeleteTaskCard task={task} updateHandler={refreshData}/>
+              </div>
+            </Tooltip>
               <TaskComment task={task} />
             </div>
             <div className="bg-white w-full h-full flex justify-start flex-col items-center">

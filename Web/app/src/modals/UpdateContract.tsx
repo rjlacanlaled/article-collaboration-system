@@ -111,7 +111,7 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
 
   return (
     <>
-      <div className="mr-2 mb-2">
+      <div className="mr-2">
         <Button
           variant="solid"
           color="primary"

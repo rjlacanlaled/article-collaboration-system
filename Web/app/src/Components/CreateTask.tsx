@@ -46,6 +46,10 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
 
   const handleCreateTaskSubmit = async () => {
     console.log({ taskData });
+
+    const productionDateTime = new Date(taskData.productionDate);
+    productionDateTime.setHours(17, 0, 0);
+    
     var res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks`, {
       method: "POST",
       headers: {
@@ -61,7 +65,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
-        productionDate: new Date(taskData.productionDate).toISOString(),
+        productionDate: productionDateTime.toISOString(),
         seoDeadline: new Date(taskData.seoDeadline).toISOString(),
       }),
     });
@@ -118,7 +122,7 @@ function CreateTask({ updateHandler, isNewTaskSuccess }: MyProps) {
           <form>
             <Stack spacing={2}>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <Input
                   type="text"
                   name="name"

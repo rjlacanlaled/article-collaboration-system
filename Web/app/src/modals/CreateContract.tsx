@@ -215,7 +215,7 @@ function CreateContract({ updateHandler }: Props) {
               </FormControl>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
                 <FormLabel id="demo-select-small" sx={{ color: "black" }}>
-                  Payment
+                  Payment Plan
                 </FormLabel>
                 <Select
                   labelId="demo-select-small"

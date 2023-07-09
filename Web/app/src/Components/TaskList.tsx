@@ -181,9 +181,8 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                   Status
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Client
+                  Reporter
                 </th>
-
                 <th scope="col" className="px-6 py-3">
                   Type
                 </th>
@@ -266,7 +265,7 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                           {getStatusText(task.status)}
                         </p>
                       </td>
-                      <td className="px-6 py-4">{"client"}</td>
+                      <td className="px-6 py-4">{task.reporter}</td>
                       <td className="px-6 py-4">
                         {task.type === 0 ? "Guest Post" : ""}
                         {task.type === 1 ? "Blog" : ""}

@@ -42,7 +42,7 @@ export type ContractUserDetails = {
 
 export type ContractFullDetails = {
   contract: Contract;
-  userDetails: ContractUserDetails;
+  userDetails: ContractDetails;
   contractPayment: ContractPayment;
 };
 
@@ -159,7 +159,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {"tbd"}
+                          {contract.seoEmail}
                         </th>
                         <th
                           scope="row"
@@ -305,7 +305,7 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                                 Paid
                               </p>
                             ) : (
-                              <p className="bg-gray-500 rounded-lg p-1 w-20 text-center">
+                              <p className="bg-gray-500 text-white rounded-lg p-1 w-20 text-center">
                                 Not Paid
                               </p>
                             )}

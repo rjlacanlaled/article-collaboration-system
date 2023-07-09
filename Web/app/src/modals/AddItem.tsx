@@ -45,6 +45,10 @@ function AddItem({ updateHandler }: myProps) {
 
   const handleCreateTaskSubmit = async () => {
     console.log(new Date(taskData.seoDeadline).toISOString());
+
+    const productionDateTime = new Date(taskData.productionDate);
+    productionDateTime.setHours(17, 0, 0);
+
     var res = await fetch(`${process.env.REACT_APP_BASE_URL}/ProjectTasks`, {
       method: "POST",
       headers: {
@@ -60,9 +64,7 @@ function AddItem({ updateHandler }: myProps) {
         words: taskData.words,
         timeliness: 0,
         contractId: -1,
-        productionDate: new Date(
-          new Date(taskData.productionDate).setHours(17)
-        ).toISOString(),
+        productionDate: productionDateTime.toISOString(),
         seoDeadline: new Date(taskData.seoDeadline).toISOString(),
       }),
     });
@@ -114,7 +116,7 @@ function AddItem({ updateHandler }: myProps) {
           <form>
             <Stack spacing={2}>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <Input
                   type="text"
                   name="name"
