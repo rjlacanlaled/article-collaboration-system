@@ -81,12 +81,7 @@ function CreateContract({ updateHandler }: Props) {
         plan: contractData.plan,
         status: contractData.paymentStatus,
         paymentAmount: contractData.paymentAmount,
-        managedBy:
-          contractData.managedBy == "0"
-            ? "Searchworks"
-            : contractData.managedBy == "1"
-            ? "Client"
-            : "None",
+        managedBy: contractData.managedBy == "0" ? "Searchworks" : "Client",
         paymentDate: new Date(paymentDate).toISOString(),
       }),
     });

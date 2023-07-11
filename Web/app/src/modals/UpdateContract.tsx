@@ -286,13 +286,13 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     id="demo-select-small"
                     type="text"
                     name="managedBy"
-                    value={contractData.managedBy === "SearchWorks" ? "0" : "1"}
+                    value={contractData.managedBy}
                     label="Managed"
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
                   >
-                    <MenuItem value={"0"}>SearchWorks</MenuItem>
-                    <MenuItem value={"1"}>Client</MenuItem>
+                    <MenuItem value={"SearchWorks"}>SearchWorks</MenuItem>
+                    <MenuItem value={"Client"}>Client</MenuItem>
                   </Select>
                 </FormControl>
                 <Button onClick={handleUpdateContractSubmit}>Submit</Button>
