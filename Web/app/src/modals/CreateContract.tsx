@@ -295,9 +295,6 @@ function CreateContract({ updateHandler }: Props) {
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
                 >
-                  <MenuItem value={-1}>
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={0}>SearchWorks</MenuItem>
                   <MenuItem value={1}>Client</MenuItem>
                 </Select>

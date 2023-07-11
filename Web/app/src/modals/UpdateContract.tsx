@@ -297,11 +297,8 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
                   >
-                    <MenuItem value={-1}>
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={0}>SearchWorks</MenuItem>
-                    <MenuItem value={1}>Client</MenuItem>
+                    <MenuItem value={"0"}>SearchWorks</MenuItem>
+                    <MenuItem value={"1"}>Client</MenuItem>
                   </Select>
                 </FormControl>
                 <Button onClick={handleUpdateContractSubmit}>Submit</Button>
