@@ -110,10 +110,10 @@ public class ContractsController : ControllerBase
         _dbContext.Remove(existingContract);
 
         List<ProjectTaskAssignee>? clientAssignees = await _dbContext.ProjectTaskAssignees.Where(pta => pta.UserEmail == email).ToListAsync();
-
+        Console.WriteLine(clientAssignees.Count);
         if (clientAssignees is not null)
         {
-            _dbContext.Remove(clientAssignees);
+            _dbContext.ProjectTaskAssignees.RemoveRange(clientAssignees);
         }
 
         await _dbContext.SaveChangesAsync();

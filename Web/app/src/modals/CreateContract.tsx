@@ -27,7 +27,7 @@ export type ContractDetails = {
   type: number;
   plan: number;
   paymentStatus: number;
-  managedBy: number;
+  managedBy: string;
   paymentAmount: number;
   paymentDate: string;
 };
@@ -48,7 +48,7 @@ function CreateContract({ updateHandler }: Props) {
     plan: 0,
     paymentStatus: 0,
     paymentAmount: 0,
-    managedBy: 0,
+    managedBy: "None",
     paymentDate: "",
   });
 
@@ -81,7 +81,7 @@ function CreateContract({ updateHandler }: Props) {
         plan: contractData.plan,
         status: contractData.paymentStatus,
         paymentAmount: contractData.paymentAmount,
-        managedBy: contractData.managedBy === 0 ? "SearchWorks" : "Client",
+        managedBy: contractData.managedBy,
         paymentDate: new Date(paymentDate).toISOString(),
       }),
     });
@@ -290,11 +290,11 @@ function CreateContract({ updateHandler }: Props) {
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
                 >
-                  <MenuItem value="">
+                  <MenuItem value={-1}>
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={1}>SearchWorks</MenuItem>
-                  <MenuItem value={2}>Client</MenuItem>
+                  <MenuItem value={0}>SearchWorks</MenuItem>
+                  <MenuItem value={1}>Client</MenuItem>
                 </Select>
               </FormControl>
               <Button onClick={onSubmitCreateContract}>Submit</Button>

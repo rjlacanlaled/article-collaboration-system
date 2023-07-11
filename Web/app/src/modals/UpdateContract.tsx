@@ -92,7 +92,7 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
         plan: contractData.plan,
         status: contractData.paymentStatus,
         paymentAmount: contractData.paymentAmount,
-        managedBy: contractData.managedBy === 0 ? "SearchWorks" : "Client",
+        managedBy: contractData.managedBy,
         paymentDate: contractData.paymentDate,
       }),
     });
@@ -228,7 +228,7 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
                   >
-                    <MenuItem value="">
+                    <MenuItem value={-1}>
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value={0}>Full Payment</MenuItem>
@@ -249,7 +249,7 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
                   >
-                    <MenuItem value="">
+                    <MenuItem value={-1}>
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value={1}>Paid</MenuItem>
@@ -286,16 +286,22 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     id="demo-select-small"
                     type="text"
                     name="managedBy"
-                    value={contractData.managedBy}
+                    value={
+                      contractData.managedBy === "Searchworks"
+                        ? 0
+                        : contractData.managedBy === "Client"
+                        ? 1
+                        : -1
+                    }
                     label="Managed"
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
                   >
-                    <MenuItem value="">
+                    <MenuItem value={-1}>
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={1}>SearchWorks</MenuItem>
-                    <MenuItem value={2}>Client</MenuItem>
+                    <MenuItem value={0}>SearchWorks</MenuItem>
+                    <MenuItem value={1}>Client</MenuItem>
                   </Select>
                 </FormControl>
                 <Button onClick={handleUpdateContractSubmit}>Submit</Button>

@@ -25,9 +25,9 @@ function ViewTask({ userDetail, isSignedIn }: UserLogin) {
         }
       );
       const data = await response.json();
+      console.log({ data });
       setTaskData({
         ...data,
-        productionDeadline: data.productionDate,
       });
       console.log({ data });
     }

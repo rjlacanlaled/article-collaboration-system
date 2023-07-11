@@ -89,9 +89,8 @@ public class ProjectTasksController : ControllerBase
 
         var assignees = await _dbContext.ProjectTaskAssignees.Where(x => x.ProjectTaskId == id).ToListAsync();
 
-        if (statusChanged)
+        if (statusChanged && (request.Status == ProjectTaskStatus.ForReview || request.Status == ProjectTaskStatus.Completed))
         {
-
             MailRequest? mailRequest = null;
             List<string>? assigneeEmails = null;
 
