@@ -174,15 +174,15 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           {paymentType[contract.type]}
                         </th>
                         <td className="px-6 py-4">
-                          {contract.paymentDate != null ? (
-                            <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
-                              Paid
-                            </p>
-                          ) : (
-                            <p className="bg-gray-500 rounded-lg p-1 w-20 text-center">
-                              Not Paid
-                            </p>
-                          )}
+                            {contract.paymentStatus === 1 ? (
+                              <p className="bg-green-500 rounded-lg p-1 w-20 text-center">
+                                Paid
+                              </p>
+                            ) : (
+                              <p className="bg-gray-500 text-white rounded-lg p-1 w-20 text-center">
+                                Not Paid
+                              </p>
+                            )}
                         </td>
                         <th
                           scope="row"
@@ -194,9 +194,11 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           scope="row"
                           className="cursor-pointer px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black"
                         >
-                          {contract.paymentDate}
+                          {new Date(contract.paymentDate).toDateString()}
                         </th>
-                        <td className="px-6 py-4">{contract.managedBy}</td>
+                        <td className="px-6 py-4">
+                          {contract.managedBy}
+                        </td>
                       </tr>
                     ))}
               </tbody>
@@ -322,7 +324,9 @@ function ClientBoard({ userDetail, isSignedIn }: UserLogin) {
                           >
                             {new Date(contract.paymentDate).toDateString()}
                           </th>
-                          <td className="px-6 py-4">{contract.managedBy}</td>
+                          <td className="px-6 py-4">
+                            {contract.managedBy}
+                          </td>
                           <td className="flex items-center px-6 py-4 space-x-3">
                             <UpdateContract
                               updateHandler={refreshData}

@@ -242,7 +242,7 @@ function CreateContract({ updateHandler }: Props) {
                   labelId="demo-select-small"
                   id="demo-select-small"
                   type="text"
-                  name="status"
+                  name="paymentStatus"
                   value={contractData.paymentStatus}
                   label="PaymentStatus"
                   onChange={handleChange}

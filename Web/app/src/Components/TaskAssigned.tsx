@@ -501,10 +501,10 @@ export default function TaskAssigned({ columnId, task }: MyProps) {
             <div className="flex items-center">
               <label className="p-2 ml-2 font-semibold">Timeliness:</label>
               {task.status !== 4
-                ? "Pending"
-                : task.dateUpdated <= task.productionDeadline
-                ? "On time"
-                : "Past EOD"}
+                    ? "Pending"
+                    : task.dateUpdated <= task.productionDeadline
+                    ? "On time"
+                    : "Past EOD"}
             </div>
             <div className="absolute bottom-0 right-0 p-3 text-xs text-zinc-800 tracking-wider">
               <p>SEO Deadline: {new Date(task.seoDeadline).toDateString()}</p>

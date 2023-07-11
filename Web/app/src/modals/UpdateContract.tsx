@@ -277,6 +277,27 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     </DemoContainer>
                   </LocalizationProvider>
                 </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 120 }} size="md">
+                  <FormLabel id="demo-select-small" sx={{ color: "black" }}>
+                    Managed
+                  </FormLabel>
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    type="text"
+                    name="managedBy"
+                    value={contractData.managedBy}
+                    label="Managed"
+                    onChange={handleChange}
+                    sx={{ borderRadius: "7px" }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={1}>SearchWorks</MenuItem>
+                    <MenuItem value={2}>Client</MenuItem>
+                  </Select>
+                </FormControl>
                 <Button onClick={handleUpdateContractSubmit}>Submit</Button>
               </Stack>
             </form>

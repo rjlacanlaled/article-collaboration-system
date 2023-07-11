@@ -277,9 +277,11 @@ function TaskList({ userDetail, isSignedIn }: UserLogin) {
                       </td>
                       <td className="px-6 py-4">{task.words}</td>
                       <td className="px-6 py-4">
-                        {task.timeliness === 0 ? "Pending" : ""}
-                        {task.timeliness === 1 ? "Past EOD" : ""}
-                        {task.timeliness === 2 ? "On Time" : ""}
+                        {task.status !== 4
+                          ? "Pending"
+                          : task.dateUpdated <= task.productionDeadline
+                          ? "On time"
+                          : "Past EOD"}
                       </td>
                       <td className="px-6 py-4">
                         {new Date(task.dateCreate).toDateString() +

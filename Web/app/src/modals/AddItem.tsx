@@ -43,8 +43,9 @@ function AddItem({ updateHandler }: myProps) {
     });
   };
 
-  const handleCreateTaskSubmit = async () => {
+  const handleCreateTaskSubmit = async (e:any) => {
     console.log(new Date(taskData.seoDeadline).toISOString());
+    e.preventDefault()
 
     const productionDateTime = new Date(taskData.productionDate);
     productionDateTime.setHours(17, 0, 0);
@@ -156,6 +157,7 @@ function AddItem({ updateHandler }: myProps) {
                   label="Type"
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
+                  required
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -186,6 +188,7 @@ function AddItem({ updateHandler }: myProps) {
                       onChange={handleChange}
                       className="bg-white border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Select date"
+                      required
                     />
                   </div>
                 </div>
@@ -202,6 +205,7 @@ function AddItem({ updateHandler }: myProps) {
                       onChange={handleChange}
                       className="bg-white border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-white dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Select date"
+                      required
                     />
                   </div>
                 </div>

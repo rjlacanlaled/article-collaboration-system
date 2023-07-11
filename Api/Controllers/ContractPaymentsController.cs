@@ -46,6 +46,7 @@ public class ContractPaymentsController : ControllerBase
     // }
 
     [HttpPost]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
     public async Task<IActionResult> AddAsync([FromBody] AddContractPaymentRequest request)
     {
         ContractPayment newContractPayment = new()
@@ -102,6 +103,7 @@ public class ContractPaymentsController : ControllerBase
 
     // // Read
     [HttpGet("client/{clientEmail}")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
     public async Task<IActionResult> FetchAsync([FromRoute] string clientEmail)
     {
         List<ContractPayment> contractPayments = await _dbContext.ContractPayments
@@ -113,6 +115,7 @@ public class ContractPaymentsController : ControllerBase
     }
 
     [HttpGet("all")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Client, SeoManager, SeoSpecialist, ContentManager, ContentWriter, TopManagement, WebDeveloper, Admin")]
     public async Task<IActionResult> FetchAllAsync()
     {
         List<ContractPayment> contractPayments = await _dbContext.ContractPayments

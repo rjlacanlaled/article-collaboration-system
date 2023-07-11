@@ -124,9 +124,11 @@ function CompletedArticle({ data }: Props) {
                   </td>
                   <td className="border px-4 py-3">{task.words}</td>
                   <td className="border px-4 py-3">
-                    {task.timeliness === 0 ? "Pending" : ""}
-                    {task.timeliness === 1 ? "Past EOD" : ""}
-                    {task.timeliness === 2 ? "On Time" : ""}
+                  {task.status !== 4
+                    ? "Pending"
+                    : task.dateUpdated <= task.productionDeadline
+                    ? "On time"
+                    : "Past EOD"}
                   </td>
                   <td className="border px-4 py-3 items-center">
                     <div className="flex justify-center items-center bg-green-500 py-2 px-1 rounded-md w-full">

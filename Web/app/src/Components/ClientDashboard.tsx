@@ -78,8 +78,8 @@ function ClientDashboard({ userDetail, isSignedIn }: UserLogin) {
       <div className="flex justify-start flex-col w-full bg-white p-6 text-center h-700 drop-shadow rounded-md m-4">
         <div className="relative overflow-x-auto shadow-md sm:rounded-md">
           <h2 className="text-lg font-bold text-gray-800 m-2 py-1">{`Article's Status`}</h2>
-          <table className="w-full text-sm text-left dark:text-black">
-            <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800 text-white">
+          <table className="w-full text-sm text-left text-black">
+            <thead className="text-xs uppercase bg-gray-800 text-white">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Title
