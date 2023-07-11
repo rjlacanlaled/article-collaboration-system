@@ -286,13 +286,7 @@ function UpdateContract({ updateHandler, contractDetails }: MyUserRoleProps) {
                     id="demo-select-small"
                     type="text"
                     name="managedBy"
-                    value={
-                      contractData.managedBy === "Searchworks"
-                        ? 0
-                        : contractData.managedBy === "Client"
-                        ? 1
-                        : -1
-                    }
+                    value={contractData.managedBy === "SearchWorks" ? "0" : "1"}
                     label="Managed"
                     onChange={handleChange}
                     sx={{ borderRadius: "7px" }}
