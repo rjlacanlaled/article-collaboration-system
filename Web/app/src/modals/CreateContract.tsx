@@ -290,11 +290,11 @@ function CreateContract({ updateHandler }: Props) {
                   onChange={handleChange}
                   sx={{ borderRadius: "7px" }}
                 >
-                  <MenuItem value={-1}>
+                  <MenuItem value="None">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={0}>SearchWorks</MenuItem>
-                  <MenuItem value={1}>Client</MenuItem>
+                  <MenuItem value="SearchWorks">SearchWorks</MenuItem>
+                  <MenuItem value="Client">Client</MenuItem>
                 </Select>
               </FormControl>
               <Button onClick={onSubmitCreateContract}>Submit</Button>
